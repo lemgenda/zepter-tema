@@ -46,6 +46,7 @@
   else
     assign media_alt = media.alt | default: product.title
   endif
+  assign media_alt = media_alt | default: product.title
 -%}
 
 <button type="button"
