@@ -449,25 +449,43 @@
     },
 
     initAccessibleExternalLinks() {
+      const selector = 'a[rel~="nofollow"][target="_blank"]';
       const labelLink = (link) => {
-        if (link.hasAttribute('aria-label') || link.textContent.trim()) return;
-        if (link.querySelector('img[alt]:not([alt=""]), svg[aria-label], [aria-label], [title]')) return;
+        const ariaLabel = link.getAttribute('aria-label')?.trim();
+        const labelledBy = (link.getAttribute('aria-labelledby') || '')
+          .split(/\\s+/)
+          .filter(Boolean)
+          .some((id) => document.getElementById(id)?.textContent.trim());
+        const descendantName = link.querySelector(
+          'img[alt]:not([alt=""]), svg[aria-label]:not([aria-label=""]), [aria-label]:not([aria-label=""]), [title]:not([title=""])'
+        );
+
+        if (ariaLabel || labelledBy || link.textContent.trim() || descendantName || link.title.trim()) return;
+
         try {
-          const host = new URL(link.href, window.location.href).hostname.replace(/^www\./, '');
+          const host = new URL(link.href, window.location.href).hostname.replace(/^www\\./, '');
           link.setAttribute('aria-label', 'Visit ' + host + ' (opens in a new tab)');
         } catch (error) {
           link.setAttribute('aria-label', 'Open external link in a new tab');
         }
       };
 
-      document.querySelectorAll('a[rel~="nofollow"][target="_blank"]').forEach(labelLink);
+      document.querySelectorAll(selector).forEach(labelLink);
       if (this.externalLinkObserver || !('MutationObserver' in window)) return;
+
       this.externalLinkObserver = new MutationObserver((records) => {
-        records.forEach((record) => record.addedNodes.forEach((node) => {
-          if (node.nodeType !== Node.ELEMENT_NODE) return;
-          if (node.matches('a[rel~="nofollow"][target="_blank"]')) labelLink(node);
-          node.querySelectorAll?.('a[rel~="nofollow"][target="_blank"]').forEach(labelLink);
-        }));
+        records.forEach((record) => {
+          const parentLink = record.target.nodeType === Node.ELEMENT_NODE
+            ? record.target.closest(selector)
+            : record.target.parentElement?.closest(selector);
+          if (parentLink) labelLink(parentLink);
+
+          record.addedNodes.forEach((node) => {
+            if (node.nodeType !== Node.ELEMENT_NODE) return;
+            if (node.matches(selector)) labelLink(node);
+            node.querySelectorAll?.(selector).forEach(labelLink);
+          });
+        });
       });
       this.externalLinkObserver.observe(document.body, { childList: true, subtree: true });
     },
