@@ -641,7 +641,8 @@
       "inventory_in_stock_show_count": "Còn {{ quantity }} sản phẩm",
       "inventory_in_stock": "Còn hàng, sẵn sàng để giao",
       "inventory_out_of_stock_continue_selling": "Còn hàng",
-      "inventory_out_of_stock": "Hết hàng"
+      "inventory_out_of_stock": "Hết hàng",
+      "choose_options": "Chọn các tùy chọn"
     },
     "general": {
       "cart": {
