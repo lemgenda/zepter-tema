@@ -568,6 +568,7 @@ id="beae-variant-selector-{{section.id}}-beae-wzeubsdv"
   var afterpay_theme_name = {{ theme.name | json }};
   {% # theme-check-disable UndefinedObject %}
   var afterpay_product = {% if beae_product_json%}{{beae_product_json}}{% else %}{{ product | json }}{% endif %};
+  {% # theme-check-enable UndefinedObject %}
   var afterpay_current_variant = {{ product.selected_or_first_available_variant | json }};
   var afterpay_cart_total_price = {{ cart.total_price | json }};
   var afterpay_js_snippet_version = '1.0.10';
