@@ -147,6 +147,34 @@ try {
           horizontalOverflow: document.documentElement.scrollWidth > document.documentElement.clientWidth + 1,
         }));
 
+        result.diagnostics.textSpacingOverflowElements = await page.evaluate(() => {
+          const viewportWidth = document.documentElement.clientWidth;
+          return Array.from(document.querySelectorAll('body *'))
+            .filter((element) => {
+              const rect = element.getBoundingClientRect();
+              const style = getComputedStyle(element);
+              return rect.width > 0 && rect.height > 0 && style.position !== 'fixed' &&
+                (rect.right > viewportWidth + 1 || element.scrollWidth > element.clientWidth + 2);
+            })
+            .sort((a, b) => b.getBoundingClientRect().right - a.getBoundingClientRect().right)
+            .slice(0, 30)
+            .map((element) => {
+              const rect = element.getBoundingClientRect();
+              return {
+                tag: element.tagName,
+                id: element.id || null,
+                className: typeof element.className === 'string' ? element.className : '',
+                text: (element.getAttribute('aria-label') || element.textContent || '').trim().slice(0, 100),
+                left: Math.round(rect.left),
+                right: Math.round(rect.right),
+                width: Math.round(rect.width),
+                scrollWidth: element.scrollWidth,
+                clientWidth: element.clientWidth,
+                outerHTML: element.outerHTML.slice(0, 500),
+              };
+            });
+        });
+
         await page.emulateMedia({ forcedColors: 'active' });
         await page.waitForTimeout(250);
         result.reducedMotion = await page.evaluate(() => ({
