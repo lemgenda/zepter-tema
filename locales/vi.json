@@ -34,7 +34,8 @@
       "product_recommendations_loaded": "Đã tải đề xuất sản phẩm.",
       "recently_viewed_loaded": "Đã tải sản phẩm đã xem gần đây.",
       "product_recommendations": "Đề xuất sản phẩm",
-      "recently_viewed_products": "Sản phẩm đã xem gần đây"
+      "recently_viewed_products": "Sản phẩm đã xem gần đây",
+      "pagination": "Phân trang"
     },
     "meta": {
       "tags": "Được gắn thẻ \"{{ tags }}\"",
