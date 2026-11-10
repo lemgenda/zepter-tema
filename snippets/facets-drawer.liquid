@@ -22,7 +22,7 @@
         render 'icon', icon: 'filter'
         echo 'collections.filtering.filter_show_button' | t
       -%}
-      <facet-count class="count flex items-center justify-center text-xs font-medium rounded-full"{% if filter_count == 0 %} hidden{% endif %}>{{ filter_count }}</facet-count>
+      <facet-count class="count flex items-center justify-center text-xs font-medium rounded-full" role="status" aria-live="polite" aria-atomic="true"{% if filter_count == 0 %} hidden{% endif %}>{{ filter_count }}</facet-count>
     </span>
   </button>
   <drawer-element id="FacetDrawer" class="facet-drawer drawer drawer--start z-30 fixed bottom-0 left-0 h-full w-full pointer-events-none"
