@@ -58,6 +58,7 @@
                 <animate-element data-animate="zoom-out" class="media media--height block w-full h-full relative overflow-hidden" paused>
                   <picture class="media media--height block w-full h-full relative overflow-hidden">
                     {%- if block.settings.image != blank -%}
+                      {%- assign slideshow_image_alt = block.settings.image.alt | default: block.settings.heading | default: shop.name -%}
                       {%- if block.settings.image_mobile -%}
                         <source
                           media="(max-width: 767px)"
@@ -67,7 +68,7 @@
                         >
                       {%- endif -%}
     
-                      {{- block.settings.image | image_url: width: block.settings.image.width | image_tag: loading: loading, fetchpriority: fetchpriority, sizes: sizes, widths: '300,400,500,600,700,800,900,1000,1200,1400,1600,1800,2000,2200,2400,2600,2800,3000,3200', alt: block.settings.image.alt | default: block.settings.heading | default: shop.name, is: 'lazy-image', class: 'banner__image' -}}
+                      {{- block.settings.image | image_url: width: block.settings.image.width | image_tag: loading: loading, fetchpriority: fetchpriority, sizes: sizes, widths: '300,400,500,600,700,800,900,1000,1200,1400,1600,1800,2000,2200,2400,2600,2800,3000,3200', alt: slideshow_image_alt, is: 'lazy-image', class: 'banner__image' -}}
                     {%- else -%}
                       {%- capture placeholder -%}{% cycle 'lifestyle-1', 'lifestyle-2' %}{%- endcapture -%}
                       {{- placeholder | placeholder_svg_tag: 'banner__image banner__overlay placeholder' -}}
