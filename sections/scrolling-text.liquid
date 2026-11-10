@@ -7,7 +7,7 @@
   }
 </style>
 
-<div class="section section--padding{% if section.settings.divider %} section--divider{% endif %}{% if section.settings.rounded %} section--rounded relative{% endif %}{% if section.settings.enable_twin %} section--plain{% endif %}">
+<div class="section section--padding{% if section.settings.divider %} section--divider{% endif %}{% if section.settings.rounded %} section--rounded relative{% endif %}{% if section.settings.enable_twin %} section--plain{% endif %}"{% if section.id contains 'scrolling_text_BGdRpq' %} role="region" aria-label="Footer brand showcase"{% endif %} style="overflow-x: clip;">
   <div class="relative z-1">
     {%- if section.blocks.size > 0 -%}
       {%- capture marquee -%}
