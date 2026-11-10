@@ -55,7 +55,7 @@
         -%}
       </template>
 
-      <button type="button" id="DeferredPoster-{{ media.id }}" class="play-button absolute flex items-center justify-center rounded-full" aria-label="{{ 'products.media.play_video' | t | escape }}">
+      <button type="button" id="DeferredPoster-{{ media.id }}" class="play-button absolute flex items-center justify-center rounded-full" aria-label="{{ 'general.accessibility.load_video' | t: description: media_alt | escape }}">
         {%- render 'icon', icon: 'play' -%}
       </button>
     </video-media>
@@ -68,7 +68,7 @@
       <template>
         {{- media | media_tag: image_size: '2048x', toggleable: true -}}
       </template>
-      <button type="button" id="DeferredPoster-{{ media.id }}" class="play-button absolute flex items-center justify-center rounded-full" aria-label="{{ 'products.media.play_model' | t | escape }}">
+      <button type="button" id="DeferredPoster-{{ media.id }}" class="play-button absolute flex items-center justify-center rounded-full" aria-label="{{ 'products.media.play_model' | t | append: ': ' | append: media_alt | escape }}">
         {%- render 'icon', icon: '3d-model' -%}
       </button>
       <button type="button" id="DeferredPosterClose-{{ media.id }}" class="button button--secondary button--close play-button absolute flex items-center justify-center rounded-full z-10" aria-label="{{ 'general.accessibility.close' | t | escape }}" hidden is="hover-button">
