@@ -5997,6 +5997,8 @@ class SlideshowElement extends HTMLElement {
     super();
 
     this.selectedIndex = this.selectedIndex;
+    this.onFocusIn = this.onFocusIn.bind(this);
+    this.addEventListener('focusin', this.onFocusIn);
 
     if (theme.config.isTouch) {
       new theme.initWhenVisible(this.init.bind(this));
@@ -6023,7 +6025,7 @@ class SlideshowElement extends HTMLElement {
   }
 
   get autoplay() {
-    return this.hasAttribute('autoplay');
+    return this.hasAttribute('autoplay') && !theme.config.motionReduced;
   }
 
   get speed() {
@@ -6054,6 +6056,7 @@ class SlideshowElement extends HTMLElement {
       });
 
       this.slider.on('change', this.onChange.bind(this));
+      this.updateSlideAccessibility();
       this.addEventListener('slider:previous', () => this.slider.previous());
       this.addEventListener('slider:next', () => this.slider.next());
       this.addEventListener('slider:play', () => this.slider.playPlayer());
@@ -6065,11 +6068,13 @@ class SlideshowElement extends HTMLElement {
     }
     else if (this.items.length === 1) {
       const selectedElement = this.firstChild;
+      this.updateSlideAccessibility();
       that.onReady(selectedElement);
     }
   }
 
   disconnectedCallback() {
+    this.removeEventListener('focusin', this.onFocusIn);
     if (this.slider) this.slider.destroy();
   }
 
@@ -6093,8 +6098,31 @@ class SlideshowElement extends HTMLElement {
     }
   }
 
+  updateSlideAccessibility() {
+    const activeIndex = this.slider ? this.slider.selectedIndex : this.selectedIndex;
+
+    this.items.forEach((item, index) => {
+      if (index === activeIndex) {
+        item.removeAttribute('aria-hidden');
+        item.removeAttribute('inert');
+      } else {
+        item.setAttribute('aria-hidden', 'true');
+        item.setAttribute('inert', '');
+      }
+    });
+  }
+
+  onFocusIn() {
+    if (!this.slider || !this.autoplay) return;
+
+    this.slider.pausePlayer();
+    const control = document.querySelector('[is="control-button"][aria-controls="' + this.id + '"]');
+    control?.setAttribute('paused', '');
+  }
+
   onChange() {
     this.selectedIndex = this.slider.selectedIndex;
+    this.updateSlideAccessibility();
     this.dispatchEvent(new CustomEvent('slider:change', { bubbles: true, detail: { currentPage: this.slider.selectedIndex } }));
   }
 
