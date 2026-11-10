@@ -23,9 +23,9 @@
     <a
       href="{{ routes.root_url }}"
       itemprop="url"
+      aria-label="{{ shop.name | escape }}"
       class="header__logo-link{% if white_logo %} has-white-logo{% endif %} flex items-center relative"
     >
-      <span class="sr-only">{{ shop.name }}</span>
       
       {%- comment -%} Desktop logo {%- endcomment -%}
       {%- capture sizes -%}{{ settings.logo_width }}px{%- endcapture -%}
