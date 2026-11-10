@@ -23,6 +23,8 @@
       <input
         type="checkbox"
         id="Recipient-checkbox-{{ section_id }}-{{ product_id }}"
+        aria-controls="Recipient-fields-{{ section_id }}-{{ product_id }}"
+        aria-expanded="false"
         name="{{ gift_card_recipient_control_flag }}"
         disabled
       />
@@ -31,8 +33,10 @@
 
     <div
       class="product-form__recipient-error-message"
+      id="Recipient-error-{{ section_id }}-{{ product_id }}"
       role="alert"
-      {% if form.errors %}data-a11y-error-summary tabindex="-1"{% endif %}
+      data-a11y-error-summary
+      tabindex="-1"
       {% unless form.errors %}
         hidden
       {% endunless %}
@@ -54,6 +58,7 @@
           placeholder="{{ 'recipient.form.email' | t }}"
           name="properties[Recipient email]"
           value="{{ form.email }}"
+          required
         />
         {%- if form.errors contains 'email' -%}<p id="Recipient-email-error-{{ section_id }}-{{ product_id }}" class="a11y-error-message">{{ form.errors.messages.email | escape }}</p>{%- endif -%}
         <label class="label is-floating" for="Recipient-email-{{ section_id }}-{{ product_id }}">{{ 'recipient.form.email_label' | t }}</label>
