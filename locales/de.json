@@ -39,7 +39,10 @@
       "announcement_bar": "Ankündigungen",
       "announcement_number": "Ankündigung {{ number }}",
       "currently_selected": "Aktuell ausgewählt",
-      "sold_out": "Ausverkauft"
+      "sold_out": "Ausverkauft",
+      "media_type_image": "Bild",
+      "media_type_video": "Video",
+      "media_type_model": "3D-Modell"
     },
     "meta": {
       "tags": "Getaggt \"{{ tags }}\"",
