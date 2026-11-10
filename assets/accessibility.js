@@ -222,7 +222,8 @@
       document.addEventListener(
         'ajaxProduct:added',
         () => {
-          this.announce('Product added to cart.');
+          const message = document.body.dataset.a11yCartAdded || 'Product added to cart.';
+          this.announce(message);
         }
       );
 
@@ -236,7 +237,7 @@
             event.detail &&
             event.detail.errorMessage
               ? event.detail.errorMessage
-              : 'There was a problem adding this product to your cart.';
+              : (document.body.dataset.a11yCartError || 'There was a problem adding this product to your cart.');
 
           this.announceError(message);
         }
