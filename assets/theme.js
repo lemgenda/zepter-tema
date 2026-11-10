@@ -7063,3 +7063,31 @@ class ScrollingBanner extends HTMLElement {
   }
 }
 customElements.define('scrolling-banner', ScrollingBanner);
+
+
+// Keep third-party comparison tables keyboard reachable when they create scrollable wrappers.
+(function () {
+  const makeComparisonTablesFocusable = (root = document) => {
+    root.querySelectorAll?.('.pc-table_wrapper').forEach((wrapper) => {
+      if (!wrapper.hasAttribute('tabindex')) wrapper.setAttribute('tabindex', '0');
+    });
+  };
+
+  const init = () => {
+    makeComparisonTablesFocusable();
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        mutation.addedNodes.forEach((node) => {
+          if (node.nodeType === Node.ELEMENT_NODE) {
+            if (node.matches?.('.pc-table_wrapper') && !node.hasAttribute('tabindex')) node.setAttribute('tabindex', '0');
+            makeComparisonTablesFocusable(node);
+          }
+        });
+      });
+    });
+    observer.observe(document.documentElement, { childList: true, subtree: true });
+  };
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once: true });
+  else init();
+})();
