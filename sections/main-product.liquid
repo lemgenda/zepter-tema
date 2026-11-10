@@ -116,7 +116,7 @@
               {%- endif -%}
 
             {%- when 'sku' -%}
-              <p class="product__sku" id="Sku-{{ section.id }}-{{ product.id }}" {{ block.shopify_attributes }}>
+              <p class="product__sku" id="Sku-{{ section.id }}-{{ product.id }}" role="status" aria-live="polite" aria-atomic="true" {{ block.shopify_attributes }}>
                 {{- product.selected_or_first_available_variant.sku -}}
               </p>
 
@@ -136,7 +136,7 @@
                 </h1>
 
                 {%- if price_block == blank and block.settings.show_price -%}
-                  <div id="Price-{{ section.id }}-{{ product.id }}" class="product__price">
+                  <div id="Price-{{ section.id }}-{{ product.id }}" class="product__price" aria-live="polite" aria-atomic="true">
                     {%- render 'product-price', product: product, use_variant: true, class: 'flex flex-wrap items-baseline gap-2 lg:flex-col xl:items-end lg:gap-1d5' -%}
                     
                     {%- if product.quantity_price_breaks_configured? -%}
@@ -163,7 +163,7 @@
               {%- endif -%}
 
             {%- when 'price' -%}
-              <div class="product__price grid gap-3" {{ block.shopify_attributes }}>
+              <div class="product__price grid gap-3" aria-live="polite" aria-atomic="true" {{ block.shopify_attributes }}>
                 <div class="no-js-hidden" id="Price-{{ section.id }}-{{ product.id }}">
                   {%- render 'product-price', product: product, use_variant: true, class: 'flex flex-wrap items-baseline gap-2 lg:gap-1d5' -%}
                   
