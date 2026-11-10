@@ -19,7 +19,6 @@
   endif
 
   assign collection_title = collection.title
-  assign collection_image_alt = collection_image.alt | default: collection_title
 
   if block != blank
     if block.settings.image != blank
@@ -40,6 +39,8 @@
   if image_ratio == 'adapt' and collection_image == blank
     assign image_ratio = 'wide'
   endif
+
+  assign collection_image_alt = collection_image.alt | default: collection_title
 -%}
 
 <div class="card media-card media-card--{{ settings.card_style }}{% if overlay_content %} media-card--overlap{% endif %} overflow-hidden" id="shopify-block-{{ block.id }}">
