@@ -45,7 +45,8 @@
           <div class="age__image flex-auto media media--height relative hidden sm:block">
             {%- capture sizes -%}min(calc(100vw - 16px), 310px){%- endcapture -%}
             {%- capture widths -%}{{ section.settings.image.width }}, {{ section.settings.image.width | times: 2 | at_most: section.settings.image.width }}{%- endcapture -%}
-            {{- section.settings.image | image_url: width: section.settings.image.width | image_tag: loading: 'lazy', widths: widths, sizes: sizes, alt: section.settings.image.alt | default: shop.name, is: 'lazy-image' -}}
+            {%- assign age_image_alt = section.settings.image.alt | default: shop.name -%}
+            {{- section.settings.image | image_url: width: section.settings.image.width | image_tag: loading: 'lazy', widths: widths, sizes: sizes, alt: age_image_alt, is: 'lazy-image' -}}
           </div>
         {%- endif -%}
         <div class="drawer__scrollable relative w-full">
@@ -137,7 +138,8 @@
                           {%- assign sizes = 'min(100vw, var(--page-width))' -%}
                           {%- assign widths = '50,75,100,150,200,300,400,500,750,1000,1250,1500,1750,2000,2250,2500,2750,3000,3200' -%}
                         {%- endif -%}
-                        {{- block.settings.image | image_url: width: block.settings.image.width | image_tag: loading: 'lazy', sizes: sizes, widths: widths, style: style, alt: block.settings.image.alt | default: block.settings.heading | default: shop.name, is: 'lazy-image', class: 'image-fit' -}}
+                        {%- assign age_block_image_alt = block.settings.image.alt | default: block.settings.heading | default: shop.name -%}
+                        {{- block.settings.image | image_url: width: block.settings.image.width | image_tag: loading: 'lazy', sizes: sizes, widths: widths, style: style, alt: age_block_image_alt, is: 'lazy-image', class: 'image-fit' -}}
                       </figure>
                     </div>
                   {%- endif -%}
