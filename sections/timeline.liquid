@@ -42,7 +42,7 @@
     {%- render 'section-heading', section: section, section_button: indicators -%}
 
     {%- if section.blocks.size > 0 -%}
-      <slider-element id="Slider-{{ section.id }}" class="grid slider slider--desktop slider--tablet" selector=".card-grid>.card">
+      <slider-element id="Slider-{{ section.id }}" class="timeline-slider grid slider slider--desktop slider--tablet" selector=".card-grid>.card">
         <motion-list class="timeline card-grid grid{% if section.blocks.size == 1 %} with-only1{% endif %}">
           {%- liquid
             assign with_gradient = false
