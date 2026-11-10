@@ -179,7 +179,8 @@
     },
     "slideshow": {
       "play_slideshow": "Diashow abspielen",
-      "pause_slideshow": "Pause Diashow"
+      "pause_slideshow": "Pause Diashow",
+      "name": "Diashow"
     },
     "product_bundle": {
       "total": "Gesamtsumme",
@@ -216,6 +217,15 @@
       "primary_navigation": "Hauptnavigation",
       "secondary_navigation": "Sekundäre Navigation",
       "expand_submenu": "Untermenü öffnen: {{ title }}"
+    },
+    "newsletter-popup": {
+      "name": "Newsletter-Anmeldung"
+    },
+    "age-verifier": {
+      "name": "Altersprüfung"
+    },
+    "cookie-banner": {
+      "name": "Cookie-Einstellungen"
     }
   },
   "blogs": {
