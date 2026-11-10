@@ -1,12 +1,20 @@
 
-/* ==========================================================
-   Hyperlight Optics - WCAG 2.2 AA
+/* ==========================================================================
+   Hyperlight Optics
    Global accessibility layer
-   ========================================================== */
+   Target: WCAG 2.2 Level AA
 
-/* Screen-reader-only content */
+   This stylesheet provides shared accessibility foundations.
+   It does not replace component-level accessibility fixes.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Screen-reader-only content
+   -------------------------------------------------------------------------- */
+
 .visually-hidden,
-.sr-only {
+.sr-only,
+.a11y-announcer {
   position: absolute !important;
   width: 1px !important;
   height: 1px !important;
@@ -14,53 +22,97 @@
   margin: -1px !important;
   overflow: hidden !important;
   clip: rect(0, 0, 0, 0) !important;
+  clip-path: inset(50%) !important;
   white-space: nowrap !important;
   border: 0 !important;
 }
 
-/* Preserve visibility when focused */
+/*
+  Do not hide live regions with display:none, visibility:hidden,
+  the hidden attribute, or aria-hidden="true".
+  Screen readers need to be able to detect their updates.
+*/
+
+/* --------------------------------------------------------------------------
+   2. Skip navigation link
+   -------------------------------------------------------------------------- */
+
 .skip-link:focus,
+.skip-link:focus-visible,
 .visually-hidden:focus,
 .sr-only:focus {
   position: fixed !important;
   top: 12px !important;
   left: 12px !important;
+
+  z-index: 1000000 !important;
+
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+
   width: auto !important;
   height: auto !important;
+
   margin: 0 !important;
   padding: 14px 20px !important;
+
   overflow: visible !important;
   clip: auto !important;
+  clip-path: none !important;
+
   white-space: normal !important;
-  z-index: 1000000 !important;
-  background: #fff !important;
-  color: #111 !important;
-  border: 2px solid #111 !important;
+
+  color: #111111 !important;
+  background: #ffffff !important;
+
+  border: 2px solid #111111 !important;
+  border-radius: 4px;
+
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.4;
+  text-decoration: none !important;
 }
 
-/* Consistent keyboard focus */
+/* --------------------------------------------------------------------------
+   3. Keyboard focus indicators
+   -------------------------------------------------------------------------- */
+
+/*
+  Use :focus-visible so keyboard users receive a clear focus indicator
+  without forcing a focus ring after every pointer interaction.
+*/
+
 :where(
-  a,
+  a[href],
+  area[href],
   button,
   input,
   select,
   textarea,
   summary,
+  iframe,
   [tabindex]:not([tabindex="-1"]),
   [role="button"],
-  [role="link"]
+  [role="link"],
+  [role="checkbox"],
+  [role="radio"],
+  [role="switch"]
 ):focus-visible {
   outline: 3px solid #155eef !important;
   outline-offset: 3px !important;
-  box-shadow: 0 0 0 2px #fff !important;
 }
 
-/* Never remove keyboard focus globally */
-:focus:not(:focus-visible) {
-  outline: none;
-}
+/*
+  Avoid removing focus indicators globally.
+  Components may define their own visible focus styles.
+*/
 
-/* Sticky header / focus visibility */
+/* --------------------------------------------------------------------------
+   4. Focus visibility around sticky navigation
+   -------------------------------------------------------------------------- */
+
 html {
   scroll-padding-top: calc(
     var(--a11y-header-offset, 110px) + 16px
@@ -68,7 +120,7 @@ html {
 }
 
 :where(
-  a,
+  a[href],
   button,
   input,
   select,
@@ -81,46 +133,136 @@ html {
   );
 }
 
-/* Minimum target size */
+/* --------------------------------------------------------------------------
+   5. Live announcement regions
+   -------------------------------------------------------------------------- */
+
+#a11y-announcer,
+#a11y-alert {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* --------------------------------------------------------------------------
+   6. Form validation
+   -------------------------------------------------------------------------- */
+
+input[aria-invalid="true"],
+select[aria-invalid="true"],
+textarea[aria-invalid="true"],
+[contenteditable="true"][aria-invalid="true"] {
+  border: 2px solid #b42318 !important;
+}
+
+/*
+  The error message must be associated with its field using
+  aria-describedby. Color alone must not communicate an error.
+*/
+
+.a11y-error-message,
+.field__error,
+.form__message--error {
+  color: #b42318;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  margin-top: 6px;
+}
+
+/* --------------------------------------------------------------------------
+   7. Informational and success messages
+   -------------------------------------------------------------------------- */
+
+.a11y-message--info,
+.alert--info {
+  color: #8a3b00;
+}
+
+.a11y-message--success,
+.alert--success {
+  color: #365314;
+}
+
+/*
+  Check the foreground/background contrast of the actual component.
+  These text colors alone do not guarantee WCAG contrast compliance.
+*/
+
+/* --------------------------------------------------------------------------
+   8. Interactive target spacing
+   -------------------------------------------------------------------------- */
+
+/*
+  Do not globally force every link and button to 24px.
+  Target size must be checked in context, including spacing exceptions.
+  These selectors are intentionally limited to common compact controls.
+*/
+
 @media (pointer: coarse) {
   :where(
     button,
     input[type="button"],
     input[type="submit"],
     input[type="reset"],
-    [role="button"],
-    .search-drawer-button,
-    .cart-drawer-button,
-    .menu-drawer-button
+    [role="button"]
   ) {
     min-width: 24px;
     min-height: 24px;
   }
 }
 
-/* Form errors */
-input[aria-invalid="true"],
-select[aria-invalid="true"],
-textarea[aria-invalid="true"] {
-  border: 2px solid #b42318 !important;
+/* --------------------------------------------------------------------------
+   9. Images and embedded media
+   -------------------------------------------------------------------------- */
+
+img,
+video,
+iframe,
+svg {
+  max-width: 100%;
 }
 
-.a11y-error-message {
-  color: #b42318;
-  font-size: 0.875rem;
-  margin-top: 6px;
+img,
+video {
+  height: auto;
 }
 
-/* Informational messages */
-.alert--info {
-  color: #8a3b00;
+/*
+  This is a responsive safeguard only.
+  Meaningful images still require useful alternative text.
+  Decorative images should use alt="".
+*/
+
+/* --------------------------------------------------------------------------
+   10. Text readability and content wrapping
+   -------------------------------------------------------------------------- */
+
+:where(
+  p,
+  li,
+  blockquote,
+  figcaption,
+  .rte
+) {
+  overflow-wrap: break-word;
 }
 
-.alert--success {
-  color: #365314;
-}
+/*
+  Do not apply fixed heights or line clamping to essential text.
+  Users must be able to enlarge text and use text-spacing overrides.
+*/
 
-/* Reduced motion */
+/* --------------------------------------------------------------------------
+   11. Reduced motion
+   -------------------------------------------------------------------------- */
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -132,14 +274,48 @@ textarea[aria-invalid="true"] {
   }
 }
 
-/* Responsive layout */
-@media (max-width: 320px) {
-  html,
-  body {
-    max-width: 100%;
-    overflow-x: clip;
+/* --------------------------------------------------------------------------
+   12. Forced colors / high contrast mode
+   -------------------------------------------------------------------------- */
+
+@media (forced-colors: active) {
+  :where(
+    a[href],
+    button,
+    input,
+    select,
+    textarea,
+    summary,
+    [tabindex]:not([tabindex="-1"])
+  ):focus-visible {
+    outline: 2px solid Highlight !important;
+    outline-offset: 3px !important;
   }
 
+  .skip-link:focus,
+  .skip-link:focus-visible {
+    color: CanvasText !important;
+    background: Canvas !important;
+    border-color: CanvasText !important;
+  }
+
+  input[aria-invalid="true"],
+  select[aria-invalid="true"],
+  textarea[aria-invalid="true"] {
+    border: 2px solid Mark !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   13. Small viewport safeguards
+   -------------------------------------------------------------------------- */
+
+/*
+  Do not hide horizontal overflow globally.
+  Horizontal scrolling must be fixed at the component causing it.
+*/
+
+@media (max-width: 320px) {
   img,
   video,
   iframe {
@@ -148,5 +324,19 @@ textarea[aria-invalid="true"] {
 
   .page-width {
     max-width: 100%;
+    box-sizing: border-box;
   }
 }
+
+/* --------------------------------------------------------------------------
+   14. Text resizing
+   -------------------------------------------------------------------------- */
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   End of global accessibility layer
+   -------------------------------------------------------------------------- */
