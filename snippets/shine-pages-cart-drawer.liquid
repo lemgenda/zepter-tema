@@ -83,7 +83,8 @@
                         {% if setting.cart_empty_banner_url != blank %}
                             <a href="{{ setting.cart_empty_banner_url }}">
                                 {% endif %}
-                                {{ setting.cart_empty_banner | image_url: width: 1024 | image_tag: alt: setting.cart_empty_banner.alt | default: shop.name }}
+                                {%- assign cart_empty_banner_alt = setting.cart_empty_banner.alt | default: shop.name -%}
+                    {{ setting.cart_empty_banner | image_url: width: 1024 | image_tag: alt: cart_empty_banner_alt }}
                                 {% if setting.cart_empty_banner_url != blank %}
                             </a>
                             {% endif %}
