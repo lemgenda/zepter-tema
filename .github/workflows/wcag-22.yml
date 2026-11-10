@@ -10,9 +10,9 @@ on:
   workflow_dispatch:
     inputs:
       preview_url:
-        description: Active public Shopify storefront URL (or a theme preview URL)
+        description: Shopify preview URL for the WCAG remediation theme
         required: false
-        default: 'https://hyperlightoptics.com/'
+        default: 'https://hyperlightoptics.com/?_ab=0&_fd=0&_sc=1&preview_theme_id=191389696329'
         type: string
       paths:
         description: Comma-separated paths to test (defaults to home, product, two collections, FAQ, contact, login, account, cart, and search)
