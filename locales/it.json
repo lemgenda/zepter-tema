@@ -122,7 +122,8 @@
       "results_with_count_and_term": {
         "one": "{{ count }} risultato trovato per \"{{ terms }}\"",
         "other": "{{ count }} risultati trovati per \"{{ terms }}\""
-      }
+      },
+      "heading": "Cerca"
     },
     "cart": {
       "title": "Carrello",
@@ -607,13 +608,74 @@
     "recipient": {
       "form": {
         "checkbox": "Voglio inviarlo come regalo",
-        "email_label": "Email del destinatario",
-        "email_label_optional_for_no_js_behavior": "Email del destinatario (facoltativa)",
-        "name_label": "Nome del destinatario (facoltativo)",
+        "email_label": "Email destinatario",
+        "email_label_optional_for_no_js_behavior": "Email destinatario (facoltativa)",
+        "name_label": "Nome destinatario (facoltativo)",
         "max_characters": "Massimo {{ max_chars }} caratteri",
         "message_label": "Messaggio (facoltativo)",
-        "send_on_label": "Invia il (facoltativo)"
+        "send_on_label": "Spedisci il giorno (opzionale)"
       }
+    },
+    "templates": {
+      "search": {
+        "suggestions": "Suggerimenti",
+        "products": "Prodotti",
+        "collections": "Collezioni",
+        "blogs": "Articoli",
+        "search_for": "Cerca: {{ terms }}"
+      }
+    },
+    "product": {
+      "add_to_cart": "Aggiungi al carrello",
+      "sold_out": "Esaurito",
+      "unavailable": "Non disponibile",
+      "value_unavailable": "{{ option_value }} non è disponibile",
+      "product_title_default": "Prodotto",
+      "sale_html": "In offerta",
+      "quantity": {
+        "label": "Quantità"
+      },
+      "sku": "SKU",
+      "inventory_low_stock_show_count": "Ne restano solo {{ quantity }} disponibili",
+      "inventory_low_stock": "Scorte ridotte",
+      "inventory_in_stock_show_count": "{{ quantity }} disponibili",
+      "inventory_in_stock": "In magazzino, pronto per la spedizione",
+      "inventory_out_of_stock_continue_selling": "Disponibile",
+      "inventory_out_of_stock": "Esaurito"
+    },
+    "general": {
+      "cart": {
+        "cart_empty": "Il tuo carrello è vuoto.",
+        "continue_shopping": "Continua lo shopping",
+        "cart_heading": "Il tuo carrello",
+        "free_shipping_spend_html": "Spendi ancora {{ spend }} per ottenere la spedizione gratuita.",
+        "free_shipping": "Hai diritto alla spedizione gratuita.",
+        "remove": "Rimuovi",
+        "estimated_total": "Totale stimato",
+        "taxes_included_and_shipping_policy_html": "Imposte incluse. <a href=\"{{ link }}\">Spese di spedizione</a> calcolate al check-out.",
+        "taxes_included_but_shipping_at_checkout": "Imposte incluse e spese di spedizione calcolate al momento del check-out",
+        "taxes_and_shipping_policy_at_checkout_html": "Imposte e <a href=\"{{ link }}\">spese di spedizione</a> calcolate al momento del check-out",
+        "taxes_and_shipping_at_checkout": "Imposte e spese di spedizione calcolate al momento del check-out",
+        "note": "Istruzioni speciali per l'ordine",
+        "checkout": "Check-out",
+        "view_cart": "Visualizza carrello",
+        "save_note": "Salva"
+      },
+      "link": "Copia link",
+      "link_copied": "Link copiato"
+    },
+    "localization": {
+      "country_label": "Paese/Area geografica",
+      "language_label": "Lingua"
+    },
+    "social": {
+      "facebook": "Facebook",
+      "twitter": "X (Twitter)",
+      "pinterest": "Pinterest",
+      "tumblr": "Tumblr"
     }
+  },
+  "drawers": {
+    "navigation": "Navigazione del sito"
   }
 }
