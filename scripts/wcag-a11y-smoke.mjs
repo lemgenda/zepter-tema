@@ -55,10 +55,16 @@ try {
 
     for (const path of paths) {
       const url = buildTestUrl(path);
-      const result = { viewport: viewport.name, url, axeViolations: [], focus: null, textSpacing: null, smallTargets: [], diagnostics: null };
+      const result = { viewport: viewport.name, url, finalUrl: null, httpStatus: null, pageTitle: null, axeViolations: [], focus: null, textSpacing: null, smallTargets: [], diagnostics: null };
 
       try {
-        await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
+        const response = await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
+        result.httpStatus = response?.status() ?? null;
+        result.finalUrl = page.url();
+        result.pageTitle = await page.title();
+        if (result.httpStatus !== null && result.httpStatus >= 400) {
+          throw new Error(`HTTP ${result.httpStatus} while loading ${result.finalUrl}`);
+        }
         await page.waitForTimeout(1200);
 
         result.diagnostics = await page.evaluate(() => {
