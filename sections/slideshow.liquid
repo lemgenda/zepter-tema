@@ -53,7 +53,7 @@
         -%}
         {%- case block.type -%}
           {%- when 'image' -%}
-            <div class="banner media--{{ section.settings.image_height }} mobile:media--{{ section.settings.image_height_mobile }} w-full overflow-hidden" data-type="image" {{ block.shopify_attributes }}>
+            <div class="banner media--{{ section.settings.image_height }} mobile:media--{{ section.settings.image_height_mobile }} w-full overflow-hidden" role="group" aria-roledescription="slide" aria-label="{{ 'general.pagination.page' | t: number: forloop.index | escape }}" data-type="image" {{ block.shopify_attributes }}>
               <media-element class="banner__media block w-full h-full overflow-hidden"{% if section.settings.enable_parallax %} data-parallax="0.3" data-parallax-dir="{{ section.settings.parallax_direction }}"{% endif %}>
                 <animate-element data-animate="zoom-out" class="media media--height block w-full h-full relative overflow-hidden" paused>
                   <picture class="media media--height block w-full h-full relative overflow-hidden">
@@ -83,7 +83,7 @@
             </div>
 
           {%- when 'video' -%}
-            <div class="banner media--{{ section.settings.image_height }} mobile:media--{{ section.settings.image_height_mobile }} w-full overflow-hidden" data-type="video" {{ block.shopify_attributes }}>
+            <div class="banner media--{{ section.settings.image_height }} mobile:media--{{ section.settings.image_height_mobile }} w-full overflow-hidden" role="group" aria-roledescription="slide" aria-label="{{ 'general.pagination.page' | t: number: forloop.index | escape }}" data-type="video" {{ block.shopify_attributes }}>
               <media-element class="banner__media block w-full h-full overflow-hidden"{% if section.settings.enable_parallax %} data-parallax="0.3" data-parallax-dir="{{ section.settings.parallax_direction }}"{% endif %}>
                 <animate-element data-animate="zoom-out" class="media media--height block w-full h-full relative overflow-hidden" paused>
                   {%- if block.settings.video_mobile or block.settings.video_url_mobile -%}
