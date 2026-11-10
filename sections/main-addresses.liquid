@@ -61,6 +61,12 @@
               <div class="drawer__content opacity-0 invisible flex flex-col h-full grow shrink">
                 <div class="drawer__scrollable relative flex flex-col gap-5 md:gap-7 grow shrink">
                   {%- form 'customer_address', customer.new_address, aria-labelledBy: 'AddressNewHeading', class: 'address__fields flex flex-wrap gap-4d5 md:gap-6' -%}
+      {%- if form.errors -%}
+        {%- assign address_form_errors = form.errors | default_errors -%}
+        <div id="AddressNewFormError-{{ section.id }}" data-a11y-error-summary tabindex="-1">
+          {%- render 'alert', status: 'error', content: address_form_errors -%}
+        </div>
+      {%- endif -%}
                     <div class="field">
                       <input class="input is-floating" type="text" id="AddressFirstNameNew" name="address[first_name]" value="{{ form.first_name }}" autocomplete="given-name" placeholder="{{ 'customer.addresses.first_name' | t | escape }}"/>
                       <label class="label is-floating" for="AddressFirstNameNew">{{ 'customer.addresses.first_name' | t }}</label>
