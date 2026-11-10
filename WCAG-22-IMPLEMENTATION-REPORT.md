@@ -118,7 +118,7 @@ Dodani su:
 ### 8. Validacije izvršene u ovom prolazu
 
 - Svih šest locale JSON datoteka uspješno je parsirano; provjereni su navigacijski, dialog, carousel, pagination, cart, media-type i product-state ključevi.
-- `node --check` prošao je za `scripts/wcag-a11y-smoke.mjs`, `assets/recipient-form.js` i izdvojene izmijenjene carousel klase iz `assets/theme.js`.
+- `node --check` prošao je za `scripts/wcag-a11y-smoke.mjs`, `assets/accessibility.js`, `assets/search.js`, `assets/recipient-form.js` te izdvojene izmijenjene klase `AnnouncementBar`, `SlideshowElement` i `SliderElement` iz `assets/theme.js`.
 - Ruby YAML parser uspješno je parsirao `.github/workflows/wcag-22.yml`.
 - Statički su pregledani relevantni Liquid/JS/CSS dijelovi i potvrđene su promjene na grani.
 - **Nisu izvršeni** Shopify Theme Check, axe-core browser run, Playwright run na storefrontu, Liquid render ni test s čitačem zaslona. Za zadnji commit nisu pronađeni GitHub Actions workflow runovi.
