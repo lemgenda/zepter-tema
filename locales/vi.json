@@ -39,7 +39,10 @@
       "announcement_bar": "Thông báo",
       "announcement_number": "Thông báo {{ number }}",
       "currently_selected": "Đang được chọn",
-      "sold_out": "Hết hàng"
+      "sold_out": "Hết hàng",
+      "media_type_image": "Hình ảnh",
+      "media_type_video": "Video",
+      "media_type_model": "Mô hình 3D"
     },
     "meta": {
       "tags": "Được gắn thẻ \"{{ tags }}\"",
