@@ -1411,7 +1411,7 @@ class AnnouncementBar extends HTMLElement {
   }
 
   onFocusIn() {
-    if (!this.slider || !this.autoplay) return;
+    if (!this.slider) return;
 
     this.slider.pausePlayer();
     const control = document.querySelector('[is="control-button"][aria-controls="' + this.id + '"]');
