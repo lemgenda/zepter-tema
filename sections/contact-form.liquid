@@ -49,7 +49,7 @@
           </div>
           <div class="field">
             <input
-              class="input is-floating{% if form.errors contains 'email' %} invalid{% endif %}"
+              class="input is-floating{% if form.errors contains 'email' %} invalid{% endif %}"{% if form.errors contains 'email' %} aria-invalid="true" aria-describedby="ContactFormEmailError-{{ section.id }}"{% endif %}
               autocomplete="email"
               type="email"
               id="ContactFormEmail-{{ section.id }}"
@@ -60,6 +60,7 @@
               placeholder="{{ 'contact.form.email' | t | escape }}"
               required
             >
+            {%- if form.errors contains 'email' -%}<p id="ContactFormEmailError-{{ section.id }}" class="a11y-error-message">{{ form.errors.messages.email | escape }}</p>{%- endif -%}
             <label class="label is-floating" for="ContactFormEmail-{{ section.id }}">{{ 'contact.form.email' | t }}</label>
           </div>
 
