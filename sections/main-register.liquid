@@ -20,7 +20,9 @@
         {%- liquid
           if form.errors
             assign form_errors = form.errors | default_errors
+            echo '<div id="RegisterFormError" data-a11y-error-summary tabindex="-1">' 
             render 'alert', status: 'error', content: form_errors
+            echo '</div>'
           endif
         -%}
 
@@ -52,7 +54,7 @@
           <div class="field">
             <input
               required
-              class="input is-floating{% if form.errors contains 'email' %} invalid{% endif %}"
+              class="input is-floating{% if form.errors contains 'email' %} invalid{% endif %}"{% if form.errors contains 'email' %} aria-invalid="true" aria-describedby="RegisterFormError"{% endif %}
               type="email"
               name="customer[email]"
               id="RegisterFormEmail"
@@ -67,7 +69,7 @@
           <div class="field">
             <input
               required
-              class="input is-floating{% if form.errors contains 'password' %} invalid{% endif %}"
+              class="input is-floating{% if form.errors contains 'password' %} invalid{% endif %}"{% if form.errors contains 'password' %} aria-invalid="true" aria-describedby="RegisterFormError"{% endif %}
               type="password"
               name="customer[password]"
               id="RegisterFormPassword"
