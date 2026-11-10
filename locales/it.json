@@ -32,7 +32,9 @@
       "cart_error_announcement": "Impossibile aggiungere il prodotto al carrello.",
       "cart_updated_announcement": "Il carrello è stato aggiornato.",
       "product_recommendations_loaded": "Consigli sui prodotti caricati.",
-      "recently_viewed_loaded": "Prodotti visualizzati di recente caricati."
+      "recently_viewed_loaded": "Prodotti visualizzati di recente caricati.",
+      "product_recommendations": "Consigli sui prodotti",
+      "recently_viewed_products": "Prodotti visualizzati di recente"
     },
     "meta": {
       "tags": "Contrassegnato da tag \"{{ tag }}\"",
