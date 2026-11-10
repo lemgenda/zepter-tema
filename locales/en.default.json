@@ -32,7 +32,9 @@
       "cart_error_announcement": "There was a problem adding this product to your cart.",
       "cart_updated_announcement": "Your cart has been updated.",
       "product_recommendations_loaded": "Product recommendations loaded.",
-      "recently_viewed_loaded": "Recently viewed products loaded."
+      "recently_viewed_loaded": "Recently viewed products loaded.",
+      "product_recommendations": "Product recommendations",
+      "recently_viewed_products": "Recently viewed products"
     },
     "meta": {
       "tags": "Tagged \"{{ tags }}\"",
