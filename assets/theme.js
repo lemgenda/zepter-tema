@@ -3953,6 +3953,7 @@ class SliderElement extends HTMLElement {
   constructor() {
     super();
 
+    this.onResize = theme.utils.debounce(this.updateSlideAccessibility.bind(this), 50);
     Motion.inView(this, this.init.bind(this), { margin: '200px 0px 200px 0px' });
   }
 
@@ -4002,12 +4003,45 @@ class SliderElement extends HTMLElement {
 
     this.addEventListener('scroll', theme.utils.debounce(this.update.bind(this), 50));
     this.addEventListener('scrollend', this.scrollend);
+    this.addEventListener('focusout', () => window.requestAnimationFrame(this.updateSlideAccessibility.bind(this)));
+    window.addEventListener('resize', this.onResize, { passive: true });
+    this.updateSlideAccessibility();
     this.addEventListener('slider:previous', this.previous);
     this.addEventListener('slider:next', this.next);
 
     if (Shopify.designMode) {
       this.addEventListener('shopify:block:select', (event) => event.target.scrollIntoView({behavior: 'smooth'}));
     }
+  }
+
+  updateSlideAccessibility() {
+    if (!this.items || !this.items.length) return;
+
+    const containerRect = this.getBoundingClientRect();
+
+    this.items.forEach((item) => {
+      const rect = item.getBoundingClientRect();
+      const intersectsViewport =
+        rect.width > 0 &&
+        rect.height > 0 &&
+        rect.right > containerRect.left &&
+        rect.left < containerRect.right &&
+        rect.bottom > containerRect.top &&
+        rect.top < containerRect.bottom;
+      const containsFocus = item.contains(document.activeElement);
+
+      if (intersectsViewport || containsFocus) {
+        item.removeAttribute('aria-hidden');
+        item.removeAttribute('inert');
+      } else {
+        item.setAttribute('aria-hidden', 'true');
+        item.setAttribute('inert', '');
+      }
+    });
+  }
+
+  disconnectedCallback() {
+    window.removeEventListener('resize', this.onResize);
   }
 
   previous() {
@@ -4035,6 +4069,8 @@ class SliderElement extends HTMLElement {
   }
 
   update() {
+    this.updateSlideAccessibility();
+
     if (window.onscrollend === void 0) {
       clearTimeout(this.scrollendTimeout);
     }
