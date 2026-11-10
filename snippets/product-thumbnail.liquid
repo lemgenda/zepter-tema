@@ -44,7 +44,7 @@
   if gang_exist == true
     assign media_alt = media.alt | split: '#' | first
   else
-    assign media_alt = media.alt
+    assign media_alt = media.alt | default: product.title
   endif
 -%}
 
