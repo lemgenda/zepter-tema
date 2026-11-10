@@ -7,7 +7,7 @@
 
 ## Sažetak
 
-U ovom prolazu zatvoren je dodatni dio nedovršenih stavki: customer forme, adrese, newsletter i gift-card recipient validacija, najave promjena košarice, shipping calculator statusi, mobilne close kontrole, alternativni tekstovi ključnih storefront slika, reduced-motion ponašanje, osnovna semantika slideshowa, live najave odabira varijante i broja filtera te statički/browser testni workflow.
+U ovom prolazu zatvoren je dodatni dio nedovršenih stavki: customer i gift-card forme, navigacija, predictive search, facets/pagination, announcement i product carouseli, pickup statusi, alternativni tekstovi ključnih slika, reduced-motion ponašanje, iframe naslovi, dinamičke najave i testni workflow.
 
 **Važno:** potpuna WCAG 2.2 AA sukladnost još nije potvrđena. U ovom okruženju nije dostupan aktivni Shopify preview URL ni browser session za stvarno testiranje storefront DOM-a. GitHub Actions workflow je dodan, ali za zadnji commit nisu pronađeni izvršeni workflow runovi. Browser smoke testovi zato nisu označeni kao prošli.
 
@@ -73,6 +73,37 @@ Ikone koje su dekorativne označene su praznim alt tekstom gdje je to primjereno
 - `snippets/product-variant-picker.liquid`: odabrana vrijednost varijante koristi polite live region.
 - `snippets/facets-drawer.liquid`: dinamički broj filtera koristi status live region.
 
+### 5a. Navigacija, predictive search, pagination i carouseli
+
+- `snippets/header-nav-drawer.liquid`: back kontrole imaju kontekstualni naziv na svim podržanim jezicima; promo slike su dekorativne kada je link već imenovan tekstom.
+- `assets/theme.js`: zatvaranje podizbornika vraća fokus na pripadajući `summary`.
+- `snippets/predictive-search.liquid`: uklonjen je neprikladan `role="listbox"` s rezultata koji nisu implementirani kao ARIA listbox; rezultati su imenovana regija, a broj rezultata/nema rezultata koristi status najavu.
+- `snippets/pagination.liquid`: pagination je imenovani `nav` landmark; `aria-current="page"` primjenjuje se samo na trenutačnu stranicu, ne na prethodnu/sljedeću ili obične linkove.
+- `sections/main-search.liquid`: redundantna slika-link kartice članka uklonjena je iz tab-redoslijeda i accessibility treea jer naslov članka već daje isto odredište.
+- `sections/product-recommendations.liquid` i `sections/recently-viewed.liquid`: slideri su imenovane carousel regije, a JS dodaje polite status nakon asinkronog učitavanja.
+- `sections/announcement-bar.liquid`: announcement bar je imenovani carousel region; pojedinačne objave imaju slide semantiku, autoplay kontrola postoji i kad je navigacija isključena, a aktivni slide state upravlja `aria-hidden` i `inert`.
+- `assets/theme.js`: announcement i slideshow carouseli sinkroniziraju aktivni slide, uklanjaju neaktivne slideove iz fokusa i pauziraju rotaciju kad tipkovnički fokus uđe u slide.
+- `snippets/facets-drawer.liquid`: broj filtera koristi status live region; `snippets/facets.liquid` više nema dupli `class` atribut na image facet inputu.
+- `snippets/pickup-availability.liquid`: promjena dostupnosti preuzimanja izložena je kao polite status.
+
+### 5b. Product media, swatchevi i third-party forme
+
+- `snippets/product-variants.liquid`: uklonjen je radio input ugniježđen u link; swatch je jedna keyboard-accessible poveznica s `aria-current="page"` za odabrani proizvod i nazivom za trenutno odabrano / rasprodano stanje.
+- `snippets/swatch.liquid`: povezani swatchevi izlažu current state.
+- `snippets/product-thumbnail.liquid`: naziv thumbnailla uključuje opis, tip medija i redni broj.
+- `snippets/media.liquid`: video/model kontrolama dodani su opisni nazivi, a media wrapperi imaju pristupačna group imena.
+- `assets/accessibility.js`: dinamički učitani iframeovi unutar product video/model medija dobivaju `title` iz pripadajućeg media opisa.
+- `assets/recipient-form.js`: ispravljen je unsubscribe handle za cart error subscription; checkbox sinkronizira `aria-expanded`, email `required` stanje, dinamičke field error atribute i fokus error regiona.
+- `snippets/shine-pages-gift-card-recipient-form.liquid` i `assets/accessibility.js`: checkbox disclosure ima `aria-controls` / `aria-expanded`, email required state prati odabir, a link greške za `send_on` cilja stvarni ID polja.
+- `layout/password.liquid`: skip-link target `MainContent` sada je programatski fokusabilan (`tabindex="-1"`).
+- `sections/faq.liquid`, `sections/footer.liquid`, `snippets/social-icons.liquid`: kontaktna FAQ forma ima fokusabilnu grešku i opis email greške; profilna slika i footer logo imaju alt fallback; icon-only social linkovi imaju `aria-label`.
+
+### 5c. Focus scroll i overlay offsets
+
+- `assets/accessibility.js`: offset za scroll/fokus računa vidljive fixed/sticky elemente u header grupi bez zbrajanja ugniježđenih elemenata; dodan je i bottom offset za mobile dock / označene fixed-bottom kontrole.
+- `assets/accessibility.css`: `scroll-padding` i `scroll-margin` uzimaju u obzir gornje i donje overlaye.
+- Observer se ponovno postavlja nakon Shopify section load/reorder/unload događaja.
+
 ### 6. CSS osnove
 
 - `assets/accessibility.css`: common button controls imaju minimalnu inline/block veličinu od 24 CSS px. Ovo je minimalni prag za kontrole, ne zamjena za pregled svih stvarnih targeta i iznimaka u kontekstu.
@@ -85,10 +116,11 @@ Dodani su:
 
 ### 8. Validacije izvršene u ovom prolazu
 
-- JSON datoteke `locales/en.default.json`, `de.json`, `es.json`, `fr.json`, `it.json` i `vi.json` uspješno su parsirane.
-- U svih šest locale datoteka potvrđeno je postojanje navigacijskih prijevoda i tri cart announcement ključa.
+- Svih šest locale JSON datoteka uspješno je parsirano; provjereni su navigacijski, dialog, carousel, pagination, cart, media-type i product-state ključevi.
+- `node --check` prošao je za `scripts/wcag-a11y-smoke.mjs`, `assets/recipient-form.js` i izdvojene izmijenjene carousel klase iz `assets/theme.js`.
+- Ruby YAML parser uspješno je parsirao `.github/workflows/wcag-22.yml`.
 - Statički su pregledani relevantni Liquid/JS/CSS dijelovi i potvrđene su promjene na grani.
-- **Nisu izvršeni** Shopify Theme Check, axe-core browser run, Playwright run, Liquid render, stvarni storefront test ili test s čitačem zaslona. Za zadnji commit nisu pronađeni GitHub Actions workflow runovi.
+- **Nisu izvršeni** Shopify Theme Check, axe-core browser run, Playwright run na storefrontu, Liquid render ni test s čitačem zaslona. Za zadnji commit nisu pronađeni GitHub Actions workflow runovi.
 
 ## Preostale stavke / nije moguće potvrditi bez preview trgovine
 
@@ -100,7 +132,7 @@ Dodani su:
 6. **Target size 2.5.8:** skripta izlistava kontrole manje od 24 × 24 px; svaku stavku treba ručno provjeriti zbog WCAG iznimaka (inline, ekvivalentna kontrola, spacing i user-agent kontrola).
 7. **Product variant i pickup flow:** odabrana vrijednost varijante se najavljuje, ali cijena, dostupnost, SKU, inventory i pickup availability nakon AJAX promjene nisu ujednačeno najavljeni.
 8. **Facets/filteri:** count live region je dodan, ali stvarni rezultat nakon AJAX filtriranja, fokusni povratak, URL/history i kombinacije checkbox/swatch filtera trebaju browser test.
-9. **Product recommendations/recently viewed:** carousel keyboard operabilnost, aktivni slide state i dinamički sadržaj nisu kompletno popravljeni ni testirani.
+9. **Product recommendations/recently viewed:** imenovane carousel regije i load statusi su dodani; keyboard operabilnost, aktivni slide state i stvarni screen-reader izgovor još trebaju browser test.
 10. **Ostale slike:** sve ostale merchant-managed image settinge, article/blog, footer, map, promo i app-provided slike treba pregledati u stvarnom sadržaju. Fallback alt ne može zamijeniti dobar opis koji odgovara stvarnoj slici.
 11. **Third-party/hosted flows:** BEAE quickview/header, Shine Pages cart open/close/focus state, Auglio, hCaptcha, external video iframeovi, Shopify Customer Privacy API, checkout i hosted customer challenge nisu testirani niti mijenjani u ovoj iteraciji. Njihovo ponašanje ne treba mijenjati bez runtime provjere.
 12. **Cross-browser i responsive:** Safari, Firefox, Chromium, iOS/Android touch, forced colors i dinamičke Shopify theme editor section reload situacije nisu ručno testirane.
