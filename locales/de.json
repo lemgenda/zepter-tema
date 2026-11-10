@@ -122,7 +122,8 @@
       "results_with_count_and_term": {
         "one": "{{ count }} Ergebnis für \"{{ terms }}\" gefunden",
         "other": "{{ count }} Ergebnisse für \"{{ terms }}\" gefunden"
-      }
+      },
+      "heading": "Suche"
     },
     "cart": {
       "title": "Warenkorb",
@@ -607,13 +608,74 @@
     "recipient": {
       "form": {
         "checkbox": "Ich möchte dies als Geschenk senden",
-        "email_label": "E-Mail des Empfängers",
+        "email_label": "Empfänger E-Mail",
         "email_label_optional_for_no_js_behavior": "E-Mail-Adresse des Empfängers (optional)",
         "name_label": "Name des Empfängers (optional)",
         "max_characters": "Maximal {{ max_chars }} Zeichen",
         "message_label": "Nachricht (optional)",
         "send_on_label": "Senden am (optional)"
       }
+    },
+    "templates": {
+      "search": {
+        "suggestions": "Vorschläge",
+        "products": "Produkte",
+        "collections": "Kollektionen",
+        "blogs": "Artikel",
+        "search_for": "Suche: {{ terms }}"
+      }
+    },
+    "product": {
+      "add_to_cart": "In den Einkaufswagen legen",
+      "sold_out": "Ausverkauft",
+      "unavailable": "Nicht verfügbar",
+      "value_unavailable": "{{ option_value }} ist nicht verfügbar",
+      "product_title_default": "Produkt",
+      "sale_html": "Reduziert",
+      "quantity": {
+        "label": "Anzahl"
+      },
+      "sku": "SKU",
+      "inventory_low_stock_show_count": "Nur noch {{ quantity }} auf Lager",
+      "inventory_low_stock": "Niedriger Lagerbestand",
+      "inventory_in_stock_show_count": "{{ quantity }} auf Lager",
+      "inventory_in_stock": "Auf Lager, versandfertig",
+      "inventory_out_of_stock_continue_selling": "Auf Lager",
+      "inventory_out_of_stock": "Nicht vorrätig"
+    },
+    "general": {
+      "cart": {
+        "cart_empty": "Dein Warenkorb ist leer.",
+        "continue_shopping": "Weiter shoppen",
+        "cart_heading": "Dein Warenkorb",
+        "free_shipping_spend_html": "Geben Sie noch {{ spend }} aus, um kostenlosen Versand zu erhalten!",
+        "free_shipping": "Sie haben Anspruch auf kostenlose Lieferung.",
+        "remove": "Entfernen",
+        "estimated_total": "Geschätzte Gesamtsumme",
+        "taxes_included_and_shipping_policy_html": "Inklusive Steuern. <a href=\"{{ link }}\">Versand </a> wird beim Checkout berechnet",
+        "taxes_included_but_shipping_at_checkout": "Inklusive Steuern, Versand wird beim Checkout berechnet",
+        "taxes_and_shipping_policy_at_checkout_html": "Steuern und <a href=\"{{ link }}\">Versand</a> werden beim Checkout berechnet",
+        "taxes_and_shipping_at_checkout": "Steuern und Versand werden beim Checkout berechnet",
+        "note": "Spezielle Bestellanweisungen",
+        "checkout": "Auschecken",
+        "view_cart": "Warenkorb ansehen",
+        "save_note": "Speichern"
+      },
+      "link": "Link kopieren",
+      "link_copied": "Link kopiert"
+    },
+    "localization": {
+      "country_label": "Land/Region",
+      "language_label": "Sprache"
+    },
+    "social": {
+      "facebook": "Facebook",
+      "twitter": "X (Twitter)",
+      "pinterest": "Pinterest",
+      "tumblr": "Tumblr"
     }
+  },
+  "drawers": {
+    "navigation": "Seitennavigation"
   }
 }
