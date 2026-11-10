@@ -102,7 +102,7 @@ console.log(theme.settings.themeName + ' theme (' + theme.settings.themeVersion 
 
       const candidates = Array.from(
         container.querySelectorAll(
-          'summary, a[href], button, [tabindex]:not([tabindex^="-"]), [draggable], area[href], input:not([type="hidden"]), select, textarea, object, iframe'
+          'summary, a[href], button, [tabindex]:not([tabindex^="-"]), [data-a11y-error-summary], [draggable], area[href], input:not([type="hidden"]), select, textarea, object, iframe'
         )
       );
 
