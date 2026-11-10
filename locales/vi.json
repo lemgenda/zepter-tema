@@ -179,7 +179,8 @@
     },
     "slideshow": {
       "play_slideshow": "Chạy trình chiếu",
-      "pause_slideshow": "Tạm dừng trình chiếu"
+      "pause_slideshow": "Tạm dừng trình chiếu",
+      "name": "Trình chiếu"
     },
     "product_bundle": {
       "total": "Tổng",
@@ -216,6 +217,15 @@
       "primary_navigation": "Điều hướng chính",
       "secondary_navigation": "Điều hướng phụ",
       "expand_submenu": "Mở rộng menu con: {{ title }}"
+    },
+    "newsletter-popup": {
+      "name": "Đăng ký nhận bản tin"
+    },
+    "age-verifier": {
+      "name": "Xác minh độ tuổi"
+    },
+    "cookie-banner": {
+      "name": "Tùy chọn cookie"
     }
   },
   "blogs": {
