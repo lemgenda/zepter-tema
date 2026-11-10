@@ -14734,3 +14734,14 @@ lookbook-element .banner__box .title-wrapper {
     min-width: 0;
   }
 }
+
+/* WCAG: prevent the timeline slider grid item from expanding its page-width parent. */
+.timeline-slider {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr);
+}
+.timeline-slider > .timeline {
+  min-width: 0;
+}
