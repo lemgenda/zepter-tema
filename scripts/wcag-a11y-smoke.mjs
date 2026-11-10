@@ -88,7 +88,7 @@ try {
         await page.waitForTimeout(250);
         result.reducedMotion = await page.evaluate(() => ({
           active: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
-          autoplayElementsRemaining: document.querySelectorAll('slideshow-element[autoplay], video-media[autoplay], video[autoplay]').length,
+          autoplayElementsRemaining: document.querySelectorAll('announcement-bar[autoplay], slideshow-element[autoplay], video-media[autoplay], video[autoplay]').length,
         }));
         result.forcedColorsFocus = await page.evaluate(() => {
           const element = document.activeElement;
