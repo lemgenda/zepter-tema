@@ -122,7 +122,8 @@
       "results_with_count_and_term": {
         "one": "Đã tìm thấy {{ count }} kết quả cho “{{ terms }}”",
         "other": "Đã tìm thấy {{ count }} kết quả cho “{{ terms }}”"
-      }
+      },
+      "heading": "Tìm kiếm"
     },
     "cart": {
       "title": "Giỏ hàng",
@@ -606,7 +607,7 @@
     },
     "recipient": {
       "form": {
-        "checkbox": "Tôi muốn gửi món quà này",
+        "checkbox": "Tôi muốn gửi cái này như một món quà",
         "email_label": "Email người nhận",
         "email_label_optional_for_no_js_behavior": "Email người nhận (tùy chọn)",
         "name_label": "Tên người nhận (tùy chọn)",
@@ -614,6 +615,67 @@
         "message_label": "Tin nhắn (tùy chọn)",
         "send_on_label": "Ngày gửi (tùy chọn)"
       }
+    },
+    "templates": {
+      "search": {
+        "suggestions": "Đề xuất",
+        "products": "Sản phẩm",
+        "collections": "Bộ sưu tập",
+        "blogs": "Bài viết",
+        "search_for": "Tìm kiếm: {{ terms }}"
+      }
+    },
+    "product": {
+      "add_to_cart": "Thêm vào giỏ hàng",
+      "sold_out": "Đã bán hết",
+      "unavailable": "Không có sẵn",
+      "value_unavailable": "{{ option_value }} hiện không có sẵn",
+      "product_title_default": "Sản phẩm",
+      "sale_html": "Giảm giá",
+      "quantity": {
+        "label": "Số lượng"
+      },
+      "sku": "Mã SKU",
+      "inventory_low_stock_show_count": "Chỉ còn {{ quantity }} sản phẩm",
+      "inventory_low_stock": "Sắp hết hàng",
+      "inventory_in_stock_show_count": "Còn {{ quantity }} sản phẩm",
+      "inventory_in_stock": "Còn hàng, sẵn sàng để giao",
+      "inventory_out_of_stock_continue_selling": "Còn hàng",
+      "inventory_out_of_stock": "Hết hàng"
+    },
+    "general": {
+      "cart": {
+        "cart_empty": "Giỏ hàng của bạn hiện đang trống.",
+        "continue_shopping": "Tiếp tục mua sắm",
+        "cart_heading": "Giỏ hàng của bạn",
+        "free_shipping_spend_html": "Chi tiêu thêm {{ spend }} để được miễn phí vận chuyển.",
+        "free_shipping": "Bạn đủ điều kiện để được miễn phí vận chuyển.",
+        "remove": "Xóa",
+        "estimated_total": "Tổng ước tính",
+        "taxes_included_and_shipping_policy_html": "Đã bao gồm thuế. <a href=\"{{ link }}\">Phí vận chuyển</a> được tính khi thanh toán.",
+        "taxes_included_but_shipping_at_checkout": "Đã bao gồm thuế và phí vận chuyển được tính khi thanh toán",
+        "taxes_and_shipping_policy_at_checkout_html": "Thuế và <a href=\"{{ link }}\">phí vận chuyển</a> được tính khi thanh toán",
+        "taxes_and_shipping_at_checkout": "Đã bao gồm thuế và phí vận chuyển được tính khi thanh toán.",
+        "note": "Ghi chú đặt hàng",
+        "checkout": "Thanh toán",
+        "view_cart": "Xem giỏ hàng",
+        "save_note": "Lưu"
+      },
+      "link": "Sao chép liên kết",
+      "link_copied": "Đã sao chép liên kết"
+    },
+    "localization": {
+      "country_label": "Quốc gia/khu vực",
+      "language_label": "Ngôn ngữ"
+    },
+    "social": {
+      "facebook": "Facebook",
+      "twitter": "X (Twitter)",
+      "pinterest": "Pinterest",
+      "tumblr": "Tumblr"
     }
+  },
+  "drawers": {
+    "navigation": "Điều hướng trang web"
   }
 }
