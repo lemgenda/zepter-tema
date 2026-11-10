@@ -10,11 +10,12 @@ on:
   workflow_dispatch:
     inputs:
       preview_url:
-        description: Public Shopify theme preview URL for browser accessibility checks
+        description: Active public Shopify storefront URL (or a theme preview URL)
         required: false
+        default: 'https://hyperlightoptics.com/'
         type: string
       paths:
-        description: Comma-separated paths to test (defaults to home, all collections, cart, and search)
+        description: Comma-separated paths to test (defaults to home, product, two collections, FAQ, contact, login, account, cart, and search)
         required: false
         type: string
 
