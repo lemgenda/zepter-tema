@@ -357,7 +357,8 @@ html {
   justify-content: center;
 }
 
-#uw-skip-to-main,
+#uw-skip-to-main:focus,
+#uw-skip-to-main:focus-visible,
 .uw-sl__item:focus,
 .uw-sl__item:focus-visible {
   outline: 3px solid #155eef !important;
