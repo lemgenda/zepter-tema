@@ -34,7 +34,8 @@
       "product_recommendations_loaded": "Product recommendations loaded.",
       "recently_viewed_loaded": "Recently viewed products loaded.",
       "product_recommendations": "Product recommendations",
-      "recently_viewed_products": "Recently viewed products"
+      "recently_viewed_products": "Recently viewed products",
+      "pagination": "Pagination"
     },
     "meta": {
       "tags": "Tagged \"{{ tags }}\"",
