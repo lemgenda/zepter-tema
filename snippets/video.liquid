@@ -18,7 +18,7 @@
 -%}
 
 {%- if video != blank or video_url != blank -%}
-  <video-media class="media deferred-media{% if is_mobile %} mobile:deferred-media{% endif %} block {{ class }}"
+  <video-media class="media deferred-media{% if is_mobile %} mobile:deferred-media{% endif %} block {{ class }}"{% if autoplay and muted and video_alt == blank %} aria-hidden="true"{% endif %}
     style="--aspect-ratio: {{ video.aspect_ratio }}"
     {%- unless video %} host="{{ video_url.type }}"{% endunless -%}
     {%- if autoplay %} autoplay{% endif -%}
