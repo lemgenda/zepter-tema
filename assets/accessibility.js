@@ -31,6 +31,8 @@
     motionObserver: null,
     recipientObserver: null,
     iframeObserver: null,
+    announcementObserver: null,
+    externalLinkObserver: null,
 
     initialized: false,
 
@@ -51,6 +53,8 @@
       this.initFormErrorFocus();
       this.initShineRecipientForms();
       this.initEmbeddedFrameTitles();
+      this.initAnnouncementSlideInert();
+      this.initAccessibleExternalLinks();
       this.initReducedMotion();
       this.initShopifySectionEvents();
 
@@ -384,6 +388,71 @@
       }
     },
 
+
+    initAnnouncementSlideInert() {
+      const syncSlide = (slide) => {
+        if (!slide.matches('.announcement__slide')) return;
+        const hidden = slide.getAttribute('aria-hidden') === 'true';
+        if (hidden) {
+          slide.setAttribute('inert', '');
+          slide.querySelectorAll('a[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"])').forEach((item) => {
+            if (!item.hasAttribute('data-a11y-original-tabindex')) {
+              item.setAttribute('data-a11y-original-tabindex', item.getAttribute('tabindex') ?? '');
+            }
+            item.setAttribute('tabindex', '-1');
+          });
+        } else {
+          slide.removeAttribute('inert');
+          slide.querySelectorAll('[data-a11y-original-tabindex]').forEach((item) => {
+            const original = item.getAttribute('data-a11y-original-tabindex');
+            if (original === '') item.removeAttribute('tabindex');
+            else item.setAttribute('tabindex', original);
+            item.removeAttribute('data-a11y-original-tabindex');
+          });
+        }
+      };
+
+      document.querySelectorAll('.announcement__slide').forEach(syncSlide);
+      if (this.announcementObserver || !('MutationObserver' in window)) return;
+      this.announcementObserver = new MutationObserver((records) => {
+        records.forEach((record) => {
+          if (record.type === 'attributes') syncSlide(record.target);
+          record.addedNodes.forEach((node) => {
+            if (node.nodeType !== Node.ELEMENT_NODE) return;
+            if (node.matches('.announcement__slide')) syncSlide(node);
+            node.querySelectorAll?.('.announcement__slide').forEach(syncSlide);
+          });
+        });
+      });
+      this.announcementObserver.observe(document.body, {
+        subtree: true, childList: true, attributes: true, attributeFilter: ['aria-hidden']
+      });
+    },
+
+    initAccessibleExternalLinks() {
+      const labelLink = (link) => {
+        if (link.hasAttribute('aria-label') || link.textContent.trim()) return;
+        if (link.querySelector('img[alt], svg[aria-label], [aria-label], .visually-hidden, .sr-only')) return;
+        try {
+          const host = new URL(link.href, window.location.href).hostname.replace(/^www\./, '');
+          link.setAttribute('aria-label', 'Visit ' + host + ' (opens in a new tab)');
+        } catch (error) {
+          link.setAttribute('aria-label', 'Open external link in a new tab');
+        }
+      };
+
+      document.querySelectorAll('a[rel~="nofollow"][target="_blank"]').forEach(labelLink);
+      if (this.externalLinkObserver || !('MutationObserver' in window)) return;
+      this.externalLinkObserver = new MutationObserver((records) => {
+        records.forEach((record) => record.addedNodes.forEach((node) => {
+          if (node.nodeType !== Node.ELEMENT_NODE) return;
+          if (node.matches('a[rel~="nofollow"][target="_blank"]')) labelLink(node);
+          node.querySelectorAll?.('a[rel~="nofollow"][target="_blank"]').forEach(labelLink);
+        }));
+      });
+      this.externalLinkObserver.observe(document.body, { childList: true, subtree: true });
+    },
+
     initReducedMotion() {
       const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
       const applyPreference = (event) => {
@@ -425,11 +494,16 @@
           disableAutoplay(document.documentElement);
           if (!this.motionObserver && 'MutationObserver' in window) {
             this.motionObserver = new MutationObserver((records) => {
-              records.forEach((record) => record.addedNodes.forEach((node) => {
-                if (node.nodeType === Node.ELEMENT_NODE) disableAutoplay(node);
-              }));
+              records.forEach((record) => {
+                if (record.type === 'attributes' && record.target.nodeType === Node.ELEMENT_NODE) disableAutoplay(record.target);
+                record.addedNodes.forEach((node) => {
+                  if (node.nodeType === Node.ELEMENT_NODE) disableAutoplay(node);
+                });
+              });
             });
-            this.motionObserver.observe(document.documentElement, { childList: true, subtree: true });
+            this.motionObserver.observe(document.documentElement, {
+              childList: true, subtree: true, attributes: true, attributeFilter: ['autoplay']
+            });
           }
         }
       };
