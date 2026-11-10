@@ -14760,3 +14760,17 @@ lookbook-element .banner__box .title-wrapper {
 .timeline-slider > .timeline {
   min-width: 0;
 }
+
+
+/* Visible keyboard focus for the horizontally scrollable product comparison table. */
+.pc-table_wrapper:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+@media (forced-colors: active) {
+  .pc-table_wrapper:focus-visible {
+    outline: 2px solid Highlight;
+    outline-offset: 3px;
+  }
+}
