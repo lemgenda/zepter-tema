@@ -1,0 +1,152 @@
+
+/* ==========================================================
+   Hyperlight Optics - WCAG 2.2 AA
+   Global accessibility layer
+   ========================================================== */
+
+/* Screen-reader-only content */
+.visually-hidden,
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Preserve visibility when focused */
+.skip-link:focus,
+.visually-hidden:focus,
+.sr-only:focus {
+  position: fixed !important;
+  top: 12px !important;
+  left: 12px !important;
+  width: auto !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 14px 20px !important;
+  overflow: visible !important;
+  clip: auto !important;
+  white-space: normal !important;
+  z-index: 1000000 !important;
+  background: #fff !important;
+  color: #111 !important;
+  border: 2px solid #111 !important;
+}
+
+/* Consistent keyboard focus */
+:where(
+  a,
+  button,
+  input,
+  select,
+  textarea,
+  summary,
+  [tabindex]:not([tabindex="-1"]),
+  [role="button"],
+  [role="link"]
+):focus-visible {
+  outline: 3px solid #155eef !important;
+  outline-offset: 3px !important;
+  box-shadow: 0 0 0 2px #fff !important;
+}
+
+/* Never remove keyboard focus globally */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Sticky header / focus visibility */
+html {
+  scroll-padding-top: calc(
+    var(--a11y-header-offset, 110px) + 16px
+  );
+}
+
+:where(
+  a,
+  button,
+  input,
+  select,
+  textarea,
+  summary,
+  [tabindex]:not([tabindex="-1"])
+) {
+  scroll-margin-top: calc(
+    var(--a11y-header-offset, 110px) + 16px
+  );
+}
+
+/* Minimum target size */
+@media (pointer: coarse) {
+  :where(
+    button,
+    input[type="button"],
+    input[type="submit"],
+    input[type="reset"],
+    [role="button"],
+    .search-drawer-button,
+    .cart-drawer-button,
+    .menu-drawer-button
+  ) {
+    min-width: 24px;
+    min-height: 24px;
+  }
+}
+
+/* Form errors */
+input[aria-invalid="true"],
+select[aria-invalid="true"],
+textarea[aria-invalid="true"] {
+  border: 2px solid #b42318 !important;
+}
+
+.a11y-error-message {
+  color: #b42318;
+  font-size: 0.875rem;
+  margin-top: 6px;
+}
+
+/* Informational messages */
+.alert--info {
+  color: #8a3b00;
+}
+
+.alert--success {
+  color: #365314;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Responsive layout */
+@media (max-width: 320px) {
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: clip;
+  }
+
+  img,
+  video,
+  iframe {
+    max-width: 100%;
+  }
+
+  .page-width {
+    max-width: 100%;
+  }
+}
