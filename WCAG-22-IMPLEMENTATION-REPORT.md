@@ -1,104 +1,117 @@
-# WCAG 2.2 AA — izvještaj implementacije
+# WCAG 2.2 AA — izvještaj implementacije i provjere
 
 **Repozitorij:** https://github.com/lemgenda/zepter-tema  
 **Grana:** `wcag-22`  
-**Polazni commit grane:** `cbf4dc79902a4b69a0db049e4af3a8f14a6926d3`  
-**Datum:** 10. 11. 2026.  
-**Opseg:** implementacija prioritetnih nalaza iz priloženog statičkog audita.
+**Datum ažuriranja:** 10. 11. 2026.  
+**Opseg:** popravci otvorenih stavki iz prethodne verzije izvještaja i dodavanje testnog workflowa.
 
 ## Sažetak
 
-Na grani `wcag-22` implementiran je skup ciljnih popravaka za zajednički fokusni mehanizam, globalne live-region poruke, modalne komponente, navigaciju, osnovnu validaciju kontaktne/newsletter forme i produktni zoom. Postojeće BEAE, Shine Pages, Shopify Customer Privacy i Auglio integracije nisu namjerno uklanjane.
+U ovom prolazu zatvoren je dodatni dio nedovršenih stavki: customer forme, adrese, newsletter i gift-card recipient validacija, najave promjena košarice, shipping calculator statusi, mobilne close kontrole, alternativni tekstovi ključnih storefront slika, reduced-motion ponašanje, osnovna semantika slideshowa, live najave odabira varijante i broja filtera te statički/browser testni workflow.
 
-Ovo nije potvrda WCAG 2.2 AA sukladnosti. Nisu izvršeni testovi na aktivnoj Shopify trgovini, s čitačima zaslona ili na svim breakpointima.
+**Važno:** potpuna WCAG 2.2 AA sukladnost još nije potvrđena. U ovom okruženju nije dostupan aktivni Shopify preview URL ni browser session za stvarno testiranje storefront DOM-a. GitHub Actions workflow je dodan, ali za zadnji commit nisu pronađeni izvršeni workflow runovi. Browser smoke testovi zato nisu označeni kao prošli.
 
-## Implementirane izmjene
+## Implementirane izmjene u ovom prolazu
 
-### 1. Fokusni mehanizam — `assets/theme.js`
+### 1. Customer, contact i newsletter forme
 
-- `getFocusableElements()` sada izuzima disabled/hidden elemente, elemente unutar `inert` i `aria-hidden="true"` stabala, CSS `display:none` / `visibility:hidden` elemente te elemente bez layout boxa.
-- Početni fokus bira vidljivi fokusabilni element; podržan je eksplicitni `[data-modal-focus]`.
-- Ako modal nema fokusabilne potomke, fokusira se sam modal (dodaje se `tabindex="-1"` ako nedostaje), bez poziva `.focus()` nad `undefined`.
-- Postojeći `theme.a11y` API i centralni focus-trap zadržani su; nije uveden drugi globalni trap.
+- `sections/main-login.liquid`: dodani su fokusabilni error summary blokovi za login i recovery forme; invalid email/password polja povezana su s odgovarajućim summaryjem. Ispravljen je case-sensitive fragment link za povratak na login (`#Login`).
+- `sections/main-register.liquid`: registracijske greške povezane su s email/password poljima, a error summary je fokusabilan.
+- `sections/main-reset-password.liquid` i `sections/main-activate-account.liquid`: invalid password polja povezana su s fokusabilnim error summaryjem.
+- `sections/main-activate-account.liquid`: cancel/decline submit kontrola sada šalje Shopifyjev `name="decline"` parametar.
+- `sections/contact-form.liquid`: email greška ima `aria-invalid` i `aria-describedby`; error summary je fokusabilan.
+- `snippets/newsletter-form.liquid`: error summary sada je valjan HTML wrapper s jedinstvenim ID-em, `data-a11y-error-summary` i `tabindex="-1"`. Time je uklonjen raniji pokušaj umetanja HTML `default_errors` sadržaja u inline `span`.
+- `sections/main-addresses.liquid`: dodani su fokusabilni error summary blokovi za create/edit address forme.
+- `snippets/gift-card-recipient-form.liquid`: email, ime, poruka i datum slanja imaju polju pridružene greške; error summary dobiva zajednički fokusni hook.
+- `snippets/shine-pages-gift-card-recipient-form.liquid`: Shine Pages error heading povezan je sa zajedničkim fokusnim hookom.
 
-### 2. Layouti i live regioni
+### 2. Fokus i modalni prozori
 
-- `layout/password.liquid`: dodani `accessibility.css`, `accessibility.js`, `#a11y-announcer` i `#a11y-alert`.
-- `layout/theme.liquid`: dodani lokalizirani `data-a11y-cart-added` i `data-a11y-cart-error` atributi na `body`.
-- `layout/beae.liquid`: dodani isti lokalizirani atributi na `body`; postojeći globalni accessibility asseti, live regioni i BEAE includeovi ostavljeni su na mjestu.
+- `assets/theme.js`: `getFocusableElements()` uključuje fokusabilne error summary elemente, tako da ih modalni focus trap može obuhvatiti.
+- `assets/accessibility.js`: fokusira vidljivi error summary; ako se summary nalazi u zatvorenom `x-modal`, `drawer-element`, `newsletter-modal` ili `quick-view` elementu, pokušava otvoriti modal prije fokusiranja.
+- Mobilne close kontrole više nisu skrivene na sljedećim komponentama:
+  - `sections/main-cart.liquid`
+  - `sections/pickup-availability.liquid`
+  - `snippets/facets-drawer.liquid`
+  - `snippets/product-variants.liquid`
+  - `sections/newsletter-popup.liquid`
+  - ranije popravljeni cart/search/help/address/product variant draweri
+- `sections/age-verifier.liquid` i `sections/cookie-banner.liquid`: uklonjen je `sr-only` s roditeljskog header wrappera close gumba kako bi kontrola mogla biti vizualno dostupna; modal semantika ostaje `aria-modal="true"`.
 
-### 3. Dinamičke poruke i forme
+### 3. Košarica i dinamički statusi
 
-- `snippets/alert.liquid`: error poruke koriste `role="alert"`; success poruke koriste `role="status"` i `aria-live="polite"`.
-- `sections/contact-form.liquid`: email polje dobiva `aria-invalid="true"` i `aria-describedby` vezu s porukom pogreške kada Shopify vrati email grešku.
-- `snippets/newsletter-form.liquid`: email polje dobiva `aria-invalid`, `aria-describedby` i fokus pri odgovarajućoj grešci.
-- `assets/accessibility.js`: AJAX dodavanje artikla koristi lokalizirane poruke iz `body` data atributa uz postojeći fallback. Postojeći `ajaxProduct:added` / `ajaxProduct:error` događaji ostaju integracijska točka.
+- `assets/accessibility.js`: dodane su live najave za `cart:updated` i `cart:error`; postojeće `ajaxProduct:added` i `ajaxProduct:error` najave zadržane su.
+- `assets/cart.js`: cart update greške sada emitiraju `cart:error`; shipping calculator success/error sadržaji imaju `role="status"` / `role="alert"`.
+- `sections/main-cart.liquid`: cart item slika dobiva fallback alt tekst iz naziva proizvoda; volume-pricing close kontrola nije skrivena na mobitelu.
+- `snippets/shine-pages-cart-drawer.liquid`: uklonjen je `aria-hidden="true"` s dinamičkog line-item error regiona, dodan je `role="alert"`; minus/plus kontrole imaju nazive; slike dobivaju fallback alt tekst.
+- Lokalizirane poruke za cart update dodane su u svih šest podržanih locale datoteka i izložene kroz `body` data atribute u glavnom i BEAE layoutu.
 
-### 4. Navigacija i modalni prozori
+### 4. Slike i alternativni tekst
 
-- `snippets/header-drawer.liquid`: mobilni izbornik dobiva dialog semantiku, pristupačno ime i označeni nav landmark; close kontrola nije više CSS-skrivena na mobilnim breakpointima.
-- `sections/header.liquid`: desktop landmarkovi koriste locale ključeve za Primary/Secondary navigaciju.
-- `snippets/header-nav-desktop.liquid`: uklonjen je link ugniježđen u `summary` i uklonjen `tabindex="-1"` s funkcionalnog parent linka; disclosure i navigacijski link sada su odvojene kontrole.
-- `sections/cart-drawer.liquid`, `sections/search-drawer.liquid`, `sections/help-drawer.liquid`, `sections/main-addresses.liquid`, `snippets/product-variant-picker.liquid`: close kontrole više nisu skrivene na mobilnim breakpointima.
-- `sections/help-drawer.liquid`: dodan je fallback za pristupačno ime ako heading postavka nije unesena.
-- `sections/cookie-banner.liquid`: ispravljen `aria-controls` close gumba s `AgeVerifier` na `CookieBanner`; dodan je stabilan naziv i modal semantika usklađena s fokusnim trapom.
-- `assets/cookie-banner.js`: cookie banner sada zaključava pozadinu dok je otvoren, čime je modal semantika usklađena s postojećim fokusnim trapom.
-- `sections/age-verifier.liquid`: postavljen `aria-modal="true"`, dodan stabilan naziv, uklonjena mobilna skrivenost close kontrole i označena primarna akcija s `data-modal-focus`.
+Dodani su kontekstualni fallback alt tekstovi za ključne slike u:
+- `snippets/product-card.liquid`
+- `snippets/product-thumbnail.liquid`
+- `snippets/product-media.liquid`
+- `snippets/collection-card.liquid`
+- `snippets/article-card.liquid`
+- `snippets/promotion-card.liquid`
+- `sections/slideshow.liquid`
+- `sections/main-cart.liquid`
+- `sections/newsletter-popup.liquid`
+- `sections/age-verifier.liquid`
+- `sections/cookie-banner.liquid`
+- `snippets/shine-pages-cart-drawer.liquid`
 
-### 5. Produktna galerija
+Ikone koje su dekorativne označene su praznim alt tekstom gdje je to primjereno. Ovo je ciljano popravljanje najvažnijih prikazanih komponenti, a ne dokaz da su sve slike u temi semantički pregledane.
 
-- `snippets/product-media.liquid`: uklonjen je `tabindex="-1"` s funkcionalne zoom kontrole kako bi bila dostupna u redoslijedu tipkovnice.
+### 5. Reduced motion, carousel i varijante
 
-### 6. Prijevodi
+- `assets/accessibility.js`: prati `prefers-reduced-motion`; kod uključenog reduced motion uklanja autoplay s postojećih i naknadno umetnutih slideshow/video elemenata, pauzira postojeće playere i aktivira observer za dinamički dodane komponente.
+- `assets/theme.js`: slideshow autoplay i automatsko pokretanje videa poštuju `theme.config.motionReduced`; kontrola pauze/play sinkronizira `aria-live`.
+- `sections/slideshow.liquid`: carousel ima region/roledescription/naziv; svaki slide je označena slide grupa; slike imaju alt fallback; autoplay kontrola uklanja neodgovarajući `aria-live` atribut s gumba.
+- `snippets/product-media-gallery.liquid`: featured media zoom kontrola više nema `tabindex="-1"`.
+- `snippets/product-variant-picker.liquid`: odabrana vrijednost varijante koristi polite live region.
+- `snippets/facets-drawer.liquid`: dinamički broj filtera koristi status live region.
 
-Dodani su prijevodi za nazive desktop navigacijskih landmarkova, disclosure naziv podizbornika i poruke o AJAX košarici u:
-- `locales/en.default.json`
-- `locales/de.json`
-- `locales/es.json`
-- `locales/fr.json`
-- `locales/it.json`
-- `locales/vi.json`
+### 6. CSS osnove
 
-## Djelomično implementirano / potrebna dodatna provjera
+- `assets/accessibility.css`: common button controls imaju minimalnu inline/block veličinu od 24 CSS px. Ovo je minimalni prag za kontrole, ne zamjena za pregled svih stvarnih targeta i iznimaka u kontekstu.
 
-- **Košarica:** dodavanje proizvoda i greška dodavanja imaju postojeće događaje i lokalizirani tekst. Uklanjanje artikla, promjena količine, cart refresh i greške iz svih alternativnih drawerova nisu povezani s jedinstvenim announcement flowom.
-- **Kontakt forma:** email greška je povezana s poljem; ostala polja i custom blockovi nemaju generičko mapiranje Shopify field errora na ID poruke. Sažetak pogrešaka nije programatski fokusiran.
-- **Newsletter:** greška je povezana s inputom, ali ID opisne poruke je pomoćni screen-reader element, dok se vidljivi alert zasebno renderira. Potrebna je provjera stvarnog DOM-a i čitača zaslona.
-- **Cookie banner:** semantika i ponašanje su usklađeni prema postojećem focus-trap/lock obrascu, ali accept/decline/Escape i stvarna Shopify Customer Privacy API integracija zahtijevaju runtime test.
-- **BEAE layout:** globalni sloj je uključen i live regije postoje. Dupli `content_for_header` i dva BEAE header toka nisu mijenjani jer audit traži potvrdu stvarnog DOM outputa prije diranja integracije.
-- **Navigacija:** prijevodi i osnovna semantika su popravljeni, ali sinkronizacija `aria-expanded`, otvaranje Enter/Space/klikom i Escape kroz sve podizbornike treba testirati u browseru.
-- **Modalni close gumbi:** uklonjena je mobilna skrivenost na ključnim komponentama, ali fizički touch targeti i prekrivanje fokusa nisu izmjereni.
+### 7. Testna infrastruktura
 
-## Nije implementirano u ovom prolazu
+Dodani su:
+- `.github/workflows/wcag-22.yml`: na push/pull request prema `wcag-22` pokreće Shopify Theme Check i JSON parse validaciju; manual `workflow_dispatch` s preview URL-om pokreće browser test.
+- `scripts/wcag-a11y-smoke.mjs`: Playwright + axe-core smoke test za desktop, 375 px i 320 px širine, uključujući WCAG axe pravila, prvi keyboard focus indikator, tekstualni spacing override, forced-colors/reduced-motion i popis malih interaktivnih targeta za ručni pregled.
 
-Sljedeće stavke iz audita nisu kompletno riješene i ostaju otvorene:
+### 8. Validacije izvršene u ovom prolazu
 
-1. `snippets/header-icons.liquid` i `sections/mobile-dock.liquid`: nije promijenjena semantika cart/search linkova u gumbe jer je potrebno potvrditi stvarno ponašanje otvaranja drawera i fallback navigacije u runtimeu.
-2. Potpuna standardizacija `aria-invalid`, `aria-describedby`, error ID-eva i fokusa grešaka u login, register, reset-password, activate-account, account, address, order, cart i gift-recipient formama.
-3. Shine Pages cart drawer i gift-card recipient tok nisu posebno popravljeni.
-4. Potpuni pregled alt tekstova za product/collection/article/promotion kartice, promo slike, cookie/age-verifier slike, media i ostale `image_tag` lokacije nije dovršen.
-5. Product thumbnail nazivi, swatch state/labeli, varijantne promjene cijene/dostupnosti i screen-reader statusi nisu kompletirani.
-6. Carousel/slider/video autoplay kontrola, reduced-motion, fokus i `aria-hidden` sinkronizacija nisu kompletno implementirani. Announcement bar već ima postojeću pause/play kontrolu, ali nije provjeren njen stvarni keyboard/runtime behavior.
-7. Facets/filteri, pickup availability, product recommendations, recently viewed, FAQ, footer, article/blog/search/pagination i ostale datoteke iz poglavlja 9 nisu kompletno auditirane/popravljenje.
-8. CSS SC 1.4.12 text-spacing override, kontrast svih stvarnih color-scheme kombinacija, target size 2.5.8 i focus-not-obscured 2.4.11 nisu potvrđeni mjerenjem.
-9. BEAE quickview, newsletter popup, Auglio, hCaptcha, vanjski iframeovi, Shopify checkout i hosted customer challenge nisu testirani niti mijenjani.
-10. Nisu dodani automatizirani axe-core/Lighthouse testovi niti testovi za focus trap, live announcements i Liquid render.
+- JSON datoteke `locales/en.default.json`, `de.json`, `es.json`, `fr.json`, `it.json` i `vi.json` uspješno su parsirane.
+- U svih šest locale datoteka potvrđeno je postojanje navigacijskih prijevoda i tri cart announcement ključa.
+- Statički su pregledani relevantni Liquid/JS/CSS dijelovi i potvrđene su promjene na grani.
+- **Nisu izvršeni** Shopify Theme Check, axe-core browser run, Playwright run, Liquid render, stvarni storefront test ili test s čitačem zaslona. Za zadnji commit nisu pronađeni GitHub Actions workflow runovi.
 
-## Testiranje i ograničenja
+## Preostale stavke / nije moguće potvrditi bez preview trgovine
 
-- Izvršena je inspekcija izvornog koda i primjena izmjena putem GitHub API-ja.
-- Nije pokrenut Shopify Theme Check, Liquid render, browser automation ni CI test suite.
-- Nije izvršeno testiranje s NVDA, VoiceOver ili TalkBack.
-- Nisu provjereni viewporti 320 CSS px, zoom 200%/400%, forced-colors, reduced-motion niti stvarne kontrastne vrijednosti.
-- Nije testirana produkcijska trgovina ni vanjske aplikacije.
+1. **Stvarni browser audit:** pokrenuti `workflow_dispatch` s javno dostupnim Shopify preview URL-om i putanjama koje uključuju stvarne product, collection, FAQ, contact, login, account, cart i search stranice. Trenutni smoke test defaultno provjerava home, all collections, cart i search.
+2. **Shopify Theme Check:** workflow je pripremljen, ali rezultat nije dostupan jer workflow nije izvršen. Liquid parser i Theme Check status stoga ostaju nepotvrđeni.
+3. **Ručni assistive technology testovi:** NVDA/Firefox, VoiceOver/Safari i TalkBack/Chrome nisu testirani. Potrebno je provjeriti redoslijed fokusa, izgovor, povrat fokusa, modal Escape/close i dinamičke najave.
+4. **Kontrast i theme schemes:** stvarne kombinacije foreground/background boja za sve merchant color schemes, overlaye, hover/focus/disabled stanja i button varijante nisu izmjerene.
+5. **Zoom/reflow:** 320 px reflow i tekstualni spacing override su u test harnessu; stvarni browser zoom 200%/400% i sadržaj na 320 CSS px još nisu testirani na storefrontu.
+6. **Target size 2.5.8:** skripta izlistava kontrole manje od 24 × 24 px; svaku stavku treba ručno provjeriti zbog WCAG iznimaka (inline, ekvivalentna kontrola, spacing i user-agent kontrola).
+7. **Product variant i pickup flow:** odabrana vrijednost varijante se najavljuje, ali cijena, dostupnost, SKU, inventory i pickup availability nakon AJAX promjene nisu ujednačeno najavljeni.
+8. **Facets/filteri:** count live region je dodan, ali stvarni rezultat nakon AJAX filtriranja, fokusni povratak, URL/history i kombinacije checkbox/swatch filtera trebaju browser test.
+9. **Product recommendations/recently viewed:** carousel keyboard operabilnost, aktivni slide state i dinamički sadržaj nisu kompletno popravljeni ni testirani.
+10. **Ostale slike:** sve ostale merchant-managed image settinge, article/blog, footer, map, promo i app-provided slike treba pregledati u stvarnom sadržaju. Fallback alt ne može zamijeniti dobar opis koji odgovara stvarnoj slici.
+11. **Third-party/hosted flows:** BEAE quickview/header, Shine Pages cart open/close/focus state, Auglio, hCaptcha, external video iframeovi, Shopify Customer Privacy API, checkout i hosted customer challenge nisu testirani niti mijenjani u ovoj iteraciji. Njihovo ponašanje ne treba mijenjati bez runtime provjere.
+12. **Cross-browser i responsive:** Safari, Firefox, Chromium, iOS/Android touch, forced colors i dinamičke Shopify theme editor section reload situacije nisu ručno testirane.
 
-## Preporučeni sljedeći koraci
+## Sljedeći koraci za zatvaranje
 
-1. Pokrenuti Shopify Theme Check i validaciju svih locale JSON datoteka.
-2. Testirati drawerove i fokusni trap tipkovnicom na desktopu i mobitelu, uključujući Escape i povrat fokusa.
-3. Izvršiti axe-core testove na početnoj, kolekciji, proizvodu, kontaktu, FAQ-u, loginu, cartu i searchu.
-4. Proći sve forme i dinamičke promjene uz NVDA/Firefox i VoiceOver/Safari.
-5. Dovršiti alt tekstove, swatcheve, varijante, carousel/video, facets, account i third-party komponente.
-6. Nakon popravaka ponoviti audit na aktivnom Shopify DOM-u.
+1. Pokrenuti workflow ručno s aktivnim preview URL-om i stvarnim putanjama proizvoda/kolekcija.
+2. Ispraviti sve Theme Check i axe nalaze te ponoviti CI.
+3. Proći tipkovnicu i screen reader kroz sve glavne tokove.
+4. Izmjeriti kontrast i target size u svim relevantnim stanjima.
+5. Testirati third-party integracije na stvarnoj trgovini.
+6. Tek nakon ponovljenog browser i ručnog audita ažurirati status na WCAG 2.2 AA verified.
 
-**Zaključak:** ova grana sadrži implementirane ciljane popravke za temeljni fokusni mehanizam i nekoliko ključnih globalnih komponenti, ali otvoreni popis iznad mora se zatvoriti i testirati prije bilo kakve tvrdnje o WCAG 2.2 AA sukladnosti.
+**Zaključak:** dodan je veći skup dodatnih implementacija i pripremljena je testna infrastruktura. Ipak, dok Theme Check i browser testovi ne budu stvarno izvršeni na aktivnoj Shopify preview trgovini i dok se ne zatvore third-party i ručni testovi, nije opravdano tvrditi da je tema WCAG 2.2 AA sukladna.
