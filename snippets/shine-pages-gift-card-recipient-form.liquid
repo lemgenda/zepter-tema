@@ -61,7 +61,7 @@
                 </label>
                 <input
                         class="sp-form-input"
-                        id="sp-recipient-email-{{ section.id }}"
+                        id="sp-recipient-email-{{ section.id }}"{% if form.errors contains 'email' %} aria-invalid="true"{% endif %}
                         type="email"
                         name="properties[Recipient email]"
                         placeholder=""
@@ -96,7 +96,7 @@
                         class="sp-form-input"
                         autocomplete="name"
                         type="text"
-                        id="sp-recipient-name-{{ section.id }}"
+                        id="sp-recipient-name-{{ section.id }}"{% if form.errors contains 'name' %} aria-invalid="true"{% endif %}
                         name="properties[Recipient name]"
                         value="{{ form.name }}"
                         placeholder=""
@@ -130,7 +130,7 @@
                 </label>
                 <textarea
                         rows="10"
-                        id="sp-recipient-message-{{ section.id }}"
+                        id="sp-recipient-message-{{ section.id }}"{% if form.errors contains 'message' %} aria-invalid="true"{% endif %}
                         class="sp-form-input"
                         name="properties[Message]"
                         placeholder=""
@@ -167,7 +167,7 @@
                         class="sp-form-input"
                         autocomplete="send_on"
                         type="date"
-                        id="sp-recipient-send-on-{{ section.id }}"
+                        id="sp-recipient-send-on-{{ section.id }}"{% if form.errors contains 'send_on' %} aria-invalid="true"{% endif %}
                         name="properties[Send on]"
                         placeholder=""
                         pattern="\d{4}-\d{2}-\d{2}"
