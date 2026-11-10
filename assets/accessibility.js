@@ -395,7 +395,8 @@
         const hidden = slide.getAttribute('aria-hidden') === 'true';
         if (hidden) {
           slide.setAttribute('inert', '');
-          slide.querySelectorAll('a[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"])').forEach((item) => {
+          slide.querySelectorAll('a[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"])').forEach((item) => item.setAttribute('tabindex', '-1'));
+          slide.querySelectorAll('a[href], area[href], button, input, select, textarea, iframe, audio[controls], video[controls], [tabindex]:not([tabindex="-1"])').forEach((item) => {
             if (!item.hasAttribute('data-a11y-original-tabindex')) {
               item.setAttribute('data-a11y-original-tabindex', item.getAttribute('tabindex') ?? '');
             }
@@ -432,7 +433,7 @@
     initAccessibleExternalLinks() {
       const labelLink = (link) => {
         if (link.hasAttribute('aria-label') || link.textContent.trim()) return;
-        if (link.querySelector('img[alt], svg[aria-label], [aria-label], .visually-hidden, .sr-only')) return;
+        if (link.querySelector('img[alt]:not([alt=""]), svg[aria-label], [aria-label], [title]')) return;
         try {
           const host = new URL(link.href, window.location.href).hostname.replace(/^www\./, '');
           link.setAttribute('aria-label', 'Visit ' + host + ' (opens in a new tab)');
@@ -468,6 +469,8 @@
               const control = document.querySelector('[is="control-button"][aria-controls="' + root.id + '"]');
               control?.setAttribute('paused', '');
               root.slider?.pausePlayer();
+              root.pause?.();
+              root.pause?.();
             }
 
             if (root.matches?.('slideshow-element[autoplay]')) {
