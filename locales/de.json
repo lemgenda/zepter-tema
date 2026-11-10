@@ -30,7 +30,9 @@
       "drag": "Ziehen",
       "cart_added_announcement": "Produkt wurde zum Warenkorb hinzugefügt.",
       "cart_error_announcement": "Produkt konnte nicht zum Warenkorb hinzugefügt werden.",
-      "cart_updated_announcement": "Dein Warenkorb wurde aktualisiert."
+      "cart_updated_announcement": "Dein Warenkorb wurde aktualisiert.",
+      "product_recommendations_loaded": "Produktempfehlungen geladen.",
+      "recently_viewed_loaded": "Zuletzt angesehene Produkte geladen."
     },
     "meta": {
       "tags": "Getaggt \"{{ tags }}\"",
@@ -216,7 +218,8 @@
     "header": {
       "primary_navigation": "Hauptnavigation",
       "secondary_navigation": "Sekundäre Navigation",
-      "expand_submenu": "Untermenü öffnen: {{ title }}"
+      "expand_submenu": "Untermenü öffnen: {{ title }}",
+      "back_to_menu": "Zurück zu {{ title }}"
     },
     "newsletter-popup": {
       "name": "Newsletter-Anmeldung"
