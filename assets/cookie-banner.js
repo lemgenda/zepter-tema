@@ -10,6 +10,10 @@ class CookieBanner extends ModalElement {
     }
   }
 
+  get shouldLock() {
+    return true;
+  }
+
   get testMode() {
     return this.getAttribute('data-test-mode') === 'true';
   }
