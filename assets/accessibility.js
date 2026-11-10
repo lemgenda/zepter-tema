@@ -89,7 +89,8 @@
         if (
           (style.position !== 'fixed' && style.position !== 'sticky') ||
           style.display === 'none' ||
-          style.visibility === 'hidden'
+          style.visibility === 'hidden' ||
+          Number(style.opacity) === 0
         ) return;
 
         const rect = element.getBoundingClientRect();
