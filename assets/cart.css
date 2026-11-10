@@ -1,4 +1,3 @@
-.cart.is-empty .title-wrapper,
 .cart:not(.is-empty) .empty-state {
   display: none;
 }
