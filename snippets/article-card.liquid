@@ -1,3 +1,4 @@
+{%- assign article_image_alt = article.image.alt | default: article.title -%}
 <div class="card article-card relative flex flex-col gap-5 md:gap-8 leading-none{% if article.image == blank %} without-image{% endif %}">
   {%- if article.image != blank -%}
     <div class="article-card__media relative overflow-hidden">
@@ -16,7 +17,7 @@
       {%- endif -%}
 
       <a href="{{ article.url }}" class="article-card__link block relative media media--{{ image_ratio }}" aria-label="{{ article.title | escape }}" tabindex="-1">
-        {{- article.image | image_url: width: article.image.width | image_tag: loading: 'lazy', widths: '180,360,540,720,900,1080,1600', is: 'lazy-image', class: 'article-card__image' -}}
+        {{- article.image | image_url: width: article.image.width | image_tag: loading: 'lazy', widths: '180,360,540,720,900,1080,1600', alt: article_image_alt, is: 'lazy-image', class: 'article-card__image' -}}
       </a>
     </div>
   {%- endif -%}
