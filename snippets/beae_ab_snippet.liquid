@@ -1,0 +1,62 @@
+{% comment %} Snippet for run A/B testing with Beae {% endcomment %}
+{% comment %} This snippet render by Beae - Landing page builder to use function of Google Analytic 4 {% endcomment %}
+{% unless beae_helper %}
+    {% if shop.metafields.beae.measurement_id %}
+    {% assign beae_helper = false %}
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ shop.metafields.beae.measurement_id }}"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', '{{ shop.metafields.beae.measurement_id }}', { groups: 'beae' });
+    </script>
+    {% endif %}
+    <script>
+        window.addEventListener('load', () => {
+            // fallback for gtag when not initialized
+            if (typeof window.gtag !== 'function') {
+                window.gtag = (str1, str2, obj) => {
+                }
+            }
+        })
+        function sendAnalyticsEvents() {
+            const storageKey = "BEAE__ANALYTIC__EVENT";
+            let events = JSON.parse(localStorage.getItem(storageKey)) || [];
+            if (events.length === 0) return;
+            events.forEach(event => {
+                gtag("event", event.name, Object.assign(
+                    {
+                        app_event: "beae",
+                        send_to: "beae",
+                        template_event: "{{ template }}"
+                    }, event));
+            });
+            localStorage.setItem(storageKey, JSON.stringify([]));
+        }
+        function getCookie(name) {
+            let match = document.cookie.match(RegExp(`(?:^|; )${name}=([^;]*)`));
+            return match ? decodeURIComponent(match[1]) : null;
+        }
+        function setCookie(name, value, days) {
+            let expires = new Date();
+            expires.setTime(expires.getTime() + 864e5 * days);
+            document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires.toUTCString()}; path=/`;
+        }
+        function handleCampaign(cookieName, threshold, redirectPath) {
+            let cookieValue = getCookie(cookieName);
+    
+            if (!cookieValue) {
+                cookieValue = Math.floor(Math.random() * 101);
+                setCookie(cookieName, cookieValue, 365);
+            }
+    
+            if (Number(cookieValue) > threshold) {
+                window.location.href = `${window.location.origin}${window.location.pathname}${redirectPath}`;
+            }
+        }
+        setInterval(sendAnalyticsEvents, 100);
+    </script>
+    {% assign beae_helper = true %}{% endunless %}
+    
+    <!-- Start campaign -->
