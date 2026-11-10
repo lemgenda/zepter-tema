@@ -2475,6 +2475,16 @@ class RecentlyViewed extends HTMLElement {
         const recommendations = sectionInnerHTML.querySelector('recently-viewed');
         if (recommendations && recommendations.innerHTML.trim().length) {
           this.innerHTML = recommendations.innerHTML;
+          const announcement = this.getAttribute('data-a11y-loaded-message');
+          if (announcement) {
+            const status = document.createElement('p');
+            status.className = 'sr-only';
+            status.setAttribute('role', 'status');
+            status.setAttribute('aria-live', 'polite');
+            status.setAttribute('aria-atomic', 'true');
+            status.textContent = announcement;
+            this.prepend(status);
+          }
           this.dispatchEvent(new CustomEvent('recentlyViewed:loaded'));
         }
         else {
@@ -2522,6 +2532,16 @@ class ProductRecommendations extends HTMLElement {
         const recommendations = sectionInnerHTML.querySelector('product-recommendations');
         if (recommendations && recommendations.innerHTML.trim().length) {
           this.innerHTML = recommendations.innerHTML;
+          const announcement = this.getAttribute('data-a11y-loaded-message');
+          if (announcement) {
+            const status = document.createElement('p');
+            status.className = 'sr-only';
+            status.setAttribute('role', 'status');
+            status.setAttribute('aria-live', 'polite');
+            status.setAttribute('aria-atomic', 'true');
+            status.textContent = announcement;
+            this.prepend(status);
+          }
           this.dispatchEvent(new CustomEvent('recommendations:loaded'));
         }
         else {
