@@ -597,5 +597,23 @@
   },
   "date_formats": {
     "month_day_year": "%d de %B, %Y"
+  },
+  "shinepages": {
+    "contact": {
+      "form": {
+        "error_heading": "Corrige los siguientes errores:"
+      }
+    },
+    "recipient": {
+      "form": {
+        "checkbox": "Quiero enviar esto como regalo",
+        "email_label": "Correo electrónico de la persona destinataria",
+        "email_label_optional_for_no_js_behavior": "Correo electrónico de la persona destinataria (opcional)",
+        "name_label": "Nombre de la persona destinataria (opcional)",
+        "max_characters": "Máximo {{ max_chars }} caracteres",
+        "message_label": "Mensaje (opcional)",
+        "send_on_label": "Enviar el (opcional)"
+      }
+    }
   }
 }
