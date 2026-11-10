@@ -30,7 +30,9 @@
       "drag": "Arrastrar",
       "cart_added_announcement": "Producto añadido al carrito.",
       "cart_error_announcement": "No se pudo añadir el producto al carrito.",
-      "cart_updated_announcement": "Tu carrito se ha actualizado."
+      "cart_updated_announcement": "Tu carrito se ha actualizado.",
+      "product_recommendations_loaded": "Recomendaciones de productos cargadas.",
+      "recently_viewed_loaded": "Productos vistos recientemente cargados."
     },
     "meta": {
       "tags": "Etiquetado \"{{ tags }}\"",
@@ -216,7 +218,8 @@
     "header": {
       "primary_navigation": "Navegación principal",
       "secondary_navigation": "Navegación secundaria",
-      "expand_submenu": "Ampliar submenú: {{ title }}"
+      "expand_submenu": "Ampliar submenú: {{ title }}",
+      "back_to_menu": "Volver a {{ title }}"
     },
     "newsletter-popup": {
       "name": "Suscripción al boletín"
