@@ -73,8 +73,8 @@
                                                 <h4 class="sp-predictive-search-object-item-heading body-font">{{ product.title }}</h4>
                                                 <div class="sp-product-card-price sp-predictive-search-object-item-price body-font
                                                 {%- if product.available == false %} price-sold-out{% endif -%}
-                                                {%- if product.compare_at_price > price and product.quantity_price_breaks_configured? != true %} price-on-sale{% endif -%}
-                                                {%- if product.compare_at_price > price and product.quantity_price_breaks_configured? %} volume-pricing-sale-badge{% endif -%}
+                                                {%- if product.compare_at_price > product.price and product.quantity_price_breaks_configured? != true %} price-on-sale{% endif -%}
+                                                {%- if product.compare_at_price > product.price and product.quantity_price_breaks_configured? %} volume-pricing-sale-badge{% endif -%}
                                                 {%- if product.price_varies == false and product.compare_at_price_varies %} price-no-compare{% endif -%}
                                               ">
                                                 <span class="price-item price-item--sale price-item--last">
@@ -99,7 +99,8 @@
                                                 <div class="sp-predictive-search-object-item-image">
                                                     <img src="{{ collection.featured_image | image_url: width: 1024 }}"
                                                          alt="{{ collection.featured_image.alt }}"
-                                                         width="1024">
+                                                         width="1024"
+                                                         height="{{ 1024 | divided_by: collection.featured_image.aspect_ratio | round }}">
                                                 </div>
                                             {%- endif -%}
                                             <div class="sp-predictive-search-object-item-content">
