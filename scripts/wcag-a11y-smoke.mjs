@@ -7,7 +7,19 @@ if (!baseUrl) {
   process.exit(2);
 }
 
-const paths = (process.env.WCAG_TEST_PATHS || '/,/collections/all,/cart,/search?q=wcag')
+const defaultPaths = [
+  '/',
+  '/products/rio-havana',
+  '/collections/all',
+  '/collections/outdoor',
+  '/pages/faq',
+  '/pages/contact',
+  '/account/login',
+  '/account',
+  '/cart',
+  '/search?q=glasses',
+];
+const paths = (process.env.WCAG_TEST_PATHS || defaultPaths.join(','))
   .split(',')
   .map((path) => path.trim())
   .filter(Boolean);
