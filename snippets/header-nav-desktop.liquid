@@ -25,8 +25,8 @@
     {%- if enable_mega_menu -%}
       <li>
         <details is="details-mega" trigger="{% if section.settings.hover_menu %}hover{% else %}click{% endif %}" level="top" {{ mega_menu_block.shopify_attributes }}>
-          <summary data-link="{{ link.url }}">
-            <magnet-element class="menu__item text-sm-lg flex items-center font-medium z-2 relative cursor-pointer"{% if section.settings.menu_active == 'block' %} data-magnet="0"{% endif %}>
+          <summary data-link="{{ link.url }}" aria-label="{{ link.title | escape }}">
+            <magnet-element aria-hidden="true" class="menu__item text-sm-lg flex items-center font-medium z-2 relative cursor-pointer"{% if section.settings.menu_active == 'block' %} data-magnet="0"{% endif %}>
               <span class="btn-text" data-text>
                 {%- liquid
                   echo link.title
@@ -119,7 +119,7 @@
       </li>
     {%- else -%}
       <li>
-        <a href="{{ link.url }}" class="menu__item text-sm-lg flex items-center font-medium z-2 relative cursor-pointer" is="magnet-link"{% if section.settings.menu_active == 'block' %} data-magnet="0"{% endif %}>
+        <a href="{{ link.url }}" aria-label="{{ link.title | escape }}" class="menu__item text-sm-lg flex items-center font-medium z-2 relative cursor-pointer" is="magnet-link"{% if section.settings.menu_active == 'block' %} data-magnet="0"{% endif %}>
           <span class="btn-text" data-text>{{ link.title }}</span>
           {%- if section.settings.menu_active == 'block' -%}
             <span class="btn-text btn-duplicate" aria-hidden="true">{{ link.title }}</span>
