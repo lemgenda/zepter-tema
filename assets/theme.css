@@ -14720,3 +14720,38 @@ lookbook-element .banner__box .title-wrapper {
     object-fit: contain;
   }
 }
+
+/* WCAG: contain the transformed timeline track, not only its cards. */
+slider-element:has(> motion-list.timeline) {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow: clip;
+}
+
+slider-element:has(> motion-list.timeline) > motion-list.timeline {
+  min-width: 0;
+}
+
+/* WCAG: footer localization controls must fit narrow viewports. */
+@media screen and (max-width: 767px) {
+  .footer-copyright .localization {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .footer-copyright .localization__form {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .footer-copyright .localization__item {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+}
