@@ -392,25 +392,7 @@
     },
 
     refreshHeaderObserver() {
-      if (this.headerObserver) {
-        this.headerObserver.disconnect();
-        this.headerObserver = null;
-      }
-
-      this.updateHeaderOffset();
-
-      const header = this.getHeaderElement();
-
-      if (
-        header &&
-        'ResizeObserver' in window
-      ) {
-        this.headerObserver = new ResizeObserver(() => {
-          this.updateHeaderOffset();
-        });
-
-        this.headerObserver.observe(header);
-      }
+      this.initHeaderOffset();
     },
 
     /* ----------------------------------------------------------------------
