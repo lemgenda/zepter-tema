@@ -218,6 +218,19 @@ textarea[aria-invalid="true"],
   }
 }
 
+/* WCAG 2.5.8: provide a 24 CSS-pixel minimum for compact controls.
+   Larger component-specific hit areas remain preferable where layout allows. */
+:where(
+  button,
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"],
+  [role="button"]
+) {
+  min-inline-size: 24px;
+  min-block-size: 24px;
+}
+
 /* --------------------------------------------------------------------------
    9. Images and embedded media
    -------------------------------------------------------------------------- */
