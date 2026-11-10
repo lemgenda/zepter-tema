@@ -77,12 +77,12 @@ Ikone koje su dekorativne označene su praznim alt tekstom gdje je to primjereno
 
 - `snippets/header-nav-drawer.liquid`: back kontrole imaju kontekstualni naziv na svim podržanim jezicima; promo slike su dekorativne kada je link već imenovan tekstom.
 - `assets/theme.js`: zatvaranje podizbornika vraća fokus na pripadajući `summary`.
-- `snippets/predictive-search.liquid`: uklonjen je neprikladan `role="listbox"` s rezultata koji nisu implementirani kao ARIA listbox; rezultati su imenovana regija, a broj rezultata/nema rezultata koristi status najavu.
+- `snippets/predictive-search.liquid` i `assets/search.js`: uklonjen je neprikladan `role="listbox"` s rezultata koji nisu implementirani kao ARIA listbox; input je povezan s imenovanom regijom, a `aria-expanded` prati prikaz rezultata. Broj rezultata/nema rezultata koristi status najavu.
 - `snippets/pagination.liquid`: pagination je imenovani `nav` landmark; `aria-current="page"` primjenjuje se samo na trenutačnu stranicu, ne na prethodnu/sljedeću ili obične linkove.
 - `sections/main-search.liquid`: redundantna slika-link kartice članka uklonjena je iz tab-redoslijeda i accessibility treea jer naslov članka već daje isto odredište.
-- `sections/product-recommendations.liquid` i `sections/recently-viewed.liquid`: slideri su imenovane carousel regije, a JS dodaje polite status nakon asinkronog učitavanja.
+- `sections/product-recommendations.liquid` i `sections/recently-viewed.liquid`: slideri su imenovane carousel regije, a JS dodaje polite status nakon asinkronog učitavanja. Generički slider ograničava fokus na vidljive kartice, a prethodna/sljedeća kontrola ostaje dostupna.
 - `sections/announcement-bar.liquid`: announcement bar je imenovani carousel region; pojedinačne objave imaju slide semantiku, autoplay kontrola postoji i kad je navigacija isključena, a aktivni slide state upravlja `aria-hidden` i `inert`.
-- `assets/theme.js`: announcement i slideshow carouseli sinkroniziraju aktivni slide, uklanjaju neaktivne slideove iz fokusa i pauziraju rotaciju kad tipkovnički fokus uđe u slide.
+- `assets/theme.js`: announcement i slideshow carouseli sinkroniziraju aktivni slide, uklanjaju neaktivne slideove iz fokusa i pauziraju rotaciju kad tipkovnički fokus uđe u slide. Generički `slider-element` sada postavlja `aria-hidden`/`inert` na horizontalno izvan-viewport kartice, uz iznimku kartice koja još sadrži fokus; vidljivost se osvježava pri scrollu, resizeu i focusoutu.
 - `snippets/facets-drawer.liquid`: broj filtera koristi status live region; `snippets/facets.liquid` više nema dupli `class` atribut na image facet inputu.
 - `snippets/pickup-availability.liquid`: promjena dostupnosti preuzimanja izložena je kao polite status.
 
@@ -132,7 +132,7 @@ Dodani su:
 6. **Target size 2.5.8:** skripta izlistava kontrole manje od 24 × 24 px; svaku stavku treba ručno provjeriti zbog WCAG iznimaka (inline, ekvivalentna kontrola, spacing i user-agent kontrola).
 7. **Product variant i pickup flow:** odabrana vrijednost varijante se najavljuje, ali cijena, dostupnost, SKU, inventory i pickup availability nakon AJAX promjene nisu ujednačeno najavljeni.
 8. **Facets/filteri:** count live region je dodan, ali stvarni rezultat nakon AJAX filtriranja, fokusni povratak, URL/history i kombinacije checkbox/swatch filtera trebaju browser test.
-9. **Product recommendations/recently viewed:** imenovane carousel regije i load statusi su dodani; keyboard operabilnost, aktivni slide state i stvarni screen-reader izgovor još trebaju browser test.
+9. **Product recommendations/recently viewed:** imenovane carousel regije, load statusi i inert/aria-hidden upravljanje izvan-viewport karticama su implementirani; stvarna keyboard operabilnost, screen-reader izgovor i scroll/focus interakcija još trebaju browser test.
 10. **Ostale slike:** sve ostale merchant-managed image settinge, article/blog, footer, map, promo i app-provided slike treba pregledati u stvarnom sadržaju. Fallback alt ne može zamijeniti dobar opis koji odgovara stvarnoj slici.
 11. **Third-party/hosted flows:** BEAE quickview/header, Shine Pages cart open/close/focus state, Auglio, hCaptcha, external video iframeovi, Shopify Customer Privacy API, checkout i hosted customer challenge nisu testirani niti mijenjani u ovoj iteraciji. Njihovo ponašanje ne treba mijenjati bez runtime provjere.
 12. **Cross-browser i responsive:** Safari, Firefox, Chromium, iOS/Android touch, forced colors i dinamičke Shopify theme editor section reload situacije nisu ručno testirane.
