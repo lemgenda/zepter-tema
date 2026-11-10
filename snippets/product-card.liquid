@@ -25,6 +25,7 @@
 {%- if product != blank -%}
   {%- liquid
     assign featured_media = product.featured_media
+    assign featured_media_alt = featured_media.alt | default: product.title
 
     assign product_url = product.url | within: collection
     if settings.product_disable_collection_portion
@@ -101,14 +102,15 @@
               <template>
                 {%- for media in product.media limit: 4 -%}
                   <div class="media media--height{% unless image_fill %} media--contain{% endunless %} w-full h-full overflow-hidden">
-                    {{- media | image_url: width: media.width | image_tag: loading: 'lazy', widths: '180,360,540,720,900,1080', is: 'lazy-image' -}}
+                    {%- assign product_media_alt = media.alt | default: product.title -%}
+                    {{- media | image_url: width: media.width | image_tag: loading: 'lazy', widths: '180,360,540,720,900,1080', alt: product_media_alt, is: 'lazy-image' -}}
                   </div>
                 {%- endfor -%}
               </template>
               <secondary-media class="product-card__carousel block absolute top-0 left-0 w-full h-full hidden md:block"></secondary-media>
             {%- endif -%}
 
-            {{- featured_media | image_url: width: featured_media.width | image_tag: loading: 'lazy', widths: '180,360,540,720,900,1080', is: 'lazy-image' -}}
+            {{- featured_media | image_url: width: featured_media.width | image_tag: loading: 'lazy', widths: '180,360,540,720,900,1080', alt: featured_media_alt, is: 'lazy-image' -}}
           {%- else -%}
             {%- render 'product-video',
               video: featured_media,
