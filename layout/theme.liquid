@@ -1,0 +1,143 @@
+{%- capture direction -%}{% render 'direction' %}{%- endcapture -%}
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}" dir="{{ direction }}">
+<head>
+<!-- BEAE-GLOBAL-FONT --> 
+{% capture the_snippet_global_font %}{% include 'beae-global-font' %}{% endcapture %} {% unless the_snippet_global_font contains 'Liquid error' %} {{ the_snippet_global_font }} {% endunless %} 
+ <!-- END BEAE-GLOBAL-FONT -->
+<!-- BEAE-HEADER --> 
+{%- render 'beae_header' -%}
+<!-- END BEAE-HEADER -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="{{ settings.color_button_background }}">
+  <link rel="canonical" href="{{ canonical_url }}">
+  <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+  {% # theme-check-disable RemoteAsset %}
+  <link rel="dns-prefetch" href="https://ajax.googleapis.com">
+  <link rel="dns-prefetch" href="https://maps.googleapis.com">
+  <link rel="dns-prefetch" href="https://maps.gstatic.com">
+  {% # theme-check-enable RemoteAsset %}
+
+  {%- if settings.favicon != blank -%}
+    <link rel="shortcut icon" href="{{ settings.favicon | image_url: width: 32, height: 32 }}" type="image/png" />
+  {%- endif -%}
+
+  <title>
+    {{- page_title -}}
+    {%- if current_tags -%}
+      {%- assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags -}}
+    {%- endif -%}
+    {%- if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif -%}
+    {%- if template == 'password' -%}
+      {{- shop.name -}}
+    {%- else -%}
+      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+    {%- endif -%}
+  </title>
+
+  {%- if page_description -%}
+    <meta name="description" content="{{ page_description | escape }}">
+  {%- endif -%}
+
+  {%- liquid
+    render 'social-meta-tags'
+    
+    render 'css-variables'
+    echo 'theme.css' | asset_url | stylesheet_tag: preload: true
+    
+    if direction == 'rtl'
+      echo 'rtl.css' | asset_url | stylesheet_tag: preload: true
+    endif
+  -%}
+
+  <link rel="stylesheet" href="{{ 'apps.css' | asset_url }}" media="print" fetchpriority="low" onload="this.media='all'">
+
+  {{ content_for_header }}
+
+  <script src="{{ 'vendor.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
+
+  {%- if request.page_type contains 'customers/' -%}
+    <script src="{{ 'shopify_common.js' | shopify_asset_url }}" defer="defer"></script>
+  {%- endif -%}
+
+  {%- render 'js-variables' -%}
+</head>
+
+<body class="template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}{% if request.path == '/challenge' %} template-challange{% endif %}{% if request.design_mode %} shopify-design-mode{% endif %}" data-rounded-button="{{ settings.rounded_button }}" data-rounded-input="{{ settings.rounded_input }}" data-rounded-block="{{ settings.rounded_block }}" data-rounded-card="{{ settings.rounded_card }}" data-button-hover="{{ settings.buttons_hover }}"{% if settings.enable_lazy_image %} data-lazy-image{% endif %} data-title-animation data-page-rendering>
+  <a class="sr-only skip-link" href="#MainContent">{{ 'general.accessibility.skip_to_content' | t }}</a>
+
+  {%- liquid
+    if settings.enable_page_transition
+      render 'loading-bar'
+    endif
+    
+    render 'mouse-cursor'
+
+    sections 'header-group'
+    sections 'overlay-group'
+  -%}
+
+  <div class="page-container" id="PageContainer">
+    <main class="main-content relative" id="MainContent" role="main">
+      {{ content_for_layout }}
+    </main>
+
+    <footer-group class="footer-group block w-full">
+      {%- sections 'footer-group' -%}
+    </footer-group>
+  </div>
+
+  <ul hidden>
+    <li id="a11y-refresh-page-message">{{ 'general.accessibility.refresh_page' | t }}</li>
+    <li id="a11y-new-window-message">{{ 'general.accessibility.link_messages.new_window' | t }}</li>
+  </ul>
+
+  {%- if request.design_mode == false -%}
+    <script src="{{ 'instant-page.js' | asset_url }}" type="module" fetchpriority="low" defer="defer"></script>
+  {%- endif -%}
+
+<!-- BEAE-FOOTER --> 
+{%- render 'beae_footer' -%}
+<!-- END BEAE-FOOTER -->
+<!-- BEAE-AB-SNIPPET --> 
+{%- render 'beae_ab_snippet' -%}
+<!-- BEAE-AB-SNIPPET -->
+  <!-- Auglio-->
+  <script src="//m.auglio.com/c30b0804a538811ae2837b14bcb83a2f" async></script>
+
+
+<script>
+(function() {
+  var params = new URLSearchParams(window.location.search);
+  var isFromZepter = params.get('ref') === 'zepter';
+  var returnUrl = params.get('return');
+
+  if (!isFromZepter) {
+    return;
+  }
+
+  var btn = document.createElement('a');
+  btn.href = returnUrl || 'https://www.zepter.com';
+  btn.innerText = '← Back to Zepter';
+  btn.style.position = 'fixed';
+  btn.style.top = '20px';
+  btn.style.right = '20px';
+  btn.style.zIndex = '999999999';
+  btn.style.background = '#ffffff';
+  btn.style.color = '#000000';
+  btn.style.padding = '12px 18px';
+  btn.style.border = '1px solid #ddd';
+  btn.style.borderRadius = '999px';
+  btn.style.fontSize = '14px';
+  btn.style.fontWeight = '600';
+  btn.style.textDecoration = 'none';
+
+  document.body.appendChild(btn);
+})();
+</script>
+</body>
+</html>
