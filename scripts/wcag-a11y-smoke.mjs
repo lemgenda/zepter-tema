@@ -175,6 +175,66 @@ try {
             });
         });
 
+        // The first overflow list can be dominated by intentionally off-canvas
+        // slider slides. Report the actual page-width boundary separately and
+        // collapse descendants so the element expanding the document is visible.
+        result.diagnostics.pageWidthCandidates = await page.evaluate(() => {
+          const viewportWidth = document.documentElement.clientWidth;
+          const documentWidth = document.documentElement.scrollWidth;
+          const describe = (element) => {
+            const rect = element.getBoundingClientRect();
+            const style = getComputedStyle(element);
+            const ancestors = [];
+            let parent = element.parentElement;
+            while (parent && parent !== document.body) {
+              const parentRect = parent.getBoundingClientRect();
+              const parentStyle = getComputedStyle(parent);
+              ancestors.push({
+                tag: parent.tagName,
+                id: parent.id || null,
+                className: typeof parent.className === 'string' ? parent.className : '',
+                left: Math.round(parentRect.left),
+                right: Math.round(parentRect.right),
+                width: Math.round(parentRect.width),
+                scrollWidth: parent.scrollWidth,
+                clientWidth: parent.clientWidth,
+                overflowX: parentStyle.overflowX,
+              });
+              parent = parent.parentElement;
+            }
+            return {
+              tag: element.tagName,
+              id: element.id || null,
+              className: typeof element.className === 'string' ? element.className : '',
+              text: (element.getAttribute('aria-label') || element.textContent || '').trim().slice(0, 100),
+              left: Math.round(rect.left),
+              right: Math.round(rect.right),
+              width: Math.round(rect.width),
+              scrollWidth: element.scrollWidth,
+              clientWidth: element.clientWidth,
+              overflowX: style.overflowX,
+              outerHTML: element.outerHTML.slice(0, 500),
+              ancestors: ancestors.slice(0, 8),
+            };
+          };
+          const candidates = Array.from(document.querySelectorAll('body *')).filter((element) => {
+            const rect = element.getBoundingClientRect();
+            const style = getComputedStyle(element);
+            return rect.width > 0 && rect.height > 0 && style.position !== 'fixed' &&
+              rect.right > viewportWidth + 1 && rect.left < documentWidth + 1 &&
+              rect.right <= documentWidth + 2;
+          });
+          const roots = candidates.filter((element) =>
+            !candidates.some((candidate) => candidate !== element && candidate.contains(element))
+          );
+          return {
+            viewportWidth,
+            documentWidth,
+            bodyScrollWidth: document.body.scrollWidth,
+            candidates: roots.slice(0, 20).map(describe),
+          };
+        });
+
         await page.emulateMedia({ forcedColors: 'active' });
         await page.waitForTimeout(250);
         result.reducedMotion = await page.evaluate(() => ({
