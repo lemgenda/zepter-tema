@@ -32,7 +32,9 @@
       "cart_error_announcement": "Produkt konnte nicht zum Warenkorb hinzugefügt werden.",
       "cart_updated_announcement": "Dein Warenkorb wurde aktualisiert.",
       "product_recommendations_loaded": "Produktempfehlungen geladen.",
-      "recently_viewed_loaded": "Zuletzt angesehene Produkte geladen."
+      "recently_viewed_loaded": "Zuletzt angesehene Produkte geladen.",
+      "product_recommendations": "Produktempfehlungen",
+      "recently_viewed_products": "Zuletzt angesehene Produkte"
     },
     "meta": {
       "tags": "Getaggt \"{{ tags }}\"",
