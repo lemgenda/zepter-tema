@@ -622,5 +622,23 @@
     "links": {
       "powered_by_shopify": " "
     }
+  },
+  "shinepages": {
+    "contact": {
+      "form": {
+        "error_heading": "Please correct the following errors:"
+      }
+    },
+    "recipient": {
+      "form": {
+        "checkbox": "I want to send this as a gift",
+        "email_label": "Recipient email",
+        "email_label_optional_for_no_js_behavior": "Recipient email (optional)",
+        "name_label": "Recipient name (optional)",
+        "max_characters": "{{ max_chars }} characters max",
+        "message_label": "Message (optional)",
+        "send_on_label": "Send on (optional)"
+      }
+    }
   }
 }
