@@ -2209,6 +2209,7 @@ class MenuDetails extends HTMLDetailsElement {
       }
       else {
         this.removeAttribute('open');
+        this.summary.focus({ preventScroll: true });
       }
     }
 
