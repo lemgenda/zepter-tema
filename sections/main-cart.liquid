@@ -94,7 +94,7 @@
                           <div class="flex items-center gap-4d5 md:gap-10">
                             {%- if item.image -%}
                               <a class="cart-item__media media relative overflow-hidden flex-auto" href="{{ item.url }}" tabindex="-1">
-                                {{- item.image | image_url: width: item.image.width | image_tag: loading: 'lazy', widths: '180,360,540', is: 'lazy-image' -}}
+                                {{- item.image | image_url: width: item.image.width | image_tag: loading: 'lazy', widths: '180,360,540', alt: item.image.alt | default: item.product.title, is: 'lazy-image' -}}
                               </a>
                             {%- endif -%}
                             
@@ -299,7 +299,7 @@
                                             </dl>
                                           {%- endunless -%}
                                         </span>
-                                        <button class="button button--secondary button--close drawer__close hidden sm:flex items-center justify-center" type="button" is="hover-button" aria-controls="VolumePricing-{{ section.id }}-{{ item.key }}" aria-expanded="false" aria-label="{{ 'general.accessibility.close' | t | escape }}">
+                                        <button class="button button--secondary button--close drawer__close flex items-center justify-center" type="button" is="hover-button" aria-controls="VolumePricing-{{ section.id }}-{{ item.key }}" aria-expanded="false" aria-label="{{ 'general.accessibility.close' | t | escape }}">
                                           <span class="btn-fill" data-fill></span>
                                           <span class="btn-text">
                                             {%- render 'icon', icon: 'close', size: 'sm' -%}
