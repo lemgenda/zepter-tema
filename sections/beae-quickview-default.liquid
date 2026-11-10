@@ -544,7 +544,7 @@ id="beae-variant-selector-{{section.id}}-beae-wzeubsdv"
 ],
 "shopColors": {{ shop.metafields.beae.colors }}
 }
-</script><script src="https://cdn.beae.com/vendors/js-v2/shopify_option_selection.min.js"></script><!----><script type="text/javascript">window.BEAEARGS['beae-wzeubsdvsection-featured-product'] = {
+</script><script src="https://cdn.beae.com/vendors/js-v2/shopify_option_selection.min.js" defer></script><!----><script type="text/javascript">window.BEAEARGS['beae-wzeubsdvsection-featured-product'] = {
 "id": "beae-wzeubsdv",
 "mode": {"value": "live"},
 "reactiveJs":{"id":"8646285132066","name":"Boonie hat classic khaki","thumbnail":"https://cdn.shopify.com/s/files/1/0798/2271/7218/products/WindbreakerBoonieHatClassicKhaki1.jpg?v=1695718882","handle":"copy-of-jackson-backpack-botanical-1","value":"copy-of-jackson-backpack-botanical-1","image":"https://cdn.shopify.com/s/files/1/0798/2271/7218/products/WindbreakerBoonieHatClassicKhaki1.jpg?v=1695718882"}
@@ -566,6 +566,7 @@ id="beae-variant-selector-{{section.id}}-beae-wzeubsdv"
   var afterpay_shop_money_format = {{ shop.money_format | json }};
   var afterpay_shop_permanent_domain = {{ shop.permanent_domain | json }};
   var afterpay_theme_name = {{ theme.name | json }};
+  {% # theme-check-disable UndefinedObject %}
   var afterpay_product = {% if beae_product_json%}{{beae_product_json}}{% else %}{{ product | json }}{% endif %};
   var afterpay_current_variant = {{ product.selected_or_first_available_variant | json }};
   var afterpay_cart_total_price = {{ cart.total_price | json }};
