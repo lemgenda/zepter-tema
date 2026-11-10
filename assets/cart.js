@@ -127,6 +127,7 @@ class CartItems extends HTMLElement {
 
   onCartUpdate(event) {
     if (event.cart.errors) {
+      document.dispatchEvent(new CustomEvent('cart:error'));
       this.onCartError(event.cart.errors, event.target);
       return;
     }
