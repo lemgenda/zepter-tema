@@ -29,7 +29,7 @@
       -%}
       <div class="page-width{% if section.settings.full_width %} page-width--full{% endif %} relative overflow-hidden md:overflow-visible">
         {%- capture indicators -%}
-          {%- if section.settings.carousel_on_desktop -%}
+          {%- if section.settings.carousel_on_desktop and recent_results != blank -%}
             <div class="indicators hidden lg:flex gap-2d5">
               <button class="button button--secondary" type="button" is="previous-button" aria-controls="Slider-{{ section.id }}" aria-label="{{ 'general.pagination.previous' | t | escape }}" disabled>
                 <span class="btn-fill" data-fill></span>
