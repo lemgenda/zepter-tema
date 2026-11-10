@@ -36,7 +36,7 @@
                 -%}
               </span>
               {%- if section.settings.menu_active == 'block' -%}
-                <span class="btn-text btn-duplicate">
+                <span class="btn-text btn-duplicate" aria-hidden="true">
                   {%- liquid
                     echo link.title
                     unless section.settings.hover_menu
@@ -66,7 +66,7 @@
                 -%}
               </span>
               {%- if section.settings.menu_active == 'block' -%}
-                <span class="btn-text btn-duplicate">
+                <span class="btn-text btn-duplicate" aria-hidden="true">
                   {%- liquid
                     echo link.title
                     unless section.settings.hover_menu
@@ -122,7 +122,7 @@
         <a href="{{ link.url }}" class="menu__item text-sm-lg flex items-center font-medium z-2 relative cursor-pointer" is="magnet-link"{% if section.settings.menu_active == 'block' %} data-magnet="0"{% endif %}>
           <span class="btn-text" data-text>{{ link.title }}</span>
           {%- if section.settings.menu_active == 'block' -%}
-            <span class="btn-text btn-duplicate">{{ link.title }}</span>
+            <span class="btn-text btn-duplicate" aria-hidden="true">{{ link.title }}</span>
           {%- endif -%}
         </a>
       </li>
