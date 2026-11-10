@@ -15,6 +15,7 @@ const paths = (process.env.WCAG_TEST_PATHS || '/,/collections/all,/cart,/search?
 const viewports = [
   { name: 'desktop', width: 1365, height: 900 },
   { name: 'mobile', width: 375, height: 812 },
+  { name: 'narrow-320', width: 320, height: 800 },
 ];
 
 const browser = await chromium.launch({ headless: true });
@@ -83,6 +84,18 @@ try {
           horizontalOverflow: document.documentElement.scrollWidth > document.documentElement.clientWidth + 1,
         }));
 
+        await page.emulateMedia({ forcedColors: 'active', reducedMotion: 'reduce' });
+        await page.waitForTimeout(250);
+        result.reducedMotion = await page.evaluate(() => ({
+          active: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+          autoplayElementsRemaining: document.querySelectorAll('slideshow-element[autoplay], video-media[autoplay], video[autoplay]').length,
+        }));
+        result.forcedColorsFocus = await page.evaluate(() => {
+          const element = document.activeElement;
+          const style = getComputedStyle(element);
+          return style.outlineStyle !== 'none' && parseFloat(style.outlineWidth) >= 2;
+        });
+
         result.smallTargets = await page.evaluate(() => {
           return Array.from(document.querySelectorAll('button, input:not([type="hidden"]), select, textarea, [role="button"]'))
             .filter((element) => {
@@ -108,6 +121,8 @@ try {
         if (result.axeViolations.length) failures.push(`${viewport.name} ${url}: axe reported ${result.axeViolations.length} violation(s)`);
         if (result.focus && !result.focus.indicatorVisible) failures.push(`${viewport.name} ${url}: first Tab stop has no detectable focus indicator`);
         if (result.textSpacing?.horizontalOverflow) failures.push(`${viewport.name} ${url}: horizontal overflow with WCAG text-spacing overrides`);
+        if (result.reducedMotion?.autoplayElementsRemaining) failures.push(`${viewport.name} ${url}: autoplay media remains active with reduced motion enabled`);
+        if (!result.forcedColorsFocus) failures.push(`${viewport.name} ${url}: focus indicator is not detectable in forced-colors mode`);
       } catch (error) {
         result.error = error.message;
         failures.push(`${viewport.name} ${url}: ${error.message}`);
