@@ -28,7 +28,6 @@
         class="slideshow-control flex items-center justify-center rounded-full sr-only"
         is="control-button"
         aria-controls="Slider-{{ section.id }}"
-        aria-live="polite"
       >
         <span class="slideshow-control__pause">
           {%- render 'icon', icon: 'pause' -%}
@@ -40,7 +39,7 @@
         </span>
       </button>
     {%- endif -%}
-    <slideshow-element class="slideshow block" id="Slider-{{ section.id }}"{% if section.settings.autoplay %} autoplay autoplay-speed="{{ section.settings.autoplay_speed }}"{% endif %}>
+    <slideshow-element class="slideshow block" id="Slider-{{ section.id }}" role="region" aria-roledescription="carousel" aria-label="{{ 'sections.slideshow.name' | t | escape }}" aria-live="off"{% if section.settings.autoplay %} autoplay autoplay-speed="{{ section.settings.autoplay_speed }}"{% endif %}>
       {%- capture sizes -%}{% if section.settings.full_width %}100vw{% else %}min({{ settings.page_width }}px, 100vw){% endif %}{%- endcapture -%}
       {%- for block in section.blocks -%}
         {%- liquid
@@ -68,7 +67,7 @@
                         >
                       {%- endif -%}
     
-                      {{- block.settings.image | image_url: width: block.settings.image.width | image_tag: loading: loading, fetchpriority: fetchpriority, sizes: sizes, widths: '300,400,500,600,700,800,900,1000,1200,1400,1600,1800,2000,2200,2400,2600,2800,3000,3200', is: 'lazy-image', class: 'banner__image' -}}
+                      {{- block.settings.image | image_url: width: block.settings.image.width | image_tag: loading: loading, fetchpriority: fetchpriority, sizes: sizes, widths: '300,400,500,600,700,800,900,1000,1200,1400,1600,1800,2000,2200,2400,2600,2800,3000,3200', alt: block.settings.image.alt | default: block.settings.heading | default: shop.name, is: 'lazy-image', class: 'banner__image' -}}
                     {%- else -%}
                       {%- capture placeholder -%}{% cycle 'lifestyle-1', 'lifestyle-2' %}{%- endcapture -%}
                       {{- placeholder | placeholder_svg_tag: 'banner__image banner__overlay placeholder' -}}
