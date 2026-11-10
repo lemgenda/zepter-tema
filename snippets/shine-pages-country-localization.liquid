@@ -1,7 +1,7 @@
 <sp-dropdown class="sp-dropdown" data-style="{{ style | default: "dropdown" }}">
     <div class="sp-dropdown-link body-font" aria-expanded="false">
         <img src="https://cdn.shopify.com/static/images/flags/{{ localization.country.iso_code | downcase }}.svg?format=jpg&width=60"
-             alt="{{ localization.currency.iso_code }}">
+             alt="{{ localization.currency.iso_code }}" width="60" height="40">
         <span>
             {{- localization.country.currency.iso_code }}{{ localization.country.currency.symbol }}
         </span>
@@ -25,7 +25,7 @@
                    href="#" {% if country.iso_code == localization.country.iso_code %} aria-current="true" {% endif %}
                    data-value="{{ country.iso_code }}">
                     <img src="https://cdn.shopify.com/static/images/flags/{{ country.iso_code | downcase }}.svg?format=jpg&width=60"
-                         alt="{{ country.iso_code }}">
+                         alt="{{ country.iso_code }}" width="60" height="40">
                     <span> {{- country.currency.iso_code }} {{ country.currency.symbol }}</span>
                 </a>
             </div>

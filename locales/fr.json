@@ -122,7 +122,8 @@
       "results_with_count_and_term": {
         "one": "{{ count }} résultat trouvé pour «{{ terms }}»",
         "other": "{{ count }} résultats trouvés pour «{{ terms }}»"
-      }
+      },
+      "heading": "Rechercher"
     },
     "cart": {
       "title": "Panier",
@@ -597,5 +598,85 @@
   },
   "date_formats": {
     "month_day_year": "%d %B, %Y"
+  },
+  "shinepages": {
+    "contact": {
+      "form": {
+        "error_heading": "Veuillez corriger les erreurs suivantes :"
+      }
+    },
+    "recipient": {
+      "form": {
+        "checkbox": "Je veux envoyer ce produit comme cadeau",
+        "email_label": "E‑mail du destinataire",
+        "email_label_optional_for_no_js_behavior": "E‑mail du destinataire (facultatif)",
+        "name_label": "Nom du destinataire (facultatif)",
+        "max_characters": "{{ max_chars }} caractères au maximum",
+        "message_label": "Message (facultatif)",
+        "send_on_label": "Envoyer le (facultatif)"
+      }
+    },
+    "templates": {
+      "search": {
+        "suggestions": "Suggestions",
+        "products": "Produits",
+        "collections": "Collections",
+        "blogs": "Des articles",
+        "search_for": "Rechercher: {{ terms }}"
+      }
+    },
+    "product": {
+      "add_to_cart": "Ajouter au panier",
+      "sold_out": "Épuisé",
+      "unavailable": "Non disponible",
+      "value_unavailable": "{{ option_value }} n’est pas disponible",
+      "product_title_default": "Produit",
+      "sale_html": "Réduit",
+      "quantity": {
+        "label": "Quantité"
+      },
+      "sku": "UGS",
+      "inventory_low_stock_show_count": "Plus que {{ quantity }} en stock",
+      "inventory_low_stock": "Stock bas",
+      "inventory_in_stock_show_count": "{{ quantity }} en stock",
+      "inventory_in_stock": "En stock, prêt à être expédié",
+      "inventory_out_of_stock_continue_selling": "En stock",
+      "inventory_out_of_stock": "En rupture de stock",
+      "choose_options": "Choisir des options"
+    },
+    "general": {
+      "cart": {
+        "cart_empty": "Votre panier est vide.",
+        "continue_shopping": "Continuer les achats",
+        "cart_heading": "Votre panier",
+        "free_shipping_spend_html": "Dépensez encore {{ spend }} pour bénéficier de la livraison gratuite.",
+        "free_shipping": "Vous avez droit à la livraison gratuite.",
+        "remove": "Retirer",
+        "estimated_total": "Total estimé",
+        "taxes_included_and_shipping_policy_html": "Taxes incluses. <a href=\"{{ link }}\">Frais d'expédition</a> calculés à l'étape de paiement.",
+        "taxes_included_but_shipping_at_checkout": "Taxes incluses et frais d'expédition calculés lors du paiement",
+        "taxes_and_shipping_policy_at_checkout_html": "Taxes et <a href=\"{{ link }}\">frais d'expédition</a> calculés lors du paiement",
+        "taxes_and_shipping_at_checkout": "Taxes et frais d'expédition calculés lors du paiement",
+        "note": "Instructions spéciales concernant la commande",
+        "checkout": "Procéder au paiement",
+        "view_cart": "Voir le panier",
+        "save_note": "Enregistrer"
+      },
+      "link": "Copier le lien",
+      "link_copied": "Lien copié"
+    },
+    "localization": {
+      "country_label": "Pays/région",
+      "language_label": "Langue"
+    },
+    "social": {
+      "facebook": "Facebook",
+      "twitter": "X (Twitter)",
+      "pinterest": "Pinterest",
+      "tumblr": "Tumblr"
+    }
+  },
+  "drawers": {
+    "navigation": "Navigation du site"
   }
 }
