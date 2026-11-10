@@ -14727,7 +14727,8 @@ slider-element:has(> motion-list.timeline) {
   width: 100%;
   max-width: 100%;
   min-width: 0;
-  overflow: clip;
+  overflow: hidden !important;
+  contain: paint;
 }
 
 slider-element:has(> motion-list.timeline) > motion-list.timeline {
