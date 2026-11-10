@@ -183,7 +183,7 @@
   {{ content_for_header }}
 </head>
 
-<body class="template-{{ template | split: '.' | first }}{% if request.design_mode %} shopify-design-mode{% endif %}">
+<body class="template-{{ template | split: '.' | first }}{% if request.design_mode %} shopify-design-mode{% endif %}" data-a11y-cart-added="{{ 'general.accessibility.cart_added_announcement' | t | escape }}" data-a11y-cart-error="{{ 'general.accessibility.cart_error_announcement' | t | escape }}">
   <a class="sr-only skip-link" href="#BeaeMainContent">
     {{ 'general.accessibility.skip_to_content' | t }}
   </a>
