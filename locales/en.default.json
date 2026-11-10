@@ -122,7 +122,8 @@
       "results_with_count_and_term": {
         "one": "{{ count }} result found for “{{ terms }}”",
         "other": "{{ count }} results found for “{{ terms }}”"
-      }
+      },
+      "heading": "Search"
     },
     "cart": {
       "title": "Cart",
@@ -639,6 +640,67 @@
         "message_label": "Message (optional)",
         "send_on_label": "Send on (optional)"
       }
+    },
+    "templates": {
+      "search": {
+        "suggestions": "Suggestions",
+        "products": "Products",
+        "collections": "Collections",
+        "blogs": "Articles",
+        "search_for": "Search: {{ terms }}"
+      }
+    },
+    "product": {
+      "add_to_cart": "Add to cart",
+      "sold_out": "Sold Out",
+      "unavailable": "Unavailable",
+      "value_unavailable": "{{ option_value }} is unavailable",
+      "product_title_default": "Product",
+      "sale_html": "Sale",
+      "quantity": {
+        "label": "Quantity"
+      },
+      "sku": "SKU",
+      "inventory_low_stock_show_count": "Only {{ quantity }} left in stock",
+      "inventory_low_stock": "Low stock",
+      "inventory_in_stock_show_count": "{{ quantity }} in stock",
+      "inventory_in_stock": "In stock, ready to ship",
+      "inventory_out_of_stock_continue_selling": "In stock",
+      "inventory_out_of_stock": "Out of stock"
+    },
+    "general": {
+      "cart": {
+        "cart_empty": "Your cart is currently empty.",
+        "continue_shopping": "Continue shopping",
+        "cart_heading": "Your cart",
+        "free_shipping_spend_html": "Spend {{ spend }} more to reach free shipping!",
+        "free_shipping": "You are eligible for free shipping.",
+        "remove": "Remove",
+        "estimated_total": "Estimated total",
+        "taxes_included_and_shipping_policy_html": "Tax included. <a href=\"{{ link }}\">Shipping</a> calculated at checkout.",
+        "taxes_included_but_shipping_at_checkout": "Tax included and shipping calculated at checkout",
+        "taxes_and_shipping_policy_at_checkout_html": "Taxes and <a href=\"{{ link }}\">shipping</a> calculated at checkout",
+        "taxes_and_shipping_at_checkout": "Taxes included and shipping calculated at checkout.",
+        "note": "Order note",
+        "checkout": "Check out",
+        "view_cart": "View cart",
+        "save_note": "Save"
+      },
+      "link": "Copy link",
+      "link_copied": "Link copied"
+    },
+    "localization": {
+      "country_label": "Country/region",
+      "language_label": "Language"
+    },
+    "social": {
+      "facebook": "Facebook",
+      "twitter": "X (Twitter)",
+      "pinterest": "Pinterest",
+      "tumblr": "Tumblr"
     }
+  },
+  "drawers": {
+    "navigation": "Site navigation"
   }
 }
