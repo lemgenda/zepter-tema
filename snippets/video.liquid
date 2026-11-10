@@ -6,6 +6,9 @@
   assign video_id = video.id | default: video_url.id
   assign video_alt = video.alt | default: description
   assign alt = 'general.accessibility.load_video' | t: description: video_alt | escape
+  if autoplay and muted and video_alt == blank
+    assign alt = ''
+  endif
   assign preview_image = video.preview_image | default: cover_image
 
   capture poster
@@ -18,7 +21,7 @@
 -%}
 
 {%- if video != blank or video_url != blank -%}
-  <video-media class="media deferred-media{% if is_mobile %} mobile:deferred-media{% endif %} block {{ class }}"{% if autoplay and muted and video_alt == blank %} aria-hidden="true"{% endif %}
+  <video-media class="media deferred-media{% if is_mobile %} mobile:deferred-media{% endif %} block {{ class }}"
     style="--aspect-ratio: {{ video.aspect_ratio }}"
     {%- unless video %} host="{{ video_url.type }}"{% endunless -%}
     {%- if autoplay %} autoplay{% endif -%}
