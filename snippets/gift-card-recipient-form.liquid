@@ -48,12 +48,13 @@
       <div class="field">
         <input
           class="input is-floating{% if form.errors contains 'email' %} invalid{% endif %}"
-          id="Recipient-email-{{ section_id }}-{{ product_id }}"
+          id="Recipient-email-{{ section_id }}-{{ product_id }}"{% if form.errors contains 'email' %} aria-invalid="true" aria-describedby="Recipient-email-error-{{ section_id }}-{{ product_id }}"{% endif %}
           type="email"
           placeholder="{{ 'recipient.form.email' | t }}"
           name="properties[Recipient email]"
           value="{{ form.email }}"
         />
+        {%- if form.errors contains 'email' -%}<p id="Recipient-email-error-{{ section_id }}-{{ product_id }}" class="a11y-error-message">{{ form.errors.messages.email | escape }}</p>{%- endif -%}
         <label class="label is-floating" for="Recipient-email-{{ section_id }}-{{ product_id }}">{{ 'recipient.form.email_label' | t }}</label>
       </div>
 
@@ -62,10 +63,11 @@
           class="input is-floating{% if form.errors contains 'name' %} invalid{% endif %}"
           autocomplete="name"
           type="text"
-          id="Recipient-name-{{ section_id }}-{{ product_id }}"
+          id="Recipient-name-{{ section_id }}-{{ product_id }}"{% if form.errors contains 'name' %} aria-invalid="true" aria-describedby="Recipient-name-error-{{ section_id }}-{{ product_id }}"{% endif %}
           name="properties[Recipient name]"
           placeholder="{{ 'recipient.form.name' | t }}"
         />
+        {%- if form.errors contains 'name' -%}<p id="Recipient-name-error-{{ section_id }}-{{ product_id }}" class="a11y-error-message">{{ form.errors.messages.name | escape }}</p>{%- endif -%}
         <label class="label is-floating" for="Recipient-name-{{ section_id }}-{{ product_id }}">{{ 'recipient.form.name_label' | t }}</label>
       </div>
 
@@ -78,12 +80,13 @@
         <textarea
           class="textarea is-floating{% if form.errors contains 'message' %} invalid{% endif %}"
           rows="3"
-          id="Recipient-message-{{ section_id }}-{{ product_id }}"
+          id="Recipient-message-{{ section_id }}-{{ product_id }}"{% if form.errors contains 'message' %} aria-invalid="true" aria-describedby="Recipient-message-error-{{ section_id }}-{{ product_id }}"{% endif %}
           name="properties[Message]"
           maxlength="{{ max_chars_message }}"
           placeholder=" "
           aria-label="{{ message_label_rendered }} {{ max_chars_message_rendered }}"
         >{{ form.message }}</textarea>
+        {%- if form.errors contains 'message' -%}<p id="Recipient-message-error-{{ section_id }}-{{ product_id }}" class="a11y-error-message">{{ form.errors.messages.message | escape }}</p>{%- endif -%}
         <label class="label is-floating" for="Recipient-message-{{ section_id }}-{{ product_id }}">{{ message_label_rendered }}</label>
         <span class="text-sm">{{ max_chars_message_rendered }}</span>
       </div>
@@ -93,12 +96,13 @@
           class="input is-floating{% if form.errors contains 'send_on' %} invalid{% endif %}"
           autocomplete="send_on"
             type="date"
-            id="Recipient-send-on-{{ section_id }}-{{ product_id }}"
+            id="Recipient-send-on-{{ section_id }}-{{ product_id }}"{% if form.errors contains 'send_on' %} aria-invalid="true" aria-describedby="Recipient-send-on-error-{{ section_id }}-{{ product_id }}"{% endif %}
             name="properties[Send on]"
             placeholder="{{ 'recipient.form.send_on' | t }}"
             pattern="\d{4}-\d{2}-\d{2}"
             value="{{ form.send_on }}"
         />
+        {%- if form.errors contains 'send_on' -%}<p id="Recipient-send-on-error-{{ section_id }}-{{ product_id }}" class="a11y-error-message">{{ form.errors.messages.send_on | escape }}</p>{%- endif -%}
         <label class="label is-floating" for="Recipient-send-on-{{ section_id }}-{{ product_id }}">{{ 'recipient.form.send_on_label' | t }}</label>
         {%- render 'icon', icon: 'calendar', size: 'sm', class: 'stroke-1 absolute pointer-events-none' -%}
       </div>
