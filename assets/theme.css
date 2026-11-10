@@ -14669,21 +14669,13 @@ lookbook-element .banner__box .title-wrapper {
   font-display: swap;
 }
 
-/* WCAG: keep animated and carousel content inside its layout viewport. */
-.timeline {
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
-  overflow-x: clip;
-}
+/* WCAG: constrain timeline card contents without clipping its scrollable track. */
 .timeline__item {
   box-sizing: border-box;
   min-width: 0;
-  max-width: 100%;
 }
 .timeline__item > .flex {
   min-width: 0;
-  max-width: 100%;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 }
 .timeline__item > .flex > *,
@@ -14719,20 +14711,6 @@ lookbook-element .banner__box .title-wrapper {
     height: auto;
     object-fit: contain;
   }
-}
-
-/* WCAG: contain the transformed timeline track, not only its cards. */
-slider-element:has(> motion-list.timeline) {
-  display: block;
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
-  overflow: hidden !important;
-  contain: paint;
-}
-
-slider-element:has(> motion-list.timeline) > motion-list.timeline {
-  min-width: 0;
 }
 
 /* WCAG: footer localization controls must fit narrow viewports. */
