@@ -12,6 +12,20 @@ const paths = (process.env.WCAG_TEST_PATHS || '/,/collections/all,/cart,/search?
   .map((path) => path.trim())
   .filter(Boolean);
 
+// Shopify preview credentials are carried in query parameters on the preview
+// URL. Preserve them when navigating to each test path; otherwise /cart,
+// /search, and collection checks silently fall back to the published theme.
+const previewBase = new URL(baseUrl);
+const buildTestUrl = (path) => {
+  const target = new URL(path, previewBase);
+  if (target.origin === previewBase.origin) {
+    previewBase.searchParams.forEach((value, key) => {
+      if (!target.searchParams.has(key)) target.searchParams.append(key, value);
+    });
+  }
+  return target.toString();
+};
+
 const viewports = [
   { name: 'desktop', width: 1365, height: 900 },
   { name: 'mobile', width: 375, height: 812 },
@@ -28,7 +42,7 @@ try {
     const page = await context.newPage();
 
     for (const path of paths) {
-      const url = new URL(path, baseUrl).toString();
+      const url = buildTestUrl(path);
       const result = { viewport: viewport.name, url, axeViolations: [], focus: null, textSpacing: null, smallTargets: [] };
 
       try {
