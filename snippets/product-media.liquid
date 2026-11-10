@@ -42,7 +42,7 @@
   endif
 
   if gang_exist == true
-    assign media_alt = media.alt | split: '#' | first
+    assign media_alt = media.alt | default: product.title | split: '#' | first
   else
     assign media_alt = media.alt
   endif
