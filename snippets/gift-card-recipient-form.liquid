@@ -24,7 +24,8 @@
         type="checkbox"
         id="Recipient-checkbox-{{ section_id }}-{{ product_id }}"
         aria-controls="Recipient-fields-{{ section_id }}-{{ product_id }}"
-        aria-expanded="false"
+        aria-expanded="{% if form.errors %}true{% else %}false{% endif %}"
+        {% if form.errors %}checked{% endif %}
         name="{{ gift_card_recipient_control_flag }}"
         disabled
       />
