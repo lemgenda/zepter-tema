@@ -641,7 +641,8 @@
       "inventory_in_stock_show_count": "{{ quantity }} auf Lager",
       "inventory_in_stock": "Auf Lager, versandfertig",
       "inventory_out_of_stock_continue_selling": "Auf Lager",
-      "inventory_out_of_stock": "Nicht vorrätig"
+      "inventory_out_of_stock": "Nicht vorrätig",
+      "choose_options": "Optionen auswählen"
     },
     "general": {
       "cart": {
