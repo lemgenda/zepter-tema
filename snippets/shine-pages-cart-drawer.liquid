@@ -83,7 +83,7 @@
                         {% if setting.cart_empty_banner_url != blank %}
                             <a href="{{ setting.cart_empty_banner_url }}">
                                 {% endif %}
-                                {{ setting.cart_empty_banner | image_url: width: 1024 | image_tag }}
+                                {{ setting.cart_empty_banner | image_url: width: 1024 | image_tag: alt: setting.cart_empty_banner.alt | default: shop.name }}
                                 {% if setting.cart_empty_banner_url != blank %}
                             </a>
                             {% endif %}
@@ -130,7 +130,7 @@
                                         <div class="sp-drawer-cart-item-media">
                                             <a href="{{ item.url }}" tabindex="-1" aria-hidden="true">
                                                 <img src="{{ item.image | image_url: width: 320 }}"
-                                                     alt="{{ item.image.alt | escape }}"
+                                                     alt="{{ item.image.alt | default: item.product.title | escape }}"
                                                      width="320"
                                                      height="{{ 320 | divided_by: item.image.aspect_ratio | ceil }}"
                                                 >
@@ -192,7 +192,7 @@
                                         {% endif %}
                                         <div class="sp-drawer-cart-item-actions">
                                             <sp-quantity-input class="body-font sp-quantity cart-quantity">
-                                                <button class="sp-quantity-button" name="minus" type="button">
+                                                <button class="sp-quantity-button" name="minus" type="button" aria-label="{{ 'products.quantity.decrease' | t: product: item.product.title | escape }}">
                                                     <svg
                                                             xmlns="http://www.w3.org/2000/svg"
                                                             aria-hidden="true"
@@ -224,7 +224,7 @@
                                                         aria-label="{{ 'shinepages.product.quantity.label' | t }}"
                                                         data-index="{{ item.index | plus: 1 }}"
                                                 />
-                                                <button class="sp-quantity-button" name="plus" type="button">
+                                                <button class="sp-quantity-button" name="plus" type="button" aria-label="{{ 'products.quantity.increase' | t: product: item.product.title | escape }}">
                                                     <svg
                                                             xmlns="http://www.w3.org/2000/svg"
                                                             aria-hidden="true"
@@ -247,7 +247,7 @@
                                             </sp-cart-remove-button>
                                         </div>
                                         <div id="sp-line-item-error-{{ item.index | plus: 1 }}"
-                                             class="sp-drawer-cart-item-line-error" aria-hidden="true"></div>
+                                             class="sp-drawer-cart-item-line-error" role="alert" aria-atomic="true"></div>
                                     </div>
                                 </div>
                             {%- endfor -%}
