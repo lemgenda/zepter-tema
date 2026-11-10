@@ -12181,6 +12181,8 @@ button:is([is=media-lightbox-button], [is=media-hover-button]):focus-visible {
 .image-with-text__image-second+.image-with-text__image-first {
   transform: rotate(calc(3deg * var(--transform-logical)));
   width: 75%;
+  max-width: 100%;
+  min-width: 0;
   margin-inline-start: auto;
 }
 
