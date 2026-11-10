@@ -179,7 +179,8 @@
     },
     "slideshow": {
       "play_slideshow": "Lire le diaporama",
-      "pause_slideshow": "Diaporama Pause"
+      "pause_slideshow": "Diaporama Pause",
+      "name": "Diaporama"
     },
     "product_bundle": {
       "total": "Total",
@@ -216,6 +217,15 @@
       "primary_navigation": "Navigation principale",
       "secondary_navigation": "Navigation secondaire",
       "expand_submenu": "Développer le sous-menu : {{ title }}"
+    },
+    "newsletter-popup": {
+      "name": "Inscription à la newsletter"
+    },
+    "age-verifier": {
+      "name": "Vérification de l’âge"
+    },
+    "cookie-banner": {
+      "name": "Préférences des cookies"
     }
   },
   "blogs": {
