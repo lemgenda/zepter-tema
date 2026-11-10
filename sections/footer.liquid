@@ -54,7 +54,7 @@
                   {%- capture sizes -%}{{ section.settings.newsletter_logo_height | times: section.settings.newsletter_logo.aspect_ratio }}px{%- endcapture -%}
                   {%- capture widths -%}{{ section.settings.newsletter_logo_height | times: section.settings.newsletter_logo.aspect_ratio }}, {{ section.settings.newsletter_logo_height | times: section.settings.newsletter_logo.aspect_ratio | times: 2 | at_most: section.settings.newsletter_logo.width }}{%- endcapture -%}
                   {%- capture style -%}--image-width: {{ section.settings.newsletter_logo_height | times: section.settings.newsletter_logo.aspect_ratio }}px; --image-height: {{ section.settings.newsletter_logo_height }}px;{%- endcapture -%}
-                  {{- section.settings.newsletter_logo | image_url: width: section.settings.newsletter_logo.width | image_tag: loading: 'lazy', widths: widths, sizes: sizes, style: style, preload: true, is: 'lazy-image' -}}
+                  {{- section.settings.newsletter_logo | image_url: width: section.settings.newsletter_logo.width | image_tag: loading: 'lazy', widths: widths, sizes: sizes, style: style, preload: true, alt: shop.name, is: 'lazy-image' -}}
                 </a>
               </p>
             {%- endif -%}
