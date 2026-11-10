@@ -46,6 +46,7 @@
   else
     assign media_alt = media.alt
   endif
+  assign media_alt = media_alt | default: product.title
 -%}
 
 <div class="product__media card media media--{{ image_ratio }} mobile:media--{{ image_ratio_mobile }}{% unless image_fill %} media--contain{% endunless %} flex w-full flex-auto relative overflow-hidden
