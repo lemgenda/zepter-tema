@@ -37,7 +37,9 @@
       "recently_viewed_products": "Sản phẩm đã xem gần đây",
       "pagination": "Phân trang",
       "announcement_bar": "Thông báo",
-      "announcement_number": "Thông báo {{ number }}"
+      "announcement_number": "Thông báo {{ number }}",
+      "currently_selected": "Đang được chọn",
+      "sold_out": "Hết hàng"
     },
     "meta": {
       "tags": "Được gắn thẻ \"{{ tags }}\"",
