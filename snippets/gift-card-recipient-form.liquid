@@ -32,6 +32,7 @@
     <div
       class="product-form__recipient-error-message"
       role="alert"
+      {% if form.errors %}data-a11y-error-summary tabindex="-1"{% endif %}
       {% unless form.errors %}
         hidden
       {% endunless %}
