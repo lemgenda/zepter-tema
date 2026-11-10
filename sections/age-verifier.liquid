@@ -26,12 +26,12 @@
     {%- if section.settings.background_image != blank -%}
       {%- capture sizes -%}{% if section.settings.full_width %}100vw{% else %}min({{ settings.page_width }}px, 100vw){% endif %}{%- endcapture -%}
       <div class="media media--height{% if section.settings.blur_background_image %} media--blur{% endif %} block w-full h-full relative overflow-hidden">
-        {{- section.settings.background_image | image_url: width: section.settings.background_image.width | image_tag: loading: 'lazy', sizes: sizes, widths: '300,400,500,600,700,800,900,1000,1200,1400,1600,1800,2000,2200,2400,2600,2800,3000,3200', is: 'lazy-image' -}}
+        {{- section.settings.background_image | image_url: width: section.settings.background_image.width | image_tag: loading: 'lazy', sizes: sizes, widths: '300,400,500,600,700,800,900,1000,1200,1400,1600,1800,2000,2200,2400,2600,2800,3000,3200', alt: '', is: 'lazy-image' -}}
       </div>
     {%- endif -%}
   </overlay-element>
   <div class="drawer__inner z-10 absolute bottom-0 {{ section.settings.content_position }} flex flex-col w-full h-full overflow-hidden">
-    <gesture-element class="drawer__header flex justify-between opacity-0 invisible relative sr-only">
+    <gesture-element class="drawer__header flex justify-between opacity-0 invisible relative">
       <button class="button button--secondary button--close drawer__close flex items-center justify-center" type="button" is="hover-button" aria-controls="AgeVerifier" aria-expanded="false" aria-label="{{ 'general.accessibility.close' | t | escape }}">
         <span class="btn-fill" data-fill></span>
         <span class="btn-text">
@@ -45,7 +45,7 @@
           <div class="age__image flex-auto media media--height relative hidden sm:block">
             {%- capture sizes -%}min(calc(100vw - 16px), 310px){%- endcapture -%}
             {%- capture widths -%}{{ section.settings.image.width }}, {{ section.settings.image.width | times: 2 | at_most: section.settings.image.width }}{%- endcapture -%}
-            {{- section.settings.image | image_url: width: section.settings.image.width | image_tag: loading: 'lazy', widths: widths, sizes: sizes, is: 'lazy-image' -}}
+            {{- section.settings.image | image_url: width: section.settings.image.width | image_tag: loading: 'lazy', widths: widths, sizes: sizes, alt: section.settings.image.alt | default: shop.name, is: 'lazy-image' -}}
           </div>
         {%- endif -%}
         <div class="drawer__scrollable relative w-full">
@@ -116,7 +116,7 @@
                       <figure class="media media--transparent relative inline-block">
                         {%- capture sizes -%}{{ block.settings.icon_width }}px{%- endcapture -%}
                         {%- capture widths -%}{{ block.settings.icon_width }}, {{ block.settings.icon_width | times: 2 | at_most: block.settings.icon_image.width }}{%- endcapture -%}
-                        {{- block.settings.icon_image | image_url: width: block.settings.icon_image.width | image_tag: loading: 'lazy', sizes: sizes, widths: widths, class: 'image-fit' -}}
+                        {{- block.settings.icon_image | image_url: width: block.settings.icon_image.width | image_tag: loading: 'lazy', sizes: sizes, widths: widths, alt: '', class: 'image-fit' -}}
                       </figure>
                     </div>
                   {%- elsif block.settings.icon != 'none' -%}
@@ -137,7 +137,7 @@
                           {%- assign sizes = 'min(100vw, var(--page-width))' -%}
                           {%- assign widths = '50,75,100,150,200,300,400,500,750,1000,1250,1500,1750,2000,2250,2500,2750,3000,3200' -%}
                         {%- endif -%}
-                        {{- block.settings.image | image_url: width: block.settings.image.width | image_tag: loading: 'lazy', sizes: sizes, widths: widths, style: style, is: 'lazy-image', class: 'image-fit' -}}
+                        {{- block.settings.image | image_url: width: block.settings.image.width | image_tag: loading: 'lazy', sizes: sizes, widths: widths, style: style, alt: block.settings.image.alt | default: block.settings.heading | default: shop.name, is: 'lazy-image', class: 'image-fit' -}}
                       </figure>
                     </div>
                   {%- endif -%}
