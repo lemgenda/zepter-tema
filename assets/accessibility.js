@@ -56,6 +56,8 @@
       this.initAnnouncementSlideInert();
       this.initAccessibleExternalLinks();
       this.initThirdPartySkipFocus();
+      this.initScrollableRegions();
+      this.initFloatingAppLandmarks();
       this.initReducedMotion();
       this.initShopifySectionEvents();
 
@@ -561,6 +563,57 @@
           }));
         });
         observer.observe(document.documentElement, { childList: true, subtree: true });
+      }
+    },
+
+    initScrollableRegions() {
+      const labelRegion = (slider) => {
+        if (!(slider instanceof HTMLElement)) return;
+        const isScrollable = slider.scrollWidth > slider.clientWidth + 1;
+        if (!isScrollable) return;
+
+        if (!slider.hasAttribute('tabindex')) slider.setAttribute('tabindex', '0');
+        if (!slider.hasAttribute('role')) slider.setAttribute('role', 'region');
+
+        if (!slider.hasAttribute('aria-label') && !slider.hasAttribute('aria-labelledby')) {
+          const section = slider.closest('.shopify-section');
+          const heading = section?.querySelector('h1, h2, h3, h4, h5, h6');
+          const name = heading?.textContent?.trim();
+          slider.setAttribute('aria-label', name || 'Scrollable content');
+        }
+      };
+
+      document.querySelectorAll('slider-element').forEach(labelRegion);
+      if ('MutationObserver' in window) {
+        const observer = new MutationObserver(() => {
+          document.querySelectorAll('slider-element').forEach(labelRegion);
+        });
+        observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['class', 'style'] });
+        window.addEventListener('resize', () => {
+          document.querySelectorAll('slider-element').forEach(labelRegion);
+        }, { passive: true });
+      }
+    },
+
+    initFloatingAppLandmarks() {
+      const labelFloatingBlock = (element) => {
+        if (!(element instanceof HTMLElement)) return;
+        if (!element.hasAttribute('role')) element.setAttribute('role', 'region');
+        if (!element.hasAttribute('aria-label') && !element.hasAttribute('aria-labelledby')) {
+          element.setAttribute('aria-label', 'Floating store controls');
+        }
+      };
+
+      document.querySelectorAll('#shopify-block-floating').forEach(labelFloatingBlock);
+      if ('MutationObserver' in window) {
+        const observer = new MutationObserver((records) => {
+          records.forEach((record) => record.addedNodes.forEach((node) => {
+            if (node.nodeType !== Node.ELEMENT_NODE) return;
+            if (node.matches('#shopify-block-floating')) labelFloatingBlock(node);
+            node.querySelectorAll?.('#shopify-block-floating').forEach(labelFloatingBlock);
+          }));
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
       }
     },
 
