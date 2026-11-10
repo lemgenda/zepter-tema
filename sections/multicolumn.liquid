@@ -16,7 +16,7 @@
   <div class="page-width{% if section.settings.full_width %} page-width--full{% endif %} relative">
     {%- render 'section-heading', section: section -%}
 
-    <slider-element id="Slider-{{ section.id }}" class="grid slider{% if section.settings.swipe_on_mobile %} slider--tablet{% endif %}"{% if section.id == 'multicolumn_ym6DgV' %} role="region" aria-label="Product benefits"{% elsif section.settings.heading != blank %} role="region" aria-label="{{ section.settings.heading | escape }}"{% endif %} selector=".card-grid>.card">
+    <slider-element id="Slider-{{ section.id }}" class="grid slider{% if section.settings.swipe_on_mobile %} slider--tablet{% endif %}"{% if section.id contains 'multicolumn_ym6DgV' %} role="region" aria-label="Product benefits"{% elsif section.settings.heading != blank %} role="region" aria-label="{{ section.settings.heading | escape }}"{% endif %} selector=".card-grid>.card">
       <div class="multicolumn with-{{ section.blocks.size }} card-grid card-grid--{{ section.settings.columns }} mobile:card-grid--{{ section.settings.columns_mobile }} grid relative z-1">
         {%- liquid
           assign with_gradient = false
