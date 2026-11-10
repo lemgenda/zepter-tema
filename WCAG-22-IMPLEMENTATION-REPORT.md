@@ -2,14 +2,14 @@
 
 **Repozitorij:** https://github.com/lemgenda/zepter-tema  
 **Grana:** `wcag-22`  
-**Datum ažuriranja:** 10. 11. 2026.  
+**Datum ažuriranja:** 11. 11. 2026.  
 **Opseg:** popravci otvorenih stavki iz prethodne verzije izvještaja i dodavanje testnog workflowa.
 
 ## Sažetak
 
 U ovom prolazu zatvoren je dodatni dio nedovršenih stavki: customer i gift-card forme, navigacija, predictive search, facets/pagination, announcement i product carouseli, pickup statusi, alternativni tekstovi ključnih slika, reduced-motion ponašanje, iframe naslovi, dinamičke najave i testni workflow.
 
-**Važno:** potpuna WCAG 2.2 AA sukladnost još nije potvrđena. U ovom okruženju nije dostupan aktivni Shopify preview URL ni browser session za stvarno testiranje storefront DOM-a. GitHub Actions workflow je dodan, ali za zadnji commit nisu pronađeni izvršeni workflow runovi. Browser smoke testovi zato nisu označeni kao prošli.
+**Status:** posljednji ručno pokrenuti GitHub Actions browser smoke test na grani `wcag-22` završio je uspješno (run **#240**, commit `69df45723bb71a0cd06f0ce9bd3d5e5280cd515c`). Test je koristio Shopify preview konfiguraciju; automatizirane provjere u tom workflowu su prošle. To potvrđuje prolaz navedenih testova, ali **ne potvrđuje potpunu WCAG 2.2 AA sukladnost**: ručni testovi s tipkovnicom/čitačima zaslona, kontrast, svi stvarni predlošci i third-party tokovi i dalje zahtijevaju provjeru.
 
 ## Implementirane izmjene u ovom prolazu
 
@@ -115,18 +115,24 @@ Dodani su:
 - `.github/workflows/wcag-22.yml`: na push/pull request prema `wcag-22` pokreće Shopify Theme Check i JSON parse validaciju; manual `workflow_dispatch` s preview URL-om pokreće browser test.
 - `scripts/wcag-a11y-smoke.mjs`: Playwright + axe-core smoke test za desktop, 375 px i 320 px širine, uključujući WCAG axe pravila, prvi keyboard focus indikator, tekstualni spacing override, forced-colors/reduced-motion i popis malih interaktivnih targeta za ručni pregled.
 
-### 8. Validacije izvršene u ovom prolazu
+### 8. Validacije i najnoviji CI rezultat
 
-- Svih šest locale JSON datoteka uspješno je parsirano; provjereni su navigacijski, dialog, carousel, pagination, cart, media-type i product-state ključevi.
-- `node --check` prošao je za `scripts/wcag-a11y-smoke.mjs`, `assets/accessibility.js`, `assets/search.js`, `assets/recipient-form.js` te izdvojene izmijenjene klase `AnnouncementBar`, `SlideshowElement` i `SliderElement` iz `assets/theme.js`.
-- Ruby YAML parser uspješno je parsirao `.github/workflows/wcag-22.yml`.
-- Statički su pregledani relevantni Liquid/JS/CSS dijelovi i potvrđene su promjene na grani.
-- **Nisu izvršeni** Shopify Theme Check, axe-core browser run, Playwright run na storefrontu, Liquid render ni test s čitačem zaslona. Za zadnji commit nisu pronađeni GitHub Actions workflow runovi.
+- Posljednji relevantni workflow: [GitHub Actions run #240](https://github.com/lemgenda/zepter-tema/actions/runs/42919578229), pokrenut 10. 11. 2026. događajem `workflow_dispatch` na grani `wcag-22`.
+- Status runa: **success**; oba workflow joba su prošla.
+- Testirani commit: `69df45723bb71a0cd06f0ce9bd3d5e5280cd515c` (`Clip transformed carousel and parallax overflow`).
+- Browser accessibility smoke test: **passed**.
+- Horizontalni overflow: desktop viewport 1365 px / document width 1365 px; mobilni viewporti 375 px i 320 px prošli su bez horizontalnog overflowa.
+- axe-core: **0 prijavljenih accessibility violations**.
+- Keyboard focus indicator i forced-colors focus provjere: **passed**.
+- Reduced-motion provjera: **0 autoplay elemenata koji su ostali aktivni**.
+- Shopify Theme Check i JSON validacija: **passed**.
+- Raniji desktop text-spacing overflow (document width 1439 px na viewportu 1365 px) zatvoren je ciljanim containment izmjenama slideshow/Flickity tracka i layered-image parallax područja; potvrđeno je u runu #240.
+- Ovaj rezultat potvrđuje samo testove koje workflow automatizira. Nije izvršen cjelovit ručni audit s NVDA/Firefox, VoiceOver/Safari ili TalkBack/Chrome.
 
 ## Preostale stavke / nije moguće potvrditi bez preview trgovine
 
-1. **Stvarni browser audit:** pokrenuti `workflow_dispatch` s javno dostupnim Shopify preview URL-om i putanjama koje uključuju stvarne product, collection, FAQ, contact, login, account, cart i search stranice. Trenutni smoke test defaultno provjerava home, all collections, cart i search.
-2. **Shopify Theme Check:** workflow je pripremljen, ali rezultat nije dostupan jer workflow nije izvršen. Liquid parser i Theme Check status stoga ostaju nepotvrđeni.
+1. **Proširiti browser audit:** posljednji smoke test na Shopify preview konfiguraciji je prošao, ali treba proširiti pokrivenost na stvarne product, collection, FAQ, contact, login, account, cart i search stranice. Trenutni smoke test defaultno provjerava home, all collections, cart i search.
+2. **Shopify Theme Check:** prošao je u runu #240. I dalje treba reagirati na nove nalaze ako se kod promijeni.
 3. **Ručni assistive technology testovi:** NVDA/Firefox, VoiceOver/Safari i TalkBack/Chrome nisu testirani. Potrebno je provjeriti redoslijed fokusa, izgovor, povrat fokusa, modal Escape/close i dinamičke najave.
 4. **Kontrast i theme schemes:** stvarne kombinacije foreground/background boja za sve merchant color schemes, overlaye, hover/focus/disabled stanja i button varijante nisu izmjerene.
 5. **Zoom/reflow:** 320 px reflow i tekstualni spacing override su u test harnessu; stvarni browser zoom 200%/400% i sadržaj na 320 CSS px još nisu testirani na storefrontu.
@@ -147,4 +153,4 @@ Dodani su:
 5. Testirati third-party integracije na stvarnoj trgovini.
 6. Tek nakon ponovljenog browser i ručnog audita ažurirati status na WCAG 2.2 AA verified.
 
-**Zaključak:** dodan je veći skup dodatnih implementacija i pripremljena je testna infrastruktura. Ipak, dok Theme Check i browser testovi ne budu stvarno izvršeni na aktivnoj Shopify preview trgovini i dok se ne zatvore third-party i ručni testovi, nije opravdano tvrditi da je tema WCAG 2.2 AA sukladna.
+**Zaključak:** automatizirani CI i browser smoke testovi sada prolaze na commit-u `69df457` (run #240), uključujući axe bez prijavljenih prekršaja i prethodno problematični desktop text-spacing overflow. To je značajan prolaz u implementaciji, ali nije certifikacija niti dokaz potpune WCAG 2.2 AA sukladnosti. Za takav zaključak još su potrebni ručni testovi tipkovnicom i čitačima zaslona, provjera kontrasta i target sizea te testiranje svih relevantnih predložaka i third-party integracija.
