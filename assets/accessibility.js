@@ -55,6 +55,7 @@
       this.initEmbeddedFrameTitles();
       this.initAnnouncementSlideInert();
       this.initAccessibleExternalLinks();
+      this.initThirdPartySkipFocus();
       this.initReducedMotion();
       this.initShopifySectionEvents();
 
@@ -469,6 +470,80 @@
         }));
       });
       this.externalLinkObserver.observe(document.body, { childList: true, subtree: true });
+    },
+
+    initThirdPartySkipFocus() {
+      const selectors = '#uw-skip-to-main, .uw-sl__item';
+      const styledRoots = new WeakSet();
+
+      const applyFocusIndicator = (element) => {
+        if (!element || !element.matches?.(selectors)) return;
+        element.style.setProperty('outline', '4px solid #000', 'important');
+        element.style.setProperty('outline-offset', '4px', 'important');
+        element.style.setProperty('border', '3px solid #fff', 'important');
+        element.style.setProperty('box-shadow', '0 0 0 7px #000', 'important');
+        element.style.setProperty('background', '#fff', 'important');
+        element.style.setProperty('color', '#000', 'important');
+      };
+
+      const attachRoot = (root) => {
+        if (!root || styledRoots.has(root)) return;
+        styledRoots.add(root);
+
+        if (root instanceof ShadowRoot) {
+          const style = document.createElement('style');
+          style.textContent = `
+            #uw-skip-to-main:focus,
+            #uw-skip-to-main:focus-visible,
+            .uw-sl__item:focus,
+            .uw-sl__item:focus-visible {
+              outline: 4px solid #000 !important;
+              outline-offset: 4px !important;
+              border: 3px solid #fff !important;
+              box-shadow: 0 0 0 7px #000 !important;
+              background: #fff !important;
+              color: #000 !important;
+            }
+            @media (forced-colors: active) {
+              #uw-skip-to-main:focus,
+              #uw-skip-to-main:focus-visible,
+              .uw-sl__item:focus,
+              .uw-sl__item:focus-visible {
+                outline: 3px solid Highlight !important;
+                outline-offset: 3px !important;
+                border: 2px solid Canvas !important;
+                box-shadow: 0 0 0 5px Highlight !important;
+                background: Canvas !important;
+                color: CanvasText !important;
+              }
+            }
+          `;
+          root.appendChild(style);
+        }
+
+        root.addEventListener('focusin', (event) => applyFocusIndicator(event.target), true);
+        root.querySelectorAll?.('*').forEach((element) => {
+          if (element.shadowRoot) attachRoot(element.shadowRoot);
+        });
+      };
+
+      attachRoot(document);
+      document.addEventListener('focusin', (event) => applyFocusIndicator(event.target), true);
+
+      if ('MutationObserver' in window) {
+        const observer = new MutationObserver((records) => {
+          records.forEach((record) => record.addedNodes.forEach((node) => {
+            if (node.nodeType !== Node.ELEMENT_NODE) return;
+            if (node.shadowRoot) attachRoot(node.shadowRoot);
+            node.querySelectorAll?.('*').forEach((element) => {
+              if (element.shadowRoot) attachRoot(element.shadowRoot);
+            });
+            if (node.matches?.(selectors)) applyFocusIndicator(node);
+            node.querySelectorAll?.(selectors).forEach(applyFocusIndicator);
+          }));
+        });
+        observer.observe(document.documentElement, { childList: true, subtree: true });
+      }
     },
 
     initReducedMotion() {
