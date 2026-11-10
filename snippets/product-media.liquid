@@ -42,10 +42,11 @@
   endif
 
   if gang_exist == true
-    assign media_alt = media.alt | split: '#' | first
+    assign media_alt = media.alt | default: product.title | split: '#' | first
   else
     assign media_alt = media.alt
   endif
+  assign media_alt = media_alt | default: product.title
 -%}
 
 <div class="product__media card media media--{{ image_ratio }} mobile:media--{{ image_ratio_mobile }}{% unless image_fill %} media--contain{% endunless %} flex w-full flex-auto relative overflow-hidden
@@ -58,7 +59,7 @@
   {%- render 'media', section_id: section_id, product_id: product_id, media: media, media_alt: media_alt, sizes: sizes, preload: preload, autoplay: autoplay, loop: loop -%}
 
   {%- if image_zoom != 'none' and media.media_type == 'image' -%}
-    <button type="button" class="absolute top-0 left-0 w-full h-full flex items-center justify-center" is="media-{{ image_zoom }}-button" aria-label="{{ 'products.media.open_media' | t: index: media.position | escape }}" tabindex="-1">
+    <button type="button" class="absolute top-0 left-0 w-full h-full flex items-center justify-center" is="media-{{ image_zoom }}-button" aria-label="{{ 'products.media.open_media' | t: index: media.position | escape }}">
       {%- render 'icon', icon: 'zoom', size: 'xs', class: 'lg:hidden' -%}
     </button>
   {%- endif -%}

@@ -1,5 +1,11 @@
 {
   "general": {
+    "404": {
+      "title": "Seite nicht gefunden",
+      "subtext_html": "Es sieht so aus, als ob die von Ihnen gesuchte Seite nicht mehr existiert.<br>Gehen Sie zurück zur vorherigen Seite oder zu den Seiten darunter.",
+      "back_to_home": "Zurück zur Startseite",
+      "continue_shopping": "Weiter shoppen"
+    },
     "accessibility": {
       "skip_to_content": "Direkt zum Inhalt",
       "close": "Schließen",
@@ -21,13 +27,22 @@
         "external": "Öffnet externe Webseite."
       },
       "go_to_item": "Gehe zu Element {{ index }}",
-      "drag": "Ziehen"
-    },
-    "404": {
-      "title": "Seite nicht gefunden",
-      "subtext_html": "Es sieht so aus, als ob die von Ihnen gesuchte Seite nicht mehr existiert.<br>Gehen Sie zurück zur vorherigen Seite oder zu den Seiten darunter.",
-      "back_to_home": "Zurück zur Startseite",
-      "continue_shopping": "Weiter shoppen"
+      "drag": "Ziehen",
+      "cart_added_announcement": "Produkt wurde zum Warenkorb hinzugefügt.",
+      "cart_error_announcement": "Produkt konnte nicht zum Warenkorb hinzugefügt werden.",
+      "cart_updated_announcement": "Dein Warenkorb wurde aktualisiert.",
+      "product_recommendations_loaded": "Produktempfehlungen geladen.",
+      "recently_viewed_loaded": "Zuletzt angesehene Produkte geladen.",
+      "product_recommendations": "Produktempfehlungen",
+      "recently_viewed_products": "Zuletzt angesehene Produkte",
+      "pagination": "Seitennavigation",
+      "announcement_bar": "Ankündigungen",
+      "announcement_number": "Ankündigung {{ number }}",
+      "currently_selected": "Aktuell ausgewählt",
+      "sold_out": "Ausverkauft",
+      "media_type_image": "Bild",
+      "media_type_video": "Video",
+      "media_type_model": "3D-Modell"
     },
     "meta": {
       "tags": "Getaggt \"{{ tags }}\"",
@@ -176,7 +191,8 @@
     },
     "slideshow": {
       "play_slideshow": "Diashow abspielen",
-      "pause_slideshow": "Pause Diashow"
+      "pause_slideshow": "Pause Diashow",
+      "name": "Diashow"
     },
     "product_bundle": {
       "total": "Gesamtsumme",
@@ -208,6 +224,21 @@
       "min_error": "Dieser Artikel hat ein Minimum von {{ min }}",
       "max_error": "Dieser Artikel hat ein Maximum von {{ max }}",
       "step_error": "Du kannst diesen Artikel nur in Abstufungen von {{ step }} hinzufügen."
+    },
+    "header": {
+      "primary_navigation": "Hauptnavigation",
+      "secondary_navigation": "Sekundäre Navigation",
+      "expand_submenu": "Untermenü öffnen: {{ title }}",
+      "back_to_menu": "Zurück zu {{ title }}"
+    },
+    "newsletter-popup": {
+      "name": "Newsletter-Anmeldung"
+    },
+    "age-verifier": {
+      "name": "Altersprüfung"
+    },
+    "cookie-banner": {
+      "name": "Cookie-Einstellungen"
     }
   },
   "blogs": {

@@ -124,13 +124,13 @@
                   {%- capture style -%}--image-width: {{ contact.settings.avatar_height | times: contact.settings.avatar.aspect_ratio }}px; --image-height: {{ contact.settings.avatar_height }}px;{%- endcapture -%}
 
                   <div class="media media--transparent relative">
-                    {{- contact.settings.avatar | image_url: width: contact.settings.avatar.width | image_tag: loading: 'lazy', sizes: sizes, widths: widths, style: style, is: 'lazy-image' -}}
+                    {{- contact.settings.avatar | image_url: width: contact.settings.avatar.width | image_tag: loading: 'lazy', sizes: sizes, widths: widths, style: style, alt: contact.settings.heading, is: 'lazy-image' -}}
                   </div>
                 {%- endif -%}
               </div>
               <div class="grid gap-4d5 md:gap-6">
                 {%- if form.errors -%}
-                  <div class="field">
+                  <div class="field" data-a11y-error-summary tabindex="-1">
                     {%- liquid
                       assign form_errors = form.errors | default_errors
                       render 'alert', status: 'error', content: form_errors
@@ -161,7 +161,7 @@
                 </div>
                 <div class="field">
                   <input
-                    class="input is-floating{% if form.errors contains 'email' %} invalid{% endif %}"
+                    class="input is-floating{% if form.errors contains 'email' %} invalid{% endif %}"{% if form.errors contains 'email' %} aria-invalid="true" aria-describedby="FAQContactFormEmailError-{{ section.id }}"{% endif %}
                     autocomplete="email"
                     type="email"
                     id="ContactFormEmail-{{ section.id }}"
@@ -172,6 +172,7 @@
                     placeholder="{{ 'contact.form.email' | t | escape }}"
                     required
                   >
+                  {%- if form.errors contains 'email' -%}<p id="FAQContactFormEmailError-{{ section.id }}" class="a11y-error-message">{{ form.errors.messages.email | escape }}</p>{%- endif -%}
                   <label class="label is-floating" for="ContactFormEmail-{{ section.id }}">{{ 'contact.form.email' | t }}</label>
                 </div>
 

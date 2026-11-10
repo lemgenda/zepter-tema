@@ -44,7 +44,15 @@
   if gang_exist == true
     assign media_alt = media.alt | split: '#' | first
   else
-    assign media_alt = media.alt
+    assign media_alt = media.alt | default: product.title
+  endif
+  assign media_alt = media_alt | default: product.title
+  if media.media_type == 'image'
+    assign media_type_label = 'general.accessibility.media_type_image' | t
+  elsif media.media_type == 'video' or media.media_type == 'external_video'
+    assign media_type_label = 'general.accessibility.media_type_video' | t
+  elsif media.media_type == 'model'
+    assign media_type_label = 'general.accessibility.media_type_model' | t
   endif
 -%}
 
@@ -52,7 +60,7 @@
   class="product__thumbnail media media--square relative overflow-hidden
   {%- if hide_variants and variant_images contains media.src %} product__media--variant{% endif -%}"
   data-media-id="{{ media.id }}"
-  aria-label="{{ 'general.accessibility.go_to_item' | t: index: forloop.index | escape }}"
+  aria-label="{{ media_alt | escape }}, {{ media_type_label | escape }}, {{ 'general.accessibility.go_to_item' | t: index: forloop.index | escape }}"
   aria-current="{% if media.id != featured_media.id %}false{% else %}true{% endif %}"
   {%- if gang_exist == true %} data-gang-option="{{ gang_option_name }}" data-gang-connect="{{ gang_connect }}"{% if gang_media_active == false %} hidden{% endif %}{% else %} data-gang-default{% endif -%}
 >

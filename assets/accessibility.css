@@ -114,9 +114,8 @@
    -------------------------------------------------------------------------- */
 
 html {
-  scroll-padding-top: calc(
-    var(--a11y-header-offset, 110px) + 16px
-  );
+  scroll-padding-top: calc(var(--a11y-header-offset, 110px) + 16px);
+  scroll-padding-bottom: calc(var(--a11y-bottom-offset, 0px) + 16px);
 }
 
 :where(
@@ -128,9 +127,8 @@ html {
   summary,
   [tabindex]:not([tabindex="-1"])
 ) {
-  scroll-margin-top: calc(
-    var(--a11y-header-offset, 110px) + 16px
-  );
+  scroll-margin-top: calc(var(--a11y-header-offset, 110px) + 16px);
+  scroll-margin-bottom: calc(var(--a11y-bottom-offset, 0px) + 16px);
 }
 
 /* --------------------------------------------------------------------------
@@ -205,17 +203,17 @@ textarea[aria-invalid="true"],
   These selectors are intentionally limited to common compact controls.
 */
 
-@media (pointer: coarse) {
-  :where(
-    button,
-    input[type="button"],
-    input[type="submit"],
-    input[type="reset"],
-    [role="button"]
-  ) {
-    min-width: 24px;
-    min-height: 24px;
-  }
+/* WCAG 2.5.8: provide a 24 CSS-pixel minimum for compact controls.
+   Larger component-specific hit areas remain preferable where layout allows. */
+:where(
+  button,
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"],
+  [role="button"]
+) {
+  min-inline-size: 24px;
+  min-block-size: 24px;
 }
 
 /* --------------------------------------------------------------------------

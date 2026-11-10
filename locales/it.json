@@ -1,5 +1,11 @@
 {
   "general": {
+    "404": {
+      "title": "Pagina non trovata",
+      "subtext_html": "Sembra che la pagina che stai cercando non esista più.<br>Prova a tornare alla pagina precedente o alle pagine successive.",
+      "back_to_home": "Torna alla prima pagina",
+      "continue_shopping": "Continua lo shopping"
+    },
     "accessibility": {
       "skip_to_content": "Vai direttamente ai contenuti",
       "close": "Chiudi",
@@ -21,13 +27,22 @@
         "external": "Apre un sito web esterno."
       },
       "go_to_item": "Vai all'articolo {{ index }}",
-      "drag": "Trascina"
-    },
-    "404": {
-      "title": "Pagina non trovata",
-      "subtext_html": "Sembra che la pagina che stai cercando non esista più.<br>Prova a tornare alla pagina precedente o alle pagine successive.",
-      "back_to_home": "Torna alla prima pagina",
-      "continue_shopping": "Continua lo shopping"
+      "drag": "Trascina",
+      "cart_added_announcement": "Prodotto aggiunto al carrello.",
+      "cart_error_announcement": "Impossibile aggiungere il prodotto al carrello.",
+      "cart_updated_announcement": "Il carrello è stato aggiornato.",
+      "product_recommendations_loaded": "Consigli sui prodotti caricati.",
+      "recently_viewed_loaded": "Prodotti visualizzati di recente caricati.",
+      "product_recommendations": "Consigli sui prodotti",
+      "recently_viewed_products": "Prodotti visualizzati di recente",
+      "pagination": "Paginazione",
+      "announcement_bar": "Annunci",
+      "announcement_number": "Annuncio {{ number }}",
+      "currently_selected": "Attualmente selezionato",
+      "sold_out": "Esaurito",
+      "media_type_image": "Immagine",
+      "media_type_video": "Video",
+      "media_type_model": "Modello 3D"
     },
     "meta": {
       "tags": "Contrassegnato da tag \"{{ tag }}\"",
@@ -176,7 +191,8 @@
     },
     "slideshow": {
       "play_slideshow": "Avvia presentazione",
-      "pause_slideshow": "Metti in pausa presentazione"
+      "pause_slideshow": "Metti in pausa presentazione",
+      "name": "Presentazione"
     },
     "product_bundle": {
       "total": "Totale",
@@ -208,6 +224,21 @@
       "min_error": "Questo articolo ha un minimo di {{ min }}",
       "max_error": "Questo articolo ha un massimo di {{ max }}",
       "step_error": "Puoi aggiungere questo articolo solo in incrementi di {{ step }}"
+    },
+    "header": {
+      "primary_navigation": "Navigazione principale",
+      "secondary_navigation": "Navigazione secondaria",
+      "expand_submenu": "Espandi sottomenu: {{ title }}",
+      "back_to_menu": "Torna a {{ title }}"
+    },
+    "newsletter-popup": {
+      "name": "Iscrizione alla newsletter"
+    },
+    "age-verifier": {
+      "name": "Verifica dell’età"
+    },
+    "cookie-banner": {
+      "name": "Preferenze cookie"
     }
   },
   "blogs": {

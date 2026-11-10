@@ -98,52 +98,91 @@ console.log(theme.settings.themeName + ' theme (' + theme.settings.themeVersion 
     trapFocusHandlers: {},
 
     getFocusableElements: (container) => {
-      return Array.from(
+      if (!container) return [];
+
+      const candidates = Array.from(
         container.querySelectorAll(
-          'summary, a[href], button:enabled, [tabindex]:not([tabindex^="-"]), [draggable], area, input:not([type=hidden]):enabled, select:enabled, textarea:enabled, object, iframe'
+          'summary, a[href], button, [tabindex]:not([tabindex^="-"]), [data-a11y-error-summary], [draggable], area[href], input:not([type="hidden"]), select, textarea, object, iframe'
         )
       );
+
+      return candidates.filter((element) => {
+        if (element.disabled || element.hidden || element.getAttribute('aria-disabled') === 'true') return false;
+
+        let ancestor = element;
+        while (ancestor && ancestor !== container.parentElement) {
+          if (
+            ancestor.hidden ||
+            ancestor.hasAttribute('inert') ||
+            ancestor.getAttribute('aria-hidden') === 'true'
+          ) return false;
+
+          const style = window.getComputedStyle(ancestor);
+          if (style.display === 'none' || style.visibility === 'hidden' || style.visibility === 'collapse') return false;
+          if (ancestor === container) break;
+          ancestor = ancestor.parentElement;
+        }
+
+        return element.getClientRects().length > 0;
+      });
     },
 
     trapFocus: (container, elementToFocus = container) => {
-      const elements = theme.a11y.getFocusableElements(container);
-      const first = elements[0];
-      const last = elements[elements.length - 1];
-
       theme.a11y.removeTrapFocus();
 
-      theme.a11y.trapFocusHandlers.focusin = (event) => {
-        if (event.target !== container && event.target !== last && event.target !== first) return;
+      const getElements = () => theme.a11y.getFocusableElements(container);
+      let elements = getElements();
+      let target = elementToFocus;
 
-        document.addEventListener('keydown', theme.a11y.trapFocusHandlers.keydown);
+      if (!target || (target !== container && !elements.includes(target))) {
+        target = elements[0] || container;
+      }
+
+      if (target === container && !container.hasAttribute('tabindex')) {
+        container.setAttribute('tabindex', '-1');
+      }
+
+      theme.a11y.trapFocusHandlers.focusin = (event) => {
+        if (container.contains(event.target) || event.target === container) {
+          document.addEventListener('keydown', theme.a11y.trapFocusHandlers.keydown);
+        } else {
+          document.removeEventListener('keydown', theme.a11y.trapFocusHandlers.keydown);
+        }
       };
 
-      theme.a11y.trapFocusHandlers.focusout = function () {
+      theme.a11y.trapFocusHandlers.focusout = () => {
         document.removeEventListener('keydown', theme.a11y.trapFocusHandlers.keydown);
       };
 
-      theme.a11y.trapFocusHandlers.keydown = function (event) {
-        if (event.code.toUpperCase() !== 'TAB') return; // If not TAB key
-        // On the last focusable element and tab forward, focus the first element.
-        if (event.target === last && !event.shiftKey) {
+      theme.a11y.trapFocusHandlers.keydown = (event) => {
+        if (event.key !== 'Tab') return;
+
+        elements = getElements();
+        if (!elements.length) {
           event.preventDefault();
-          first.focus();
+          container.focus();
+          return;
         }
 
-        //  On the first focusable element and tab backward, focus the last element.
-        if ((event.target === container || event.target === first) && event.shiftKey) {
+        const first = elements[0];
+        const last = elements[elements.length - 1];
+
+        if (event.shiftKey && (event.target === first || event.target === container)) {
           event.preventDefault();
           last.focus();
+        } else if (!event.shiftKey && event.target === last) {
+          event.preventDefault();
+          first.focus();
         }
       };
 
       document.addEventListener('focusout', theme.a11y.trapFocusHandlers.focusout);
       document.addEventListener('focusin', theme.a11y.trapFocusHandlers.focusin);
 
-      elementToFocus.focus();
+      target.focus();
 
-      if (elementToFocus.tagName === 'INPUT' && ['search', 'text', 'email', 'url'].includes(elementToFocus.type) && elementToFocus.value) {
-        elementToFocus.setSelectionRange(0, elementToFocus.value.length);
+      if (target.tagName === 'INPUT' && ['search', 'text', 'email', 'url'].includes(target.type) && target.value) {
+        target.setSelectionRange(0, target.value.length);
       }
     },
     removeTrapFocus: (elementToFocus = null) => {
@@ -1303,6 +1342,9 @@ class AnnouncementBar extends HTMLElement {
   constructor() {
     super();
 
+    this.onFocusIn = this.onFocusIn.bind(this);
+    this.addEventListener('focusin', this.onFocusIn);
+
     if (theme.config.isTouch) {
       new theme.initWhenVisible(this.init.bind(this));
     }
@@ -1316,7 +1358,7 @@ class AnnouncementBar extends HTMLElement {
   }
 
   get autoplay() {
-    return this.hasAttribute('autoplay');
+    return this.hasAttribute('autoplay') && !theme.config.motionReduced;
   }
 
   get speed() {
@@ -1324,7 +1366,7 @@ class AnnouncementBar extends HTMLElement {
   }
 
   init() {
-    if (this.items.length > 1) {
+    if (this.items.length > 1 && !this.slider) {
       this.slider = new Flickity(this, {
         accessibility: false,
         fade: true,
@@ -1339,24 +1381,50 @@ class AnnouncementBar extends HTMLElement {
           }
         }
       });
-  
+
       this.slider.on('change', this.onChange.bind(this));
       this.addEventListener('slider:previous', () => this.slider.previous());
       this.addEventListener('slider:next', () => this.slider.next());
       this.addEventListener('slider:play', () => this.slider.playPlayer());
       this.addEventListener('slider:pause', () => this.slider.pausePlayer());
-      
+
+      this.updateSlideAccessibility();
+
       if (Shopify.designMode) {
         this.addEventListener('shopify:block:select', (event) => this.slider.select(this.items.indexOf(event.target)));
       }
     }
   }
 
+  updateSlideAccessibility() {
+    const activeIndex = this.slider ? this.slider.selectedIndex : 0;
+
+    this.items.forEach((item, index) => {
+      if (index === activeIndex) {
+        item.removeAttribute('aria-hidden');
+        item.removeAttribute('inert');
+      } else {
+        item.setAttribute('aria-hidden', 'true');
+        item.setAttribute('inert', '');
+      }
+    });
+  }
+
+  onFocusIn() {
+    if (!this.slider) return;
+
+    this.slider.pausePlayer();
+    const control = document.querySelector('[is="control-button"][aria-controls="' + this.id + '"]');
+    control?.setAttribute('paused', '');
+  }
+
   disconnectedCallback() {
+    this.removeEventListener('focusin', this.onFocusIn);
     if (this.slider) this.slider.destroy();
   }
 
   onChange() {
+    this.updateSlideAccessibility();
     this.dispatchEvent(new CustomEvent('slider:change', { bubbles: true, detail: { currentPage: this.slider.selectedIndex } }));
   }
 }
@@ -1715,7 +1783,16 @@ class ModalElement extends HTMLElement {
   }
 
   get focusElement() {
-    return this.querySelector('button');
+    const explicitTarget = this.querySelector('[data-modal-focus]');
+    if (explicitTarget && theme.a11y.getFocusableElements(this).includes(explicitTarget)) {
+      return explicitTarget;
+    }
+
+    const firstVisibleTarget = theme.a11y.getFocusableElements(this)[0];
+    if (firstVisibleTarget) return firstVisibleTarget;
+
+    if (!this.hasAttribute('tabindex')) this.setAttribute('tabindex', '-1');
+    return this;
   }
 
   connectedCallback() {
@@ -2161,6 +2238,7 @@ class MenuDetails extends HTMLDetailsElement {
       }
       else {
         this.removeAttribute('open');
+        this.summary.focus({ preventScroll: true });
       }
     }
 
@@ -2426,6 +2504,16 @@ class RecentlyViewed extends HTMLElement {
         const recommendations = sectionInnerHTML.querySelector('recently-viewed');
         if (recommendations && recommendations.innerHTML.trim().length) {
           this.innerHTML = recommendations.innerHTML;
+          const announcement = this.getAttribute('data-a11y-loaded-message');
+          if (announcement) {
+            const status = document.createElement('p');
+            status.className = 'sr-only';
+            status.setAttribute('role', 'status');
+            status.setAttribute('aria-live', 'polite');
+            status.setAttribute('aria-atomic', 'true');
+            status.textContent = announcement;
+            this.prepend(status);
+          }
           this.dispatchEvent(new CustomEvent('recentlyViewed:loaded'));
         }
         else {
@@ -2473,6 +2561,16 @@ class ProductRecommendations extends HTMLElement {
         const recommendations = sectionInnerHTML.querySelector('product-recommendations');
         if (recommendations && recommendations.innerHTML.trim().length) {
           this.innerHTML = recommendations.innerHTML;
+          const announcement = this.getAttribute('data-a11y-loaded-message');
+          if (announcement) {
+            const status = document.createElement('p');
+            status.className = 'sr-only';
+            status.setAttribute('role', 'status');
+            status.setAttribute('aria-live', 'polite');
+            status.setAttribute('aria-atomic', 'true');
+            status.textContent = announcement;
+            this.prepend(status);
+          }
           this.dispatchEvent(new CustomEvent('recommendations:loaded'));
         }
         else {
@@ -3855,6 +3953,7 @@ class SliderElement extends HTMLElement {
   constructor() {
     super();
 
+    this.onResize = theme.utils.debounce(this.updateSlideAccessibility.bind(this), 50);
     Motion.inView(this, this.init.bind(this), { margin: '200px 0px 200px 0px' });
   }
 
@@ -3904,12 +4003,45 @@ class SliderElement extends HTMLElement {
 
     this.addEventListener('scroll', theme.utils.debounce(this.update.bind(this), 50));
     this.addEventListener('scrollend', this.scrollend);
+    this.addEventListener('focusout', () => window.requestAnimationFrame(this.updateSlideAccessibility.bind(this)));
+    window.addEventListener('resize', this.onResize, { passive: true });
+    this.updateSlideAccessibility();
     this.addEventListener('slider:previous', this.previous);
     this.addEventListener('slider:next', this.next);
 
     if (Shopify.designMode) {
       this.addEventListener('shopify:block:select', (event) => event.target.scrollIntoView({behavior: 'smooth'}));
     }
+  }
+
+  updateSlideAccessibility() {
+    if (!this.items || !this.items.length) return;
+
+    const containerRect = this.getBoundingClientRect();
+
+    this.items.forEach((item) => {
+      const rect = item.getBoundingClientRect();
+      const intersectsViewport =
+        rect.width > 0 &&
+        rect.height > 0 &&
+        rect.right > containerRect.left &&
+        rect.left < containerRect.right &&
+        rect.bottom > containerRect.top &&
+        rect.top < containerRect.bottom;
+      const containsFocus = item.contains(document.activeElement);
+
+      if (intersectsViewport || containsFocus) {
+        item.removeAttribute('aria-hidden');
+        item.removeAttribute('inert');
+      } else {
+        item.setAttribute('aria-hidden', 'true');
+        item.setAttribute('inert', '');
+      }
+    });
+  }
+
+  disconnectedCallback() {
+    window.removeEventListener('resize', this.onResize);
   }
 
   previous() {
@@ -3937,6 +4069,8 @@ class SliderElement extends HTMLElement {
   }
 
   update() {
+    this.updateSlideAccessibility();
+
     if (window.onscrollend === void 0) {
       clearTimeout(this.scrollendTimeout);
     }
@@ -5899,6 +6033,8 @@ class SlideshowElement extends HTMLElement {
     super();
 
     this.selectedIndex = this.selectedIndex;
+    this.onFocusIn = this.onFocusIn.bind(this);
+    this.addEventListener('focusin', this.onFocusIn);
 
     if (theme.config.isTouch) {
       new theme.initWhenVisible(this.init.bind(this));
@@ -5925,7 +6061,7 @@ class SlideshowElement extends HTMLElement {
   }
 
   get autoplay() {
-    return this.hasAttribute('autoplay');
+    return this.hasAttribute('autoplay') && !theme.config.motionReduced;
   }
 
   get speed() {
@@ -5956,6 +6092,7 @@ class SlideshowElement extends HTMLElement {
       });
 
       this.slider.on('change', this.onChange.bind(this));
+      this.updateSlideAccessibility();
       this.addEventListener('slider:previous', () => this.slider.previous());
       this.addEventListener('slider:next', () => this.slider.next());
       this.addEventListener('slider:play', () => this.slider.playPlayer());
@@ -5967,11 +6104,13 @@ class SlideshowElement extends HTMLElement {
     }
     else if (this.items.length === 1) {
       const selectedElement = this.firstChild;
+      this.updateSlideAccessibility();
       that.onReady(selectedElement);
     }
   }
 
   disconnectedCallback() {
+    this.removeEventListener('focusin', this.onFocusIn);
     if (this.slider) this.slider.destroy();
   }
 
@@ -5988,15 +6127,38 @@ class SlideshowElement extends HTMLElement {
         fromVideoElement?.pause();
       }
 
-      if (toElement.getAttribute('data-type') === 'video') {
+      if (toElement.getAttribute('data-type') === 'video' && !theme.config.motionReduced) {
         const toVideoElement = theme.utils.visibleMedia(toElement.querySelectorAll('video-media'));
         toVideoElement?.play();
       }
     }
   }
 
+  updateSlideAccessibility() {
+    const activeIndex = this.slider ? this.slider.selectedIndex : this.selectedIndex;
+
+    this.items.forEach((item, index) => {
+      if (index === activeIndex) {
+        item.removeAttribute('aria-hidden');
+        item.removeAttribute('inert');
+      } else {
+        item.setAttribute('aria-hidden', 'true');
+        item.setAttribute('inert', '');
+      }
+    });
+  }
+
+  onFocusIn() {
+    if (!this.slider) return;
+
+    this.slider.pausePlayer();
+    const control = document.querySelector('[is="control-button"][aria-controls="' + this.id + '"]');
+    control?.setAttribute('paused', '');
+  }
+
   onChange() {
     this.selectedIndex = this.slider.selectedIndex;
+    this.updateSlideAccessibility();
     this.dispatchEvent(new CustomEvent('slider:change', { bubbles: true, detail: { currentPage: this.slider.selectedIndex } }));
   }
 
@@ -6005,7 +6167,7 @@ class SlideshowElement extends HTMLElement {
   }
 
   onReady(selectedElement) {
-    if (selectedElement.getAttribute('data-type') === 'video') {
+    if (selectedElement.getAttribute('data-type') === 'video' && !theme.config.motionReduced) {
       const videoElement = theme.utils.visibleMedia(selectedElement.querySelectorAll('video-media'));
       videoElement?.play();
     }
@@ -6161,10 +6323,12 @@ class ControlButton extends HTMLButtonElement {
   attributeChangedCallback(name, oldValue, newValue) {
     if (name === 'paused') {
       if (oldValue === null && newValue === '') {
+        this.controlledElement?.setAttribute('aria-live', 'polite');
         return (this.controlledElement ?? this).dispatchEvent(new CustomEvent('slider:pause', { bubbles: true }));
       }
 
       if (newValue === null) {
+        this.controlledElement?.setAttribute('aria-live', 'off');
         return (this.controlledElement ?? this).dispatchEvent(new CustomEvent('slider:play', { bubbles: true }));
       }
     }

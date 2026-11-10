@@ -8,6 +8,9 @@
         <label class="sp-label-checkbox sp-recipient-checkbox">
             <input id="sp-recipient-checkbox-{{ section.id }}"
                    type="checkbox"
+                   aria-controls="sp-recipient-fields-{{ section.id }}"
+                   aria-expanded="{% if form.errors %}true{% else %}false{% endif %}"
+                   {% if form.errors %}checked{% endif %}
                    name="{{ gift_card_recipient_control_flag }}"
                    disabled
             >
@@ -23,7 +26,7 @@
     </div>
     <div class="sp-product-form-recipient-error-message-wrapper" role="alert"
          {% unless form.errors %}hidden{% endunless %}>
-        <div class="sp-form-message-heading" tabindex="-1" autofocus>
+        <div class="sp-form-message-heading" tabindex="-1" data-a11y-error-summary>
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M8 0C3.58198 0 0 3.58198 0 8C0 12.4185 3.58198 16 8 16C12.4185 16 16 12.419 16 8C16 3.58198 12.4185 0 8 0ZM8 14.5C4.41002 14.5 1.50002 11.59 1.50002 8C1.50002 4.41002 4.41002 1.50002 8 1.50002C11.59 1.50002 14.5 4.41002 14.5 8C14.5 11.59 11.59 14.5 8 14.5ZM8.0005 3.50848C7.42752 3.50848 6.99398 3.80751 6.99398 4.29049V8.72048C6.99398 9.20397 7.42746 9.50198 8.0005 9.50198C8.5595 9.50198 9.00703 9.1915 9.00703 8.72048V4.29049C9.00697 3.81897 8.5595 3.50848 8.0005 3.50848ZM8.0005 10.5C7.45001 10.5 7.00198 10.948 7.00198 11.499C7.00198 12.049 7.45001 12.497 8.0005 12.497C8.551 12.497 8.99852 12.049 8.99852 11.499C8.99847 10.948 8.551 10.5 8.0005 10.5Z"
                       fill="currentColor"/>
@@ -37,7 +40,7 @@
                         {%- if field == 'form' -%}
                             {{ form.errors.messages[field] }}
                         {%- else -%}
-                            <a href="#sp-recipient-{{ field }}-{{ section.id }}">
+                            <a href="#sp-recipient-{% if field == 'send_on' %}send-on{% else %}{{ field }}{% endif %}-{{ section.id }}">
                                 {{ form.errors.messages[field] }}
                             </a>
                         {%- endif -%}
@@ -46,8 +49,8 @@
             {%- endif -%}
         </ul>
     </div>
-    <p id="sp-recipient-fields-live-region-{{ section.id }}" class="visually-hidden" role="status"></p>
-    <div class="sp-recipient-fields sp-fields">
+    <p id="sp-recipient-fields-live-region-{{ section.id }}" class="visually-hidden" role="status" aria-live="polite" aria-atomic="true"></p>
+    <div class="sp-recipient-fields sp-fields" id="sp-recipient-fields-{{ section.id }}">
         <div class="sp-recipient-fields-field sp-field">
             <div class="sp-field-input">
                 <label class="sp-form-label" for="sp-recipient-email-{{ section.id }}">
@@ -58,7 +61,7 @@
                 </label>
                 <input
                         class="sp-form-input"
-                        id="sp-recipient-email-{{ section.id }}"
+                        id="sp-recipient-email-{{ section.id }}"{% if form.errors contains 'email' %} aria-invalid="true"{% endif %}
                         type="email"
                         name="properties[Recipient email]"
                         placeholder=""
@@ -93,7 +96,7 @@
                         class="sp-form-input"
                         autocomplete="name"
                         type="text"
-                        id="sp-recipient-name-{{ section.id }}"
+                        id="sp-recipient-name-{{ section.id }}"{% if form.errors contains 'name' %} aria-invalid="true"{% endif %}
                         name="properties[Recipient name]"
                         value="{{ form.name }}"
                         placeholder=""
@@ -127,7 +130,7 @@
                 </label>
                 <textarea
                         rows="10"
-                        id="sp-recipient-message-{{ section.id }}"
+                        id="sp-recipient-message-{{ section.id }}"{% if form.errors contains 'message' %} aria-invalid="true"{% endif %}
                         class="sp-form-input"
                         name="properties[Message]"
                         placeholder=""
@@ -164,7 +167,7 @@
                         class="sp-form-input"
                         autocomplete="send_on"
                         type="date"
-                        id="sp-recipient-send-on-{{ section.id }}"
+                        id="sp-recipient-send-on-{{ section.id }}"{% if form.errors contains 'send_on' %} aria-invalid="true"{% endif %}
                         name="properties[Send on]"
                         placeholder=""
                         pattern="\d{4}-\d{2}-\d{2}"

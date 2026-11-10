@@ -1,0 +1,84 @@
+name: WCAG 2.2 checks
+
+on:
+  push:
+    branches:
+      - wcag-22
+  pull_request:
+    branches:
+      - wcag-22
+  workflow_dispatch:
+    inputs:
+      preview_url:
+        description: Public Shopify theme preview URL for browser accessibility checks
+        required: false
+        type: string
+      paths:
+        description: Comma-separated paths to test (defaults to home, all collections, cart, and search)
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  theme-check:
+    name: Liquid, JSON, and theme lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out theme
+        uses: actions/checkout@v4
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+      - name: Install Shopify Theme Check
+        run: gem install theme-check
+      - name: Run Shopify Theme Check
+        run: theme-check --fail-level error .
+      - name: Validate all JSON files
+        run: |
+          node --input-type=module <<'NODE'
+          import { readdir, readFile } from 'node:fs/promises';
+          import { join } from 'node:path';
+
+          async function walk(directory) {
+            const entries = await readdir(directory, { withFileTypes: true });
+            for (const entry of entries) {
+              if (entry.name === '.git' || entry.name === 'node_modules') continue;
+              const path = join(directory, entry.name);
+              if (entry.isDirectory()) await walk(path);
+              else if (entry.isFile() && path.endsWith('.json')) {
+                try {
+                  JSON.parse(await readFile(path, 'utf8'));
+                } catch (error) {
+                  console.error(path + ': ' + error.message);
+                  process.exitCode = 1;
+                }
+              }
+            }
+          }
+
+          await walk('.');
+          if (!process.exitCode) console.log('All JSON files are valid.');
+          NODE
+
+  browser-accessibility:
+    name: Browser accessibility smoke tests
+    if: github.event_name == 'workflow_dispatch' && inputs.preview_url != ''
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out test harness
+        uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install browser test dependencies
+        run: npm install --no-save playwright @axe-core/playwright
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Run axe, keyboard focus, target-size review, and text-spacing smoke tests
+        env:
+          WCAG_TEST_PATHS: ${{ inputs.paths }}
+        run: node scripts/wcag-a11y-smoke.mjs "${{ inputs.preview_url }}"

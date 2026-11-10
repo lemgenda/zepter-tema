@@ -21,15 +21,15 @@
   data-delay="{{ section.settings.delay }}"
   data-test-mode="{% if section.settings.mode == 'testing' %}true{% else %}false{% endif %}"
   role="dialog"
-  aria-labelledby="Dialog-{{ section.id }}-Heading1"
-  aria-modal="false"
+  aria-label="{{ 'sections.cookie-banner.name' | t | escape }}"
+  aria-modal="true"
   shopify-design-mode
   hidden
 >
   <overlay-element class="overlay fixed-modal invisible opacity-0 fixed bottom-0 left-0 w-full h-screen pointer-events-none" aria-controls="CookieBanner" aria-expanded="false"></overlay-element>
   <div class="drawer__inner z-10 absolute bottom-0 {{ section.settings.content_position }} flex flex-col w-full h-full overflow-hidden">
-    <gesture-element class="drawer__header flex justify-between opacity-0 invisible relative sr-only">
-      <button class="button button--secondary button--close drawer__close hidden sm:flex items-center justify-center" type="button" is="hover-button" aria-controls="AgeVerifier" aria-expanded="false" aria-label="{{ 'general.accessibility.close' | t | escape }}">
+    <gesture-element class="drawer__header flex justify-between opacity-0 invisible relative">
+      <button class="button button--secondary button--close drawer__close flex items-center justify-center" type="button" is="hover-button" aria-controls="CookieBanner" aria-expanded="false" aria-label="{{ 'general.accessibility.close' | t | escape }}">
         <span class="btn-fill" data-fill></span>
         <span class="btn-text">
           {%- render 'icon', icon: 'close', size: 'sm' -%}
@@ -75,7 +75,7 @@
                 <div class="cookie__buttons" {{ block.shopify_attributes }}>
                   <div class="inline-flex gap-4">
                     {%- if block.settings.button_label_1 != blank -%}
-                      <button type="button" name="accept" class="button button--primary icon-with-text" is="hover-button">
+                      <button type="button" name="accept" class="button button--primary icon-with-text"{% if block.settings.button_label_2 == blank %} data-modal-focus{% endif %} is="hover-button">
                         <span class="btn-fill" data-fill></span>
                         <span class="btn-text">
                           {%- liquid
@@ -86,7 +86,7 @@
                       </button>
                     {%- endif -%}
                     {%- if block.settings.button_label_2 != blank -%}
-                      <button type="button" name="decline" class="button button--secondary icon-with-text" is="hover-button">
+                      <button type="button" name="decline" class="button button--secondary icon-with-text" data-modal-focus is="hover-button">
                         <span class="btn-fill" data-fill></span>
                         <span class="btn-text">
                           {%- liquid
@@ -105,7 +105,7 @@
                     <figure class="media media--transparent relative inline-block">
                       {%- capture sizes -%}{{ block.settings.icon_width }}px{%- endcapture -%}
                       {%- capture widths -%}{{ block.settings.icon_width }}, {{ block.settings.icon_width | times: 2 | at_most: block.settings.icon_image.width }}{%- endcapture -%}
-                      {{- block.settings.icon_image | image_url: width: block.settings.icon_image.width | image_tag: loading: 'lazy', sizes: sizes, widths: widths, class: 'image-fit' -}}
+                      {{- block.settings.icon_image | image_url: width: block.settings.icon_image.width | image_tag: loading: 'lazy', sizes: sizes, widths: widths, alt: '', class: 'image-fit' -}}
                     </figure>
                   </div>
                 {%- elsif block.settings.icon != 'none' -%}
@@ -126,7 +126,8 @@
                         {%- assign sizes = 'min(100vw, var(--page-width))' -%}
                         {%- assign widths = '50,75,100,150,200,300,400,500,750,1000,1250,1500,1750,2000,2250,2500,2750,3000,3200' -%}
                       {%- endif -%}
-                      {{- block.settings.image | image_url: width: block.settings.image.width | image_tag: loading: 'lazy', sizes: sizes, widths: widths, style: style, is: 'lazy-image', class: 'image-fit' -}}
+                      {%- assign cookie_block_image_alt = block.settings.image.alt | default: block.settings.heading | default: shop.name -%}
+                      {{- block.settings.image | image_url: width: block.settings.image.width | image_tag: loading: 'lazy', sizes: sizes, widths: widths, style: style, alt: cookie_block_image_alt, is: 'lazy-image', class: 'image-fit' -}}
                     </figure>
                   </div>
                 {%- endif -%}

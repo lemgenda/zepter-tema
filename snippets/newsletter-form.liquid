@@ -24,7 +24,7 @@
       autocomplete="email"
       placeholder="{{ 'general.newsletter.label' | t | escape }}"
       required
-      {%- if form.errors %} autofocus{% endif -%}
+      {%- if form.errors and form.context == context %} aria-invalid="true" aria-describedby="NewsletterFormError--{{ section_id }}" autofocus{% endif -%}
     />
     <label class="label is-floating" for="NewsletterForm--{{ section_id }}">{{ 'general.newsletter.label' | t }}</label>
     <div class="self-submit-button absolute">
@@ -41,7 +41,9 @@
   {%- liquid
     if form.errors and form.context == context
       assign form_errors = form.errors | default_errors
+      echo '<div id="NewsletterFormError--' | append: section_id | append: '" data-a11y-error-summary tabindex="-1">'
       render 'alert', status: 'error', content: form_errors
+      echo '</div>'
     endif
 
     if form.posted_successfully?

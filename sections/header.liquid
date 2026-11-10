@@ -48,7 +48,7 @@
   -%}
   
   <div class="header__navigation hidden lg:flex lg:gap-5 {{ main_menu_class }}"{% if header_layout == 'center' %} id="MenuToggle"{% endif %}>
-    <nav class="header__menu hidden lg:flex" role="navigation" aria-label="Primary">
+    <nav class="header__menu hidden lg:flex" aria-label="{{ 'sections.header.primary_navigation' | t | escape }}">
       {%- render 'header-nav-desktop', section: section, main_menu: main_menu, limit: link_count -%}
     </nav>
   </div>
@@ -61,7 +61,7 @@
   
   {%- if header_layout == 'center-split' -%}
     <div class="header__navigation header__navigation--split hidden lg:flex lg:gap-5 lg:justify-start">
-      <nav class="header__menu hidden lg:flex" role="navigation" aria-label="Secondary">
+      <nav class="header__menu hidden lg:flex" aria-label="{{ 'sections.header.secondary_navigation' | t | escape }}">
         {%- render 'header-nav-desktop', section: section, main_menu: main_menu, offset: link_count -%}
       </nav>
     </div>

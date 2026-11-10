@@ -259,8 +259,8 @@
                         {%- endif -%}
 
                         {%- if featured_media -%}
-                          <a class="block relative media media--{{ image_ratio }}{% unless image_fill %} media--contain{% endunless %} overflow-hidden" href="{{ article.url }}">
-                            {{- featured_media | image_url: width: featured_media.width | image_tag: loading: 'lazy', widths: '180,360,540,720,900,1080', is: 'lazy-image' -}}
+                          <a class="block relative media media--{{ image_ratio }}{% unless image_fill %} media--contain{% endunless %} overflow-hidden" href="{{ article.url }}" aria-hidden="true" tabindex="-1">
+                            {{- featured_media | image_url: width: featured_media.width | image_tag: loading: 'lazy', widths: '180,360,540,720,900,1080', alt: '', is: 'lazy-image' -}}
                           </a>
                         {%- else -%}
                           <span class="block aspect-{{ image_ratio }}"></span>

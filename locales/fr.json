@@ -1,5 +1,11 @@
 {
   "general": {
+    "404": {
+      "title": "Page non trouvée",
+      "subtext_html": "La page que vous cherchez ne semble plus exister.<br>Essayez de revenir à la page précédente ou rendez-vous à la page ci-dessous.",
+      "back_to_home": "Retour à la page d'accueil",
+      "continue_shopping": "Continuer les achats"
+    },
     "accessibility": {
       "skip_to_content": "Passer au contenu",
       "close": "Fermer",
@@ -21,13 +27,22 @@
         "external": "Ouvre un site web externe."
       },
       "go_to_item": "Aller à l'élément {{ index }}",
-      "drag": "Tirer"
-    },
-    "404": {
-      "title": "Page non trouvée",
-      "subtext_html": "La page que vous cherchez ne semble plus exister.<br>Essayez de revenir à la page précédente ou rendez-vous à la page ci-dessous.",
-      "back_to_home": "Retour à la page d'accueil",
-      "continue_shopping": "Continuer les achats"
+      "drag": "Tirer",
+      "cart_added_announcement": "Produit ajouté au panier.",
+      "cart_error_announcement": "Impossible d’ajouter le produit au panier.",
+      "cart_updated_announcement": "Votre panier a été mis à jour.",
+      "product_recommendations_loaded": "Recommandations de produits chargées.",
+      "recently_viewed_loaded": "Produits récemment consultés chargés.",
+      "product_recommendations": "Recommandations de produits",
+      "recently_viewed_products": "Produits récemment consultés",
+      "pagination": "Pagination",
+      "announcement_bar": "Annonces",
+      "announcement_number": "Annonce {{ number }}",
+      "currently_selected": "Actuellement sélectionné",
+      "sold_out": "Épuisé",
+      "media_type_image": "Image",
+      "media_type_video": "Vidéo",
+      "media_type_model": "Modèle 3D"
     },
     "meta": {
       "tags": "Mots clés \"{{ tags }}\"",
@@ -176,7 +191,8 @@
     },
     "slideshow": {
       "play_slideshow": "Lire le diaporama",
-      "pause_slideshow": "Diaporama Pause"
+      "pause_slideshow": "Diaporama Pause",
+      "name": "Diaporama"
     },
     "product_bundle": {
       "total": "Total",
@@ -208,6 +224,21 @@
       "min_error": "Cet article a un minimum de {{ min }}",
       "max_error": "Cet article a un maximum de {{ max }}",
       "step_error": "Vous pouvez ajouter cet article uniquement par incréments de {{ step }}"
+    },
+    "header": {
+      "primary_navigation": "Navigation principale",
+      "secondary_navigation": "Navigation secondaire",
+      "expand_submenu": "Développer le sous-menu : {{ title }}",
+      "back_to_menu": "Retour à {{ title }}"
+    },
+    "newsletter-popup": {
+      "name": "Inscription à la newsletter"
+    },
+    "age-verifier": {
+      "name": "Vérification de l’âge"
+    },
+    "cookie-banner": {
+      "name": "Préférences des cookies"
     }
   },
   "blogs": {

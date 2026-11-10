@@ -49,7 +49,7 @@ if (!customElements.get('recipient-form')) {
           }
         });
 
-        this.cartUpdateUnsubscriber = theme.pubsub.subscribe(theme.pubsub.PUB_SUB_EVENTS.cartError, (event) => {
+        this.cartErrorUnsubscriber = theme.pubsub.subscribe(theme.pubsub.PUB_SUB_EVENTS.cartError, (event) => {
           if (event.source === 'product-form' && event.productVariantId.toString() === this.currentProductVariantId) {
             this.displayErrorMessage(event.message, event.errors);
           }
@@ -73,11 +73,15 @@ if (!customElements.get('recipient-form')) {
       onChange() {
         if (this.checkboxInput.checked) {
           this.enableInputFields();
+          this.checkboxInput.setAttribute('aria-expanded', 'true');
+          this.emailInput.required = true;
           this.recipientFieldsLiveRegion.innerText = theme.recipientFormStrings.expanded;
         } else {
           this.clearInputFields();
           this.disableInputFields();
           this.clearErrorMessage();
+          this.checkboxInput.setAttribute('aria-expanded', 'false');
+          this.emailInput.required = false;
           this.recipientFieldsLiveRegion.innerText = theme.recipientFormStrings.collapsed;
         }
 
@@ -116,12 +120,16 @@ if (!customElements.get('recipient-form')) {
               this.errorMessageList.appendChild(this.createErrorListItem(message));
             }
 
-            const inputElement = this[`${key}Input`];
+            const inputElement = key === 'send_on' ? this.sendonInput : this[`${key}Input`];
             if (!inputElement) return;
 
             inputElement.classList.add('invalid');
+            inputElement.setAttribute('aria-invalid', 'true');
+            inputElement.setAttribute('aria-describedby', this.errorMessage.id);
           });
         }
+
+        this.errorMessage.focus({ preventScroll: true });
       }
 
       createErrorListItem(message) {
@@ -136,15 +144,16 @@ if (!customElements.get('recipient-form')) {
 
         [this.emailInput, this.messageInput, this.nameInput, this.sendonInput].forEach((inputElement) => {
           inputElement.classList.remove('invalid');
+          inputElement.removeAttribute('aria-invalid');
+          inputElement.removeAttribute('aria-describedby');
         });
       }
 
       resetRecipientForm() {
         if (this.checkboxInput.checked) {
           this.checkboxInput.checked = false;
-          this.clearInputFields();
+          this.onChange();
           this.clearErrorMessage();
-          this.fieldsContainer.classList.add('hidden');
         }
       }
     }

@@ -1,3 +1,8 @@
+{%- assign recently_viewed_label = section.settings.heading | strip_html -%}
+{%- if recently_viewed_label == blank -%}
+  {%- assign recently_viewed_label = 'general.accessibility.recently_viewed_products' | t -%}
+{%- endif -%}
+
 <style>
   #shopify-section-{{ section.id }} {
     --section-padding-top: {{ section.settings.padding_top }}px;
@@ -6,7 +11,7 @@
   }
 </style>
 
-<recently-viewed class="recently-viewed block" data-url="{{ routes.search_url }}?section_id={{ section.id }}&type=product&q=" data-limit="{{ section.settings.product_limit }}"{% if request.page_type == 'product' %} data-product-id="{{ product.id }}"{% endif %}>
+<recently-viewed class="recently-viewed block" data-a11y-loaded-message="{{ 'general.accessibility.recently_viewed_loaded' | t | escape }}" data-url="{{ routes.search_url }}?section_id={{ section.id }}&type=product&q=" data-limit="{{ section.settings.product_limit }}"{% if request.page_type == 'product' %} data-product-id="{{ product.id }}"{% endif %}>
   {%- if request.page_type == 'search' and search.performed and search.results_count > 0 -%}
     <div class="section section--padding{% if section.settings.divider %} section--divider{% endif %}{% if section.settings.rounded %} section--rounded relative{% endif %}">
       {%- liquid
@@ -44,7 +49,7 @@
         {%- render 'section-heading', section: section, section_button: indicators -%}
         
         {%- if recent_results != blank -%}
-          <slider-element id="Slider-{{ section.id }}" class="grid slider{% if section.settings.carousel_on_desktop %} slider--desktop{% endif %}{% if section.settings.swipe_on_mobile %} slider--tablet{% endif %}" selector=".card-grid>.card">
+          <slider-element id="Slider-{{ section.id }}" role="region" aria-roledescription="carousel" aria-label="{{ recently_viewed_label | escape }}" class="grid slider{% if section.settings.carousel_on_desktop %} slider--desktop{% endif %}{% if section.settings.swipe_on_mobile %} slider--tablet{% endif %}" selector=".card-grid>.card">
             <motion-list class="card-grid card-grid--{{ section.settings.columns }} mobile:card-grid--{{ section.settings.columns_mobile }} grid">
               {{- recent_results -}}
             </motion-list>

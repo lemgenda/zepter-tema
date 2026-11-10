@@ -64,7 +64,7 @@
 -%}
 
 {%- if href -%}
-  <a href="{{ href }}" class="color-swatch{% if swatch_image != blank %} with-image{% endif %} block relative{% if class != blank %} {{ class }}{% endif %}" title="{{ title | escape }}" aria-label="{{ title | escape }}" style="--swatch-background: {{ swatch_fallback }};{% if swatch_fallback_override == false and swatch_image != blank %} background-image: url({{ swatch_image }});{% endif %}"{% if no_instant %} data-no-instant{% endif %}>
+  <a href="{{ href }}" class="color-swatch{% if swatch_image != blank %} with-image{% endif %} block relative{% if class != blank %} {{ class }}{% endif %}" title="{{ title | escape }}" aria-label="{{ title | escape }}"{% if selected %} aria-current="page"{% endif %} style="--swatch-background: {{ swatch_fallback }};{% if swatch_fallback_override == false and swatch_image != blank %} background-image: url({{ swatch_image }});{% endif %}"{% if no_instant %} data-no-instant{% endif %}>
     {%- if tooltip != blank -%}
       <span class="tooltip opacity-0 pointer-events-none text-xs rounded-full z-10">{{ tooltip | escape }}</span>
     {%- else -%}

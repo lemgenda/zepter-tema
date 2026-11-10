@@ -22,7 +22,7 @@
         render 'icon', icon: 'filter'
         echo 'collections.filtering.filter_show_button' | t
       -%}
-      <facet-count class="count flex items-center justify-center text-xs font-medium rounded-full"{% if filter_count == 0 %} hidden{% endif %}>{{ filter_count }}</facet-count>
+      <facet-count class="count flex items-center justify-center text-xs font-medium rounded-full" role="status" aria-live="polite" aria-atomic="true"{% if filter_count == 0 %} hidden{% endif %}>{{ filter_count }}</facet-count>
     </span>
   </button>
   <drawer-element id="FacetDrawer" class="facet-drawer drawer drawer--start z-30 fixed bottom-0 left-0 h-full w-full pointer-events-none"
@@ -40,7 +40,7 @@
     <div class="drawer__inner z-10 absolute top-0 flex flex-col w-full h-full overflow-hidden">
       <div class="drawer__header flex justify-between opacity-0 invisible relative">
         <span class="drawer__title heading lg:text-3xl text-2xl leading-none tracking-tight">{{ 'collections.filtering.filter_by_label' | t | escape }}</span>
-        <button class="button button--secondary button--close drawer__close hidden sm:flex items-center justify-center" type="button" is="hover-button" aria-controls="FacetDrawer" aria-expanded="false" aria-label="{{ 'general.accessibility.close' | t | escape }}">
+        <button class="button button--secondary button--close drawer__close flex items-center justify-center" type="button" is="hover-button" aria-controls="FacetDrawer" aria-expanded="false" aria-label="{{ 'general.accessibility.close' | t | escape }}">
           <span class="btn-fill" data-fill></span>
           <span class="btn-text">
             {%- liquid

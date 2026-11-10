@@ -39,6 +39,8 @@
   if image_ratio == 'adapt' and collection_image == blank
     assign image_ratio = 'wide'
   endif
+
+  assign collection_image_alt = collection_image.alt | default: collection_title
 -%}
 
 <div class="card media-card media-card--{{ settings.card_style }}{% if overlay_content %} media-card--overlap{% endif %} overflow-hidden" id="shopify-block-{{ block.id }}">
@@ -53,7 +55,7 @@
     <a href="{{ collection.url }}" class="media-card__link flex flex-col w-full h-full relative" aria-label="{{ collection_title | escape }}">
       <div class="media media--{{ image_ratio }} relative overflow-hidden">
         {%- if collection_image != blank -%}
-          {{- collection_image | image_url: width: collection_image.width | image_tag: loading: 'lazy', widths: '180,360,540,720,900,1080', is: 'lazy-image' -}}
+          {{- collection_image | image_url: width: collection_image.width | image_tag: loading: 'lazy', widths: '180,360,540,720,900,1080', alt: collection_image_alt, is: 'lazy-image' -}}
         {%- else -%}
           <span class="block aspect-{{ image_ratio }}"></span>
         {%- endif -%}

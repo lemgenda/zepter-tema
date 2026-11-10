@@ -41,7 +41,7 @@
 
     {%- if announcement_block_count > 0 -%}
       <div class="announcement-bar h-full flex justify-center lg:justify-{{ section.settings.announcement_position }}{% unless section.settings.show_navigation %} without-nav{% endunless %} relative">
-        <announcement-bar id="Slider-{{ section.id }}" class="announcement__slides{% if announcement_block_count > 1 %} flex justify-center w-full h-full flickity{% endif %}"{% if section.settings.autoplay %} autoplay autoplay-speed="{{ section.settings.autoplay_speed }}"{% endif %}>
+        <announcement-bar id="Slider-{{ section.id }}" role="region" aria-roledescription="carousel" aria-label="{{ 'general.accessibility.announcement_bar' | t | escape }}" aria-live="off" class="announcement__slides{% if announcement_block_count > 1 %} flex justify-center w-full h-full flickity{% endif %}"{% if section.settings.autoplay %} autoplay autoplay-speed="{{ section.settings.autoplay_speed }}"{% endif %}>
           {%- liquid
             assign with_gradient = false
             if section.settings.gradient_highlight != blank and section.settings.gradient_highlight != 'rgba(0,0,0,0)'
@@ -49,7 +49,7 @@
             endif
           -%}
           {%- for block in section.blocks -%}
-            <div class="announcement__slide flex h-full"{% unless forloop.first %} aria-hidden="true"{% endunless %} {{ block.shopify_attributes }}>
+            <div class="announcement__slide flex h-full" role="group" aria-roledescription="slide" aria-label="{{ 'general.accessibility.announcement_number' | t: number: forloop.index | escape }}"{% unless forloop.first %} aria-hidden="true" inert{% endunless %} {{ block.shopify_attributes }}>
               {%- if block.settings.link != blank -%}
                 <a class="announcement__content flex items-center gap-2" href="{{ block.settings.link }}">
               {%- else -%}
@@ -99,7 +99,6 @@
               class="slideshow-control flex items-center justify-center rounded-full sr-only"
               is="control-button"
               aria-controls="Slider-{{ section.id }}"
-              aria-live="polite"
             >
               <span class="slideshow-control__pause">
                 {%- render 'icon', icon: 'pause' -%}
@@ -111,6 +110,18 @@
               </span>
             </button>
           {%- endif -%}
+        {%- endif -%}
+        {%- if section.settings.autoplay and announcement_block_count > 1 and section.settings.show_navigation == false -%}
+          <button type="button" class="slideshow-control flex items-center justify-center rounded-full sr-only" is="control-button" aria-controls="Slider-{{ section.id }}">
+            <span class="slideshow-control__pause">
+              {%- render 'icon', icon: 'pause' -%}
+              <span class="sr-only">{{ 'sections.slideshow.pause_slideshow' | t }}</span>
+            </span>
+            <span class="slideshow-control__play">
+              {%- render 'icon', icon: 'play' -%}
+              <span class="sr-only">{{ 'sections.slideshow.play_slideshow' | t }}</span>
+            </span>
+          </button>
         {%- endif -%}
       </div>
     {%- endif -%}

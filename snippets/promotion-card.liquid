@@ -1,5 +1,6 @@
 {%- liquid
   assign promotion_has_content = false
+  assign promotion_image_alt = block.settings.image.alt | default: block.settings.heading | default: shop.name
   if block.settings.icon != blank or block.settings.heading != blank or block.settings.content != blank or block.settings.button_label != blank
     assign promotion_has_content = true
   endif
@@ -26,7 +27,7 @@
               >
             {%- endif -%}
 
-            {{- block.settings.image | image_url: width: block.settings.image.width | image_tag: loading: 'lazy', widths: '180,360,540,720,900,1080', is: 'lazy-image' -}}
+            {{- block.settings.image | image_url: width: block.settings.image.width | image_tag: loading: 'lazy', widths: '180,360,540,720,900,1080', alt: promotion_image_alt, is: 'lazy-image' -}}
           {%- else -%}
             {{- 'collection-1' | placeholder_svg_tag: 'placeholder' -}}
           {%- endif -%}
@@ -68,7 +69,7 @@
         <div class="promo-box inline-block">
           {%- liquid
             if block.settings.icon != blank
-              echo block.settings.icon | image_url: width: block.settings.icon.width | image_tag: loading: 'lazy', widths: '80,96,160,192', is: 'lazy-image', class: 'promo-img inline-block'
+              echo block.settings.icon | image_url: width: block.settings.icon.width | image_tag: loading: 'lazy', widths: '80,96,160,192', alt: '', is: 'lazy-image', class: 'promo-img inline-block'
             endif
           -%}
   

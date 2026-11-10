@@ -20,6 +20,8 @@
       type="search"
       name="q"
       id="SearchFormInput-{{ section_id }}"
+      aria-controls="PredictiveSearchResults-{{ section_id }}"
+      aria-expanded="false"
       placeholder="{{ 'general.search.placeholder' | t | escape }}"
       autocomplete="off"
       autocorrect="off"
@@ -67,7 +69,7 @@
   {%- endif -%}
 
   {%- if settings.predictive_search_enabled %}
-    <div id="PredictiveSearchResults-{{ section_id }}" class="search__box search__results text-left flex flex-col items-start grow gap-10" role="listbox">
+    <div id="PredictiveSearchResults-{{ section_id }}" class="search__box search__results text-left flex flex-col items-start grow gap-10" role="region" aria-label="{{ 'general.search.title_results' | t | escape }}">
       {%- if predictive_search.performed -%}
         {%- if predictive_search.resources.queries.size > 0 -%}
           <div class="grid gap-3 md:gap-4 w-full">
@@ -77,7 +79,7 @@
             <ul class="grid gap-2">
               {%- for query in predictive_search.resources.queries -%}
                 <li>
-                  <a class="reversed-link text-base md:text-lg leading-tight font-medium" href="{{ query.url }}" aria-label="{{ query.text }}">
+                  <a class="reversed-link text-base md:text-lg leading-tight font-medium" href="{{ query.url }}" aria-label="{{ query.text | escape }}">
                     {{- query.styled_text -}}
                   </a>
                 </li>
@@ -163,6 +165,7 @@
           | plus: predictive_search.resources.pages.size
         -%}
         {%- if total_results == 0 -%}
+          <p class="sr-only" role="status" aria-live="polite">{{ 'general.search.no_results' | t: terms: predictive_search.terms }}</p>
           <div class="search__empty flex justify-center items-star text-center w-full h-full">
             <div class="drawer__empty flex flex-col gap-5 md:gap-8">
               <p>
@@ -173,6 +176,7 @@
             </div>
           </div>
         {%- else -%}
+          <p class="sr-only" role="status" aria-live="polite" aria-atomic="true">{{ 'general.search.results_with_count' | t: count: total_results }}</p>
           <div class="drawer__sticky z-1 sticky left-0 bottom-0 w-full">
             <button class="button button--primary icon-with-text w-full" type="submit" is="hover-button">
               <span class="btn-fill" data-fill></span>

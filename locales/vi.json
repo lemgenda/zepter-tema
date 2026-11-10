@@ -27,7 +27,22 @@
         "external": "Mở trang web bên ngoài."
       },
       "go_to_item": "Đi tới mục {{ index }}",
-      "drag": "Kéo"
+      "drag": "Kéo",
+      "cart_added_announcement": "Đã thêm sản phẩm vào giỏ hàng.",
+      "cart_error_announcement": "Không thể thêm sản phẩm vào giỏ hàng.",
+      "cart_updated_announcement": "Giỏ hàng của bạn đã được cập nhật.",
+      "product_recommendations_loaded": "Đã tải đề xuất sản phẩm.",
+      "recently_viewed_loaded": "Đã tải sản phẩm đã xem gần đây.",
+      "product_recommendations": "Đề xuất sản phẩm",
+      "recently_viewed_products": "Sản phẩm đã xem gần đây",
+      "pagination": "Phân trang",
+      "announcement_bar": "Thông báo",
+      "announcement_number": "Thông báo {{ number }}",
+      "currently_selected": "Đang được chọn",
+      "sold_out": "Hết hàng",
+      "media_type_image": "Hình ảnh",
+      "media_type_video": "Video",
+      "media_type_model": "Mô hình 3D"
     },
     "meta": {
       "tags": "Được gắn thẻ \"{{ tags }}\"",
@@ -176,7 +191,8 @@
     },
     "slideshow": {
       "play_slideshow": "Chạy trình chiếu",
-      "pause_slideshow": "Tạm dừng trình chiếu"
+      "pause_slideshow": "Tạm dừng trình chiếu",
+      "name": "Trình chiếu"
     },
     "product_bundle": {
       "total": "Tổng",
@@ -208,6 +224,21 @@
       "min_error": "Mặt hàng này có tối thiểu {{ min }}",
       "max_error": "Mặt hàng này có tối đa {{ max }}",
       "step_error": "Bạn chỉ có thể thêm mặt hàng này theo đơn vị giao dịch {{ step }}"
+    },
+    "header": {
+      "primary_navigation": "Điều hướng chính",
+      "secondary_navigation": "Điều hướng phụ",
+      "expand_submenu": "Mở rộng menu con: {{ title }}",
+      "back_to_menu": "Quay lại {{ title }}"
+    },
+    "newsletter-popup": {
+      "name": "Đăng ký nhận bản tin"
+    },
+    "age-verifier": {
+      "name": "Xác minh độ tuổi"
+    },
+    "cookie-banner": {
+      "name": "Tùy chọn cookie"
     }
   },
   "blogs": {

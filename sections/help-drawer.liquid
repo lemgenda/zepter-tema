@@ -9,7 +9,7 @@
 <drawer-element id="HelpDrawer" class="drawer drawer--end z-30 fixed bottom-0 left-0 h-full w-full pointer-events-none"
   role="dialog"
   aria-modal="true"
-  aria-label="{{ section.settings.heading | escape }}"
+  aria-label="{{ section.settings.heading | default: 'sections.help-drawer.name' | t | escape }}"
   data-section-id="{{ section.id }}"
   shopify-design-mode
   hidden
@@ -18,7 +18,7 @@
   <div class="drawer__inner z-10 absolute top-0 flex flex-col w-full h-full overflow-hidden">
     <gesture-element class="drawer__header flex justify-between opacity-0 invisible relative">
       <span class="drawer__title heading lg:text-3xl text-2xl leading-none tracking-tight">{{ section.settings.heading | escape }}</span>
-      <button class="button button--secondary button--close drawer__close hidden sm:flex items-center justify-center" type="button" is="hover-button" aria-controls="HelpDrawer" aria-expanded="false" aria-label="{{ 'general.accessibility.close' | t | escape }}">
+      <button class="button button--secondary button--close drawer__close flex items-center justify-center" type="button" is="hover-button" aria-controls="HelpDrawer" aria-expanded="false" aria-label="{{ 'general.accessibility.close' | t | escape }}">
         <span class="btn-fill" data-fill></span>
         <span class="btn-text">
           {%- render 'icon', icon: 'close', size: 'sm' -%}

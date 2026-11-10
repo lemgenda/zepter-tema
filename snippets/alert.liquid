@@ -9,7 +9,7 @@
   {% render 'alert', status: 'success' %}
 {%- endcomment -%}
 
-<div class="alert alert--{{ status }} flex items-start gap-3 text-sm md:text-base leading-tight">
+<div class="alert alert--{{ status }} flex items-start gap-3 text-sm md:text-base leading-tight"{% if status == 'error' %} role="alert" aria-atomic="true"{% elsif status == 'success' %} role="status" aria-live="polite" aria-atomic="true"{% endif %}>
   {%- liquid
     unless hide_icon
       case status

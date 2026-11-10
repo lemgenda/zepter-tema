@@ -21,7 +21,9 @@
         {%- liquid
           if form.errors
             assign form_errors = form.errors | default_errors
+            echo '<div id="ActivateAccountFormError" data-a11y-error-summary tabindex="-1">' 
             render 'alert', status: 'error', content: form_errors
+            echo '</div>'
           endif
         -%}
 
@@ -29,7 +31,7 @@
           <div class="field">
             <input
               required
-              class="input is-floating{% if form.errors contains 'password' %} invalid{% endif %}"
+              class="input is-floating{% if form.errors contains 'password' %} invalid{% endif %}"{% if form.errors contains 'password' %} aria-invalid="true" aria-describedby="ActivateAccountFormError"{% endif %}
               type="password"
               name="customer[password]"
               id="Password"
@@ -42,7 +44,7 @@
           <div class="field">
             <input
               required
-              class="input is-floating{% if form.errors contains 'password_confirmation' %} invalid{% endif %}"
+              class="input is-floating{% if form.errors contains 'password_confirmation' %} invalid{% endif %}"{% if form.errors contains 'password_confirmation' %} aria-invalid="true" aria-describedby="ActivateAccountFormError"{% endif %}
               type="password"
               name="customer[password_confirmation]"
               id="PasswordConfirmation"
@@ -60,7 +62,7 @@
           </button>
           
           <p class="text-center">
-            <button class="inline-flex items-center gap-2" type="submit">
+            <button class="inline-flex items-center gap-2" type="submit" name="decline">
               {%- render 'icon', icon: 'return', size: 'sm' -%}
               <span class="link text-lg leading-none">{{ 'customer.activate_account.cancel' | t }}</span>
             </button>

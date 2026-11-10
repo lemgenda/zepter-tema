@@ -127,6 +127,7 @@ class CartItems extends HTMLElement {
 
   onCartUpdate(event) {
     if (event.cart.errors) {
+      document.dispatchEvent(new CustomEvent('cart:error'));
       this.onCartError(event.cart.errors, event.target);
       return;
     }
@@ -383,7 +384,7 @@ class ShippingCalculator extends HTMLFormElement {
       return `<li>${errors[errorKey]}</li>`;
     });
     this.resultsElement.innerHTML = `
-      <div class="alert alert--error grid gap-2 text-sm leading-tight">
+      <div class="alert alert--error grid gap-2 text-sm leading-tight" role="alert" aria-atomic="true">
         <p>${theme.shippingCalculatorStrings.error}</p>
         <ul class="list-disc grid gap-2" role="list">${shippingRatesList.join('')}</ul>
       </div>
@@ -395,7 +396,7 @@ class ShippingCalculator extends HTMLFormElement {
       return `<li>${presentment_name}: ${currency} ${price}</li>`;
     });
     this.resultsElement.innerHTML = `
-      <div class="alert alert--${shippingRates.length === 0 ? 'error' : 'success'} grid gap-2 text-sm leading-tight">
+      <div class="alert alert--${shippingRates.length === 0 ? 'error' : 'success'} grid gap-2 text-sm leading-tight" role="${shippingRates.length === 0 ? 'alert' : 'status'}" aria-atomic="true">
         <p>${shippingRates.length === 0 ? theme.shippingCalculatorStrings.notFound : shippingRates.length === 1 ? theme.shippingCalculatorStrings.oneResult : theme.shippingCalculatorStrings.multipleResults}</p>
         ${shippingRatesList === '' ? '' : `<ul class="list-disc grid gap-2" role="list">${shippingRatesList.join('')}</ul>`}
       </div>

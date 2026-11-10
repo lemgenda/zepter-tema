@@ -1,3 +1,8 @@
+{%- assign recommendations_label = section.settings.heading | strip_html -%}
+{%- if recommendations_label == blank -%}
+  {%- assign recommendations_label = 'general.accessibility.product_recommendations' | t -%}
+{%- endif -%}
+
 <style>
   #shopify-section-{{ section.id }} {
     --section-padding-top: {{ section.settings.padding_top }}px;
@@ -6,7 +11,7 @@
   }
 </style>
 
-<product-recommendations class="related-products block" data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit={{ section.settings.product_limit }}&intent=related">
+<product-recommendations class="related-products block" data-a11y-loaded-message="{{ 'general.accessibility.product_recommendations_loaded' | t | escape }}" data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit={{ section.settings.product_limit }}&intent=related">
   <div class="section section--padding{% if section.settings.divider %} section--divider{% endif %}{% if section.settings.rounded %} section--rounded relative{% endif %}">
     {%- if recommendations.performed and recommendations.products_count > 0 -%}
       <div class="page-width{% if section.settings.full_width %} page-width--full{% endif %} relative overflow-hidden md:overflow-visible">
@@ -28,7 +33,7 @@
         {%- endcapture -%}
         {%- render 'section-heading', section: section, section_button: indicators -%}
 
-        <slider-element id="Slider-{{ section.id }}" class="grid slider{% if section.settings.carousel_on_desktop %} slider--desktop{% endif %}{% if section.settings.swipe_on_mobile %} slider--tablet{% endif %}" selector=".card-grid>.card">
+        <slider-element id="Slider-{{ section.id }}" role="region" aria-roledescription="carousel" aria-label="{{ recommendations_label | escape }}" class="grid slider{% if section.settings.carousel_on_desktop %} slider--desktop{% endif %}{% if section.settings.swipe_on_mobile %} slider--tablet{% endif %}" selector=".card-grid>.card">
           <motion-list class="card-grid card-grid--{{ section.settings.columns }} mobile:card-grid--{{ section.settings.columns_mobile }} grid">
             {%- for recommendation in recommendations.products -%}
               {%- render 'product-card',
