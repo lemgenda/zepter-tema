@@ -29,6 +29,7 @@
     headerObserver: null,
     headerResizeHandler: null,
     motionObserver: null,
+    recipientObserver: null,
 
     initialized: false,
 
@@ -47,6 +48,7 @@
       this.initHeaderOffset();
       this.initLiveAnnouncements();
       this.initFormErrorFocus();
+      this.initShineRecipientForms();
       this.initReducedMotion();
       this.initShopifySectionEvents();
 
@@ -309,6 +311,45 @@
         summary.focus({ preventScroll: true });
         summary.scrollIntoView({ block: 'center', behavior: 'auto' });
       });
+    },
+
+    initShineRecipientForms() {
+      const initialize = (form) => {
+        if (form.dataset.a11yRecipientInitialized === 'true') return;
+
+        const checkbox = form.querySelector('input[type="checkbox"][id^="sp-recipient-checkbox-"]');
+        const fields = form.querySelector('.sp-recipient-fields');
+        const email = form.querySelector('input[type="email"]');
+        if (!checkbox || !fields) return;
+
+        if (!fields.id) {
+          fields.id = 'sp-recipient-fields-' + (form.getAttribute('data-section-id') || 'section');
+        }
+
+        const syncDisclosure = () => {
+          const expanded = checkbox.checked;
+          checkbox.setAttribute('aria-expanded', String(expanded));
+          checkbox.setAttribute('aria-controls', fields.id);
+          if (email) email.required = expanded;
+        };
+
+        checkbox.addEventListener('change', syncDisclosure);
+        syncDisclosure();
+        form.dataset.a11yRecipientInitialized = 'true';
+      };
+
+      document.querySelectorAll('sp-recipient-form').forEach(initialize);
+
+      if (!this.recipientObserver && 'MutationObserver' in window) {
+        this.recipientObserver = new MutationObserver((records) => {
+          records.forEach((record) => record.addedNodes.forEach((node) => {
+            if (node.nodeType !== Node.ELEMENT_NODE) return;
+            if (node.matches('sp-recipient-form')) initialize(node);
+            node.querySelectorAll?.('sp-recipient-form').forEach(initialize);
+          }));
+        });
+        this.recipientObserver.observe(document.body, { childList: true, subtree: true });
+      }
     },
 
     initReducedMotion() {
