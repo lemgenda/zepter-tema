@@ -92,7 +92,7 @@
           {%- render 'media', section_id: section_id, product_id: product_id, media: featured_media, sizes: sizes, preload: true, autoplay: enable_video_autoplay, loop: enable_video_looping -%}
 
           {%- if image_zoom != 'none' and featured_media.media_type == 'image' -%}
-            <button type="button" class="absolute top-0 left-0 w-full h-full flex items-center justify-center" is="media-{{ image_zoom }}-button" aria-label="{{ 'products.media.open_media' | t: index: featured_media.position | escape }}" tabindex="-1">
+            <button type="button" class="absolute top-0 left-0 w-full h-full flex items-center justify-center" is="media-{{ image_zoom }}-button" aria-label="{{ 'products.media.open_media' | t: index: featured_media.position | escape }}">
               {%- render 'icon', icon: 'zoom', size: 'xs', class: 'lg:hidden' -%}
             </button>
           {%- endif -%}
