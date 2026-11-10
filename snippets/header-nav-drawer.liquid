@@ -3,7 +3,7 @@
     {{- link.title | escape -}}
   </summary>
   <div class="drawer__submenu z-1 absolute top-0 left-0 flex flex-col w-full h-full" data-parent>
-    <button type="button" class="tracking-tight heading text-base shrink-0 flex items-center gap-3 w-full">{{ link.title | escape }}</button>
+    <button type="button" class="tracking-tight heading text-base shrink-0 flex items-center gap-3 w-full" aria-label="{{ 'sections.header.back_to_menu' | t: title: link.title | escape }}">{{ link.title | escape }}</button>
     <ul class="drawer__scrollable flex flex-col h-full">
       {%- for childlink in link.links -%}
         <li>
@@ -13,7 +13,7 @@
                 {{- childlink.title | escape -}}
               </summary>
               <div class="drawer__submenu z-1 absolute top-0 left-0 w-full h-full">
-                <button type="button" class="tracking-tight heading text-base flex items-center gap-3 w-full">{{ childlink.title | escape }}</button>
+                <button type="button" class="tracking-tight heading text-base flex items-center gap-3 w-full" aria-label="{{ 'sections.header.back_to_menu' | t: title: childlink.title | escape }}">{{ childlink.title | escape }}</button>
                 <ul class="drawer__scrollable flex flex-col h-full">
                   {%- for grandchildlink in childlink.links -%}
                     <li>
@@ -86,7 +86,7 @@
                         </div>
                       {%- endif -%}
                       <div class="media media--{{ promo_image_ratio }} relative overflow-hidden">
-                        {{- promo_image | image_url: width: promo_image.width | image_tag: loading: 'lazy', widths: '180,360,540,720,900,1080', is: 'lazy-image' -}}
+                        {{- promo_image | image_url: width: promo_image.width | image_tag: loading: 'lazy', widths: '180,360,540,720,900,1080', alt: '', is: 'lazy-image' -}}
                       </div>
                       {%- if promo_heading != blank or promo_subtext != blank -%}
                         <div class="media-card__content flex justify-between items-center gap-4 w-full">
