@@ -30,7 +30,7 @@
             </li>
           {%- endif -%}
         </ul>
-        <button class="button button--secondary button--close drawer__close hidden sm:flex items-center justify-center" type="button" is="hover-button" aria-controls="CartDrawer" aria-expanded="false" aria-label="{{ 'general.accessibility.close' | t | escape }}">
+        <button class="button button--secondary button--close drawer__close flex items-center justify-center" type="button" is="hover-button" aria-controls="CartDrawer" aria-expanded="false" aria-label="{{ 'general.accessibility.close' | t | escape }}">
           <span class="btn-fill" data-fill></span>
           <span class="btn-text">
             {%- render 'icon', icon: 'close', size: 'sm' -%}
@@ -337,7 +337,7 @@
                                             </dl>
                                           {%- endunless -%}
                                         </span>
-                                        <button class="button button--secondary button--close drawer__close hidden sm:flex items-center justify-center" type="button" is="hover-button" aria-controls="VolumePricing-{{ section.id }}-{{ item.key }}" aria-expanded="false" aria-label="{{ 'general.accessibility.close' | t | escape }}">
+                                        <button class="button button--secondary button--close drawer__close flex items-center justify-center" type="button" is="hover-button" aria-controls="VolumePricing-{{ section.id }}-{{ item.key }}" aria-expanded="false" aria-label="{{ 'general.accessibility.close' | t | escape }}">
                                           <span class="btn-fill" data-fill></span>
                                           <span class="btn-text">
                                             {%- render 'icon', icon: 'close', size: 'sm' -%}
