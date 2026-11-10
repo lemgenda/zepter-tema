@@ -264,8 +264,16 @@
     },
 
     initFormErrorFocus() {
-      const summary = Array.from(document.querySelectorAll('[data-a11y-error-summary]')).find((element) => element.getClientRects().length > 0);
+      const summaries = Array.from(document.querySelectorAll('[data-a11y-error-summary]'));
+      const summary = summaries.find((element) => element.getClientRects().length > 0) ||
+        summaries.find((element) => element.closest('x-modal[hidden], drawer-element[hidden], newsletter-modal[hidden], quick-view[hidden]'));
+
       if (!summary) return;
+
+      const modal = summary.closest('x-modal[hidden], drawer-element[hidden], newsletter-modal[hidden], quick-view[hidden]');
+      if (modal && typeof modal.show === 'function') {
+        modal.show();
+      }
 
       window.requestAnimationFrame(() => {
         summary.focus({ preventScroll: true });
