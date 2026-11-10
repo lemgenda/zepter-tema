@@ -51,7 +51,7 @@
             endif
           -%}
           {%- for block in section.blocks -%}
-            <div class="timeline__item card{% if forloop.first %} selected{% endif %} relative" {{ block.shopify_attributes }}>
+            <div class="timeline__item card{% if forloop.first %} selected{% else %} inert-slide{% endif %} relative"{% unless forloop.first %} aria-hidden="true" inert{% endunless %} {{ block.shopify_attributes }}>
               <div class="flex flex-col md:grid grid-cols-2 overflow-hidden">
                 <picture class="media media--{{ section.settings.image_ratio }} mobile:media--{{ section.settings.image_ratio_mobile }} block relative overflow-hidden">
                   {%- if block.settings.image != blank -%}
