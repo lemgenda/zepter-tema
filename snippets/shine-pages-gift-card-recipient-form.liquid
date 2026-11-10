@@ -8,6 +8,9 @@
         <label class="sp-label-checkbox sp-recipient-checkbox">
             <input id="sp-recipient-checkbox-{{ section.id }}"
                    type="checkbox"
+                   aria-controls="sp-recipient-fields-{{ section.id }}"
+                   aria-expanded="{% if form.errors %}true{% else %}false{% endif %}"
+                   {% if form.errors %}checked{% endif %}
                    name="{{ gift_card_recipient_control_flag }}"
                    disabled
             >
@@ -37,7 +40,7 @@
                         {%- if field == 'form' -%}
                             {{ form.errors.messages[field] }}
                         {%- else -%}
-                            <a href="#sp-recipient-{{ field }}-{{ section.id }}">
+                            <a href="#sp-recipient-{% if field == 'send_on' %}send-on{% else %}{{ field }}{% endif %}-{{ section.id }}">
                                 {{ form.errors.messages[field] }}
                             </a>
                         {%- endif -%}
@@ -46,8 +49,8 @@
             {%- endif -%}
         </ul>
     </div>
-    <p id="sp-recipient-fields-live-region-{{ section.id }}" class="visually-hidden" role="status"></p>
-    <div class="sp-recipient-fields sp-fields">
+    <p id="sp-recipient-fields-live-region-{{ section.id }}" class="visually-hidden" role="status" aria-live="polite" aria-atomic="true"></p>
+    <div class="sp-recipient-fields sp-fields" id="sp-recipient-fields-{{ section.id }}">
         <div class="sp-recipient-fields-field sp-field">
             <div class="sp-field-input">
                 <label class="sp-form-label" for="sp-recipient-email-{{ section.id }}">
