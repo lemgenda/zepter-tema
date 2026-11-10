@@ -13831,6 +13831,8 @@ lookbook-element .banner__box .title-wrapper {
 
 .slideshow .flickity-viewport {
   height: 100%;
+  /* Keep transformed Flickity wrap-around cells inside the carousel's paint area. */
+  contain: paint;
 }
 
 .slideshow>.banner~.banner {
