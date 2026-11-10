@@ -9,7 +9,7 @@
 <drawer-element id="HelpDrawer" class="drawer drawer--end z-30 fixed bottom-0 left-0 h-full w-full pointer-events-none"
   role="dialog"
   aria-modal="true"
-  aria-label="{{ section.settings.heading | escape }}"
+  aria-label="{{ section.settings.heading | default: 'sections.help-drawer.name' | t | escape }}"
   data-section-id="{{ section.id }}"
   shopify-design-mode
   hidden
