@@ -32,7 +32,9 @@
       "cart_error_announcement": "Impossible d’ajouter le produit au panier.",
       "cart_updated_announcement": "Votre panier a été mis à jour.",
       "product_recommendations_loaded": "Recommandations de produits chargées.",
-      "recently_viewed_loaded": "Produits récemment consultés chargés."
+      "recently_viewed_loaded": "Produits récemment consultés chargés.",
+      "product_recommendations": "Recommandations de produits",
+      "recently_viewed_products": "Produits récemment consultés"
     },
     "meta": {
       "tags": "Mots clés \"{{ tags }}\"",
