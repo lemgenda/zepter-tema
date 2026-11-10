@@ -38,16 +38,62 @@ const report = [];
 
 try {
   for (const viewport of viewports) {
-    const context = await browser.newContext({ viewport });
+    const context = await browser.newContext({ viewport, reducedMotion: 'reduce' });
     const page = await context.newPage();
 
     for (const path of paths) {
       const url = buildTestUrl(path);
-      const result = { viewport: viewport.name, url, axeViolations: [], focus: null, textSpacing: null, smallTargets: [] };
+      const result = { viewport: viewport.name, url, axeViolations: [], focus: null, textSpacing: null, smallTargets: [], diagnostics: null };
 
       try {
         await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
         await page.waitForTimeout(1200);
+
+        result.diagnostics = await page.evaluate(() => {
+          const describe = (element) => {
+            const rect = element.getBoundingClientRect();
+            return {
+              tag: element.tagName,
+              id: element.id || null,
+              className: typeof element.className === 'string' ? element.className : '',
+              accessibleName: element.getAttribute('aria-label') || element.getAttribute('aria-labelledby') || '',
+              text: (element.getAttribute('aria-label') || element.textContent || '').trim().slice(0, 120),
+              rect: { left: Math.round(rect.left), right: Math.round(rect.right), width: Math.round(rect.width) },
+              scrollWidth: element.scrollWidth,
+              clientWidth: element.clientWidth,
+              outerHTML: element.outerHTML.slice(0, 700),
+            };
+          };
+          const headings = Array.from(document.querySelectorAll('h1')).map(describe);
+          const slider = document.querySelector('#Slider-template--28718057521481__multicolumn_ym6DgV');
+          const logoImages = Array.from(document.querySelectorAll('img[alt="Hyperlight Optics®"]')).map((img) => ({
+            image: describe(img),
+            parent: img.parentElement?.outerHTML.slice(0, 900) || null,
+          }));
+          const viewportWidth = document.documentElement.clientWidth;
+          const overflowElements = Array.from(document.querySelectorAll('body *'))
+            .filter((element) => {
+              const rect = element.getBoundingClientRect();
+              const style = getComputedStyle(element);
+              return rect.width > 0 && rect.height > 0 && style.position !== 'fixed' &&
+                (rect.right > viewportWidth + 1 || element.scrollWidth > element.clientWidth + 2);
+            })
+            .sort((a, b) => b.getBoundingClientRect().right - a.getBoundingClientRect().right)
+            .slice(0, 20)
+            .map(describe);
+          return {
+            h1Count: headings.length,
+            h1: headings,
+            logoImages,
+            targetSlider: slider ? {
+              attributes: Array.from(slider.attributes).map(({ name, value }) => ({ name, value })),
+              outerHTML: slider.outerHTML.slice(0, 1200),
+              nearestHeading: slider.parentElement?.querySelector('h1,h2,h3,h4,h5,h6')?.outerHTML || null,
+            } : null,
+            viewportWidth,
+            overflowElements,
+          };
+        });
 
         const axe = await new AxeBuilder({ page })
           // Shopify's preview editor toolbar is injected outside the storefront and
@@ -101,7 +147,7 @@ try {
           horizontalOverflow: document.documentElement.scrollWidth > document.documentElement.clientWidth + 1,
         }));
 
-        await page.emulateMedia({ forcedColors: 'active', reducedMotion: 'reduce' });
+        await page.emulateMedia({ forcedColors: 'active' });
         await page.waitForTimeout(250);
         result.reducedMotion = await page.evaluate(() => ({
           active: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
