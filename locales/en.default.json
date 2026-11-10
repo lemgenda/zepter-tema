@@ -35,7 +35,9 @@
       "recently_viewed_loaded": "Recently viewed products loaded.",
       "product_recommendations": "Product recommendations",
       "recently_viewed_products": "Recently viewed products",
-      "pagination": "Pagination"
+      "pagination": "Pagination",
+      "announcement_bar": "Announcements",
+      "announcement_number": "Announcement {{ number }}"
     },
     "meta": {
       "tags": "Tagged \"{{ tags }}\"",
