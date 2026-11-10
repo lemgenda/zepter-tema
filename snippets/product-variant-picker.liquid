@@ -56,7 +56,7 @@
 						{%- if block.settings.show_variant_labels -%}
 							<div class="flex gap-2">
 								{{- option.name -}}:
-								<span class="font-medium" id="{{ section_id }}-{{ product_id }}-option{{ option.position }}">{{ option.selected_value }}</span>
+								<span class="font-medium" id="{{ section_id }}-{{ product_id }}-option{{ option.position }}" aria-live="polite" aria-atomic="true">{{ option.selected_value }}</span>
 							</div>
 						{%- endif -%}
 						{%- if is_size -%}
