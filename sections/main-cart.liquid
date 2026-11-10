@@ -14,9 +14,9 @@
 <div class="cart{% if cart == empty %} is-empty{% endif %} section{% if cart != empty %} section--padding{% endif %}{% if section.settings.divider %} section--divider{% endif %}{% if section.settings.rounded %} section--rounded relative{% endif %}">
   <div class="page-width{% if section.settings.full_width %} page-width--full{% endif %} relative">
     <div class="title-wrapper{% if section.settings.heading_size == 'title-xl' %} title-wrapper-lg{% endif %} leading-none grid gap-4 md:flex {{ section.settings.heading_alignment }} md:justify-between">
-      <{{ section.settings.heading_tag }} class="heading {{ section.settings.heading_size }}">
+      <h1 class="heading {{ section.settings.heading_size }}">
         <split-words class="split-words block" data-animate="fade-up-large">{{ 'cart.general.title' | t }}</split-words>
-      </{{ section.settings.heading_tag }}>
+      </h1>
       <p>
         <a class="button button--secondary icon-with-text" href="{{ routes.all_products_collection_url }}" is="hover-link">
           <span class="btn-fill" data-fill></span>
