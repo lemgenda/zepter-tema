@@ -50,6 +50,9 @@ try {
         await page.waitForTimeout(1200);
 
         const axe = await new AxeBuilder({ page })
+          // Shopify's preview editor toolbar is injected outside the storefront and
+          // is not part of the theme's accessibility surface.
+          .exclude('#PBarNextFrame')
           .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa', 'best-practice'])
           .analyze();
 
