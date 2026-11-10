@@ -597,5 +597,23 @@
   },
   "date_formats": {
     "month_day_year": "%b %d, %Y"
+  },
+  "shinepages": {
+    "contact": {
+      "form": {
+        "error_heading": "Vui lòng sửa các lỗi sau:"
+      }
+    },
+    "recipient": {
+      "form": {
+        "checkbox": "Tôi muốn gửi món quà này",
+        "email_label": "Email người nhận",
+        "email_label_optional_for_no_js_behavior": "Email người nhận (tùy chọn)",
+        "name_label": "Tên người nhận (tùy chọn)",
+        "max_characters": "Tối đa {{ max_chars }} ký tự",
+        "message_label": "Tin nhắn (tùy chọn)",
+        "send_on_label": "Ngày gửi (tùy chọn)"
+      }
+    }
   }
 }
