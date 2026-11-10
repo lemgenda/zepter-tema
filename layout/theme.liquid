@@ -106,9 +106,11 @@
   data-title-animation
   data-page-rendering
 >
+  <nav class="skip-links" aria-label="Skip navigation">
   <a class="sr-only skip-link" href="#MainContent">
     {{ 'general.accessibility.skip_to_content' | t }}
   </a>
+  </nav>
 
   {%- liquid
     if settings.enable_page_transition
@@ -117,7 +119,9 @@
 
     render 'mouse-cursor'
 
+    echo '<header class="site-header-landmark" role="banner">'
     sections 'header-group'
+    echo '</header>'
     sections 'overlay-group'
   -%}
 
@@ -126,7 +130,7 @@
       {{ content_for_layout }}
     </main>
 
-    <footer-group class="footer-group block w-full">
+    <footer-group class="footer-group block w-full" role="contentinfo">
       {%- sections 'footer-group' -%}
     </footer-group>
   </div>
