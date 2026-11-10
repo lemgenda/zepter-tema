@@ -390,34 +390,47 @@
 
 
     initAnnouncementSlideInert() {
+      const focusableSelector = 'a[href], area[href], button, input, select, textarea, iframe, audio[controls], video[controls], [tabindex]';
       const syncSlide = (slide) => {
         if (!slide.matches('.announcement__slide')) return;
         const hidden = slide.getAttribute('aria-hidden') === 'true';
+
         if (hidden) {
           slide.setAttribute('inert', '');
-          slide.querySelectorAll('a[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"])').forEach((item) => item.setAttribute('tabindex', '-1'));
-          slide.querySelectorAll('a[href], area[href], button, input, select, textarea, iframe, audio[controls], video[controls], [tabindex]:not([tabindex="-1"])').forEach((item) => {
+          slide.querySelectorAll(focusableSelector).forEach((item) => {
             if (!item.hasAttribute('data-a11y-original-tabindex')) {
-              item.setAttribute('data-a11y-original-tabindex', item.getAttribute('tabindex') ?? '');
+              const original = item.getAttribute('tabindex');
+              item.setAttribute('data-a11y-original-tabindex', original === null ? '__a11y_none__' : original);
             }
             item.setAttribute('tabindex', '-1');
           });
-        } else {
-          slide.removeAttribute('inert');
-          slide.querySelectorAll('[data-a11y-original-tabindex]').forEach((item) => {
-            const original = item.getAttribute('data-a11y-original-tabindex');
-            if (original === '') item.removeAttribute('tabindex');
-            else item.setAttribute('tabindex', original);
-            item.removeAttribute('data-a11y-original-tabindex');
-          });
+          return;
         }
+
+        slide.removeAttribute('inert');
+        slide.querySelectorAll('[data-a11y-original-tabindex]').forEach((item) => {
+          const original = item.getAttribute('data-a11y-original-tabindex');
+          if (original === '__a11y_none__') item.removeAttribute('tabindex');
+          else item.setAttribute('tabindex', original);
+          item.removeAttribute('data-a11y-original-tabindex');
+        });
       };
 
       document.querySelectorAll('.announcement__slide').forEach(syncSlide);
       if (this.announcementObserver || !('MutationObserver' in window)) return;
+
       this.announcementObserver = new MutationObserver((records) => {
         records.forEach((record) => {
-          if (record.type === 'attributes') syncSlide(record.target);
+          if (record.type === 'attributes') {
+            syncSlide(record.target);
+            return;
+          }
+
+          const parentSlide = record.target.nodeType === Node.ELEMENT_NODE
+            ? record.target.closest('.announcement__slide')
+            : record.target.parentElement?.closest('.announcement__slide');
+          if (parentSlide) syncSlide(parentSlide);
+
           record.addedNodes.forEach((node) => {
             if (node.nodeType !== Node.ELEMENT_NODE) return;
             if (node.matches('.announcement__slide')) syncSlide(node);
@@ -425,8 +438,12 @@
           });
         });
       });
+
       this.announcementObserver.observe(document.body, {
-        subtree: true, childList: true, attributes: true, attributeFilter: ['aria-hidden']
+        subtree: true,
+        childList: true,
+        attributes: true,
+        attributeFilter: ['aria-hidden']
       });
     },
 
