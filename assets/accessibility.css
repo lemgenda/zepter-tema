@@ -338,3 +338,57 @@ html {
 /* --------------------------------------------------------------------------
    End of global accessibility layer
    -------------------------------------------------------------------------- */
+
+/* Carousel controls, search targets and third-party skip controls */
+.slideshow-control {
+  min-width: 24px !important;
+  min-height: 24px !important;
+  width: 32px;
+  height: 32px;
+}
+
+.search__field .clear,
+.search__field button[type="reset"] {
+  min-width: 24px !important;
+  min-height: 24px !important;
+  padding: 4px !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#uw-skip-to-main,
+.uw-sl__item:focus,
+.uw-sl__item:focus-visible {
+  outline: 3px solid #155eef !important;
+  outline-offset: 3px !important;
+  box-shadow: 0 0 0 3px #ffffff !important;
+}
+
+@media (forced-colors: active) {
+  :where(a[href], button, input, select, textarea, summary, [tabindex]:not([tabindex="-1"])):focus,
+  #uw-skip-to-main:focus,
+  .uw-sl__item:focus {
+    outline: 3px solid Highlight !important;
+    outline-offset: 3px !important;
+    forced-color-adjust: auto;
+  }
+}
+
+html,
+body {
+  max-width: 100%;
+}
+body {
+  overflow-x: clip;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  announcement-bar[autoplay],
+  slideshow-element[autoplay],
+  video-media[autoplay],
+  video[autoplay] {
+    animation: none !important;
+    transition: none !important;
+  }
+}
