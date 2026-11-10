@@ -113,12 +113,10 @@
 
     render 'mouse-cursor'
 
-    echo '<header class="site-header-landmark" role="banner">'
     echo '<nav class="skip-links" aria-label="Skip navigation"><a class="sr-only skip-link" href="#MainContent">'
     echo 'general.accessibility.skip_to_content' | t
     echo '</a></nav>'
     sections 'header-group'
-    echo '</header>'
     sections 'overlay-group'
   -%}
 
@@ -127,9 +125,7 @@
       {{ content_for_layout }}
     </main>
 
-    <footer class="footer-group block w-full">
-      {%- sections 'footer-group' -%}
-    </footer>
+    {%- sections 'footer-group' -%}
   </div>
 
   <!--
