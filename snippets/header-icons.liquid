@@ -50,7 +50,7 @@
                       -%}
                     </span>
                     {%- if section.settings.menu_active == 'block' -%}
-                      <span class="btn-text btn-duplicate">
+                      <span class="btn-text btn-duplicate" aria-hidden="true">
                         {%- liquid
                           echo localization.language.endonym_name | capitalize
                           unless section.settings.hover_menu
@@ -118,7 +118,7 @@
 
                     <span class="btn-text" data-text>{{ localization_country }}</span>
                     {%- if section.settings.menu_active == 'block' -%}
-                      <span class="btn-text btn-duplicate">{{ localization_country }}</span>
+                      <span class="btn-text btn-duplicate" aria-hidden="true">{{ localization_country }}</span>
                     {%- endif -%}
                   </magnet-element>
                 </summary>
