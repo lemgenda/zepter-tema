@@ -71,6 +71,7 @@ Ikone koje su dekorativne označene su praznim alt tekstom gdje je to primjereno
 - `sections/slideshow.liquid`: carousel ima region/roledescription/naziv; svaki slide je označena slide grupa; slike imaju alt fallback; autoplay kontrola uklanja neodgovarajući `aria-live` atribut s gumba.
 - `snippets/product-media-gallery.liquid`: featured media zoom kontrola više nema `tabindex="-1"`.
 - `snippets/product-variant-picker.liquid`: odabrana vrijednost varijante koristi polite live region.
+- `sections/main-product.liquid`: promjene cijene, SKU-a i cijene po komadu koriste polite status/live regije; `snippets/product-inventory.liquid` već izlaže stanje zalihe kao status.
 - `snippets/facets-drawer.liquid`: dinamički broj filtera koristi status live region.
 
 ### 5a. Navigacija, predictive search, pagination i carouseli
@@ -130,7 +131,7 @@ Dodani su:
 4. **Kontrast i theme schemes:** stvarne kombinacije foreground/background boja za sve merchant color schemes, overlaye, hover/focus/disabled stanja i button varijante nisu izmjerene.
 5. **Zoom/reflow:** 320 px reflow i tekstualni spacing override su u test harnessu; stvarni browser zoom 200%/400% i sadržaj na 320 CSS px još nisu testirani na storefrontu.
 6. **Target size 2.5.8:** skripta izlistava kontrole manje od 24 × 24 px; svaku stavku treba ručno provjeriti zbog WCAG iznimaka (inline, ekvivalentna kontrola, spacing i user-agent kontrola).
-7. **Product variant i pickup flow:** odabrana vrijednost varijante se najavljuje, ali cijena, dostupnost, SKU, inventory i pickup availability nakon AJAX promjene nisu ujednačeno najavljeni.
+7. **Product variant i pickup flow:** odabrana vrijednost, cijena, SKU, cijena po komadu, inventory i pickup preview sada imaju status/live semantiku; stvarni redoslijed i čitljivost najava nakon AJAX promjene još treba provjeriti na trgovini.
 8. **Facets/filteri:** count live region je dodan, ali stvarni rezultat nakon AJAX filtriranja, fokusni povratak, URL/history i kombinacije checkbox/swatch filtera trebaju browser test.
 9. **Product recommendations/recently viewed:** imenovane carousel regije, load statusi i inert/aria-hidden upravljanje izvan-viewport karticama su implementirani; stvarna keyboard operabilnost, screen-reader izgovor i scroll/focus interakcija još trebaju browser test.
 10. **Ostale slike:** sve ostale merchant-managed image settinge, article/blog, footer, map, promo i app-provided slike treba pregledati u stvarnom sadržaju. Fallback alt ne može zamijeniti dobar opis koji odgovara stvarnoj slici.
