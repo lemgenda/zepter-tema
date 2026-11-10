@@ -30,7 +30,9 @@
       "drag": "Kéo",
       "cart_added_announcement": "Đã thêm sản phẩm vào giỏ hàng.",
       "cart_error_announcement": "Không thể thêm sản phẩm vào giỏ hàng.",
-      "cart_updated_announcement": "Giỏ hàng của bạn đã được cập nhật."
+      "cart_updated_announcement": "Giỏ hàng của bạn đã được cập nhật.",
+      "product_recommendations_loaded": "Đã tải đề xuất sản phẩm.",
+      "recently_viewed_loaded": "Đã tải sản phẩm đã xem gần đây."
     },
     "meta": {
       "tags": "Được gắn thẻ \"{{ tags }}\"",
@@ -216,7 +218,8 @@
     "header": {
       "primary_navigation": "Điều hướng chính",
       "secondary_navigation": "Điều hướng phụ",
-      "expand_submenu": "Mở rộng menu con: {{ title }}"
+      "expand_submenu": "Mở rộng menu con: {{ title }}",
+      "back_to_menu": "Quay lại {{ title }}"
     },
     "newsletter-popup": {
       "name": "Đăng ký nhận bản tin"
