@@ -106,12 +106,6 @@
   data-title-animation
   data-page-rendering
 >
-  <nav class="skip-links" aria-label="Skip navigation">
-  <a class="sr-only skip-link" href="#MainContent">
-    {{ 'general.accessibility.skip_to_content' | t }}
-  </a>
-  </nav>
-
   {%- liquid
     if settings.enable_page_transition
       render 'loading-bar'
@@ -120,6 +114,9 @@
     render 'mouse-cursor'
 
     echo '<header class="site-header-landmark" role="banner">'
+    echo '<nav class="skip-links" aria-label="Skip navigation"><a class="sr-only skip-link" href="#MainContent">'
+    echo 'general.accessibility.skip_to_content' | t
+    echo '</a></nav>'
     sections 'header-group'
     echo '</header>'
     sections 'overlay-group'
