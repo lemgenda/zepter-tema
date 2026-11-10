@@ -361,6 +361,14 @@
 
         if (event.matches) {
           const disableAutoplay = (root) => {
+            if (root.matches?.('announcement-bar[autoplay]')) {
+              root.removeAttribute('autoplay');
+              root.setAttribute('aria-live', 'polite');
+              const control = document.querySelector('[is="control-button"][aria-controls="' + root.id + '"]');
+              control?.setAttribute('paused', '');
+              root.slider?.pausePlayer();
+            }
+
             if (root.matches?.('slideshow-element[autoplay]')) {
               root.removeAttribute('autoplay');
               root.setAttribute('aria-live', 'polite');
@@ -379,7 +387,7 @@
               root.pause();
             }
 
-            root.querySelectorAll?.('slideshow-element[autoplay], video-media[autoplay], video[autoplay]').forEach(disableAutoplay);
+            root.querySelectorAll?.('announcement-bar[autoplay], slideshow-element[autoplay], video-media[autoplay], video[autoplay]').forEach(disableAutoplay);
           };
 
           disableAutoplay(document.documentElement);
