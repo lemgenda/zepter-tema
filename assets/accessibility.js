@@ -30,6 +30,7 @@
     headerResizeHandler: null,
     motionObserver: null,
     recipientObserver: null,
+    iframeObserver: null,
 
     initialized: false,
 
@@ -49,6 +50,7 @@
       this.initLiveAnnouncements();
       this.initFormErrorFocus();
       this.initShineRecipientForms();
+      this.initEmbeddedFrameTitles();
       this.initReducedMotion();
       this.initShopifySectionEvents();
 
@@ -311,6 +313,36 @@
         summary.focus({ preventScroll: true });
         summary.scrollIntoView({ block: 'center', behavior: 'auto' });
       });
+    },
+
+    initEmbeddedFrameTitles() {
+      const labelFrame = (frame) => {
+        if (frame.hasAttribute('title') && frame.getAttribute('title').trim()) return;
+
+        const media = frame.closest('video-media, model-media');
+        if (!media) return;
+
+        const label = media.getAttribute('aria-label') ||
+          media.querySelector('img[alt]')?.getAttribute('alt') ||
+          document.title;
+
+        if (label && label.trim()) {
+          frame.setAttribute('title', label.trim());
+        }
+      };
+
+      document.querySelectorAll('video-media iframe, model-media iframe').forEach(labelFrame);
+
+      if (!this.iframeObserver && 'MutationObserver' in window) {
+        this.iframeObserver = new MutationObserver((records) => {
+          records.forEach((record) => record.addedNodes.forEach((node) => {
+            if (node.nodeType !== Node.ELEMENT_NODE) return;
+            if (node.matches('iframe')) labelFrame(node);
+            node.querySelectorAll?.('iframe').forEach(labelFrame);
+          }));
+        });
+        this.iframeObserver.observe(document.body, { childList: true, subtree: true });
+      }
     },
 
     initShineRecipientForms() {
