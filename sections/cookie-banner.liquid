@@ -75,7 +75,7 @@
                 <div class="cookie__buttons" {{ block.shopify_attributes }}>
                   <div class="inline-flex gap-4">
                     {%- if block.settings.button_label_1 != blank -%}
-                      <button type="button" name="accept" class="button button--primary icon-with-text" is="hover-button">
+                      <button type="button" name="accept" class="button button--primary icon-with-text"{% if block.settings.button_label_2 == blank %} data-modal-focus{% endif %} is="hover-button">
                         <span class="btn-fill" data-fill></span>
                         <span class="btn-text">
                           {%- liquid
@@ -86,7 +86,7 @@
                       </button>
                     {%- endif -%}
                     {%- if block.settings.button_label_2 != blank -%}
-                      <button type="button" name="decline" class="button button--secondary icon-with-text" is="hover-button">
+                      <button type="button" name="decline" class="button button--secondary icon-with-text" data-modal-focus is="hover-button">
                         <span class="btn-fill" data-fill></span>
                         <span class="btn-text">
                           {%- liquid
