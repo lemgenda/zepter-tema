@@ -79,59 +79,87 @@
     },
 
     getHeaderOffset() {
-      const header = this.getHeaderElement();
+      const candidates = document.querySelectorAll(
+        '.shopify-section-group-header-group, .shopify-section-group-header-group *, header, .header, [data-sticky-header]'
+      );
+      let offset = 0;
 
-      if (!header) {
-        return 0;
-      }
+      candidates.forEach((element) => {
+        const style = window.getComputedStyle(element);
+        if (
+          (style.position !== 'fixed' && style.position !== 'sticky') ||
+          style.display === 'none' ||
+          style.visibility === 'hidden'
+        ) return;
 
-      const rect = header.getBoundingClientRect();
+        const rect = element.getBoundingClientRect();
+        if (rect.width <= 0 || rect.height <= 0 || rect.bottom <= 0 || rect.top >= window.innerHeight) return;
 
-      return Math.max(0, Math.ceil(rect.height));
+        // Use the lowest visible top occluder, not the sum of nested sticky elements.
+        offset = Math.max(offset, rect.bottom);
+      });
+
+      return Math.max(0, Math.ceil(offset));
+    },
+
+    getBottomOffset() {
+      const candidates = document.querySelectorAll(
+        '.mobile-dock, [data-a11y-fixed-bottom]'
+      );
+      let offset = 0;
+
+      candidates.forEach((element) => {
+        const style = window.getComputedStyle(element);
+        if (
+          (style.position !== 'fixed' && style.position !== 'sticky') ||
+          style.display === 'none' ||
+          style.visibility === 'hidden'
+        ) return;
+
+        const rect = element.getBoundingClientRect();
+        if (rect.width <= 0 || rect.height <= 0 || rect.top >= window.innerHeight || rect.bottom < window.innerHeight - 1) return;
+
+        offset = Math.max(offset, window.innerHeight - rect.top);
+      });
+
+      return Math.max(0, Math.ceil(offset));
     },
 
     updateHeaderOffset() {
-      const offset = this.getHeaderOffset();
+      const topOffset = this.getHeaderOffset();
+      const bottomOffset = this.getBottomOffset();
 
-      document.documentElement.style.setProperty(
-        '--a11y-header-offset',
-        `${offset}px`
-      );
+      document.documentElement.style.setProperty('--a11y-header-offset', `${topOffset}px`);
+      document.documentElement.style.setProperty('--a11y-bottom-offset', `${bottomOffset}px`);
 
-      return offset;
+      return { top: topOffset, bottom: bottomOffset };
     },
 
     initHeaderOffset() {
+      if (this.headerObserver) {
+        this.headerObserver.disconnect();
+        this.headerObserver = null;
+      }
+
+      if (this.headerResizeHandler) {
+        window.removeEventListener('resize', this.headerResizeHandler);
+        window.removeEventListener('scroll', this.headerResizeHandler);
+      }
+
+      this.headerResizeHandler = () => this.updateHeaderOffset();
       this.updateHeaderOffset();
 
-      const header = this.getHeaderElement();
+      const observeTargets = document.querySelectorAll(
+        '.shopify-section-group-header-group, header, .header, .mobile-dock, [data-a11y-fixed-bottom]'
+      );
 
-      if (!header) {
-        return;
-      }
-
-      /*
-       * ResizeObserver updates the offset when the header changes
-       * height because of responsive layout, announcement bars,
-       * or other layout changes.
-       */
       if ('ResizeObserver' in window) {
-        this.headerObserver = new ResizeObserver(() => {
-          this.updateHeaderOffset();
-        });
-
-        this.headerObserver.observe(header);
-      } else {
-        this.headerResizeHandler = () => {
-          this.updateHeaderOffset();
-        };
-
-        window.addEventListener(
-          'resize',
-          this.headerResizeHandler,
-          { passive: true }
-        );
+        this.headerObserver = new ResizeObserver(this.headerResizeHandler);
+        observeTargets.forEach((element) => this.headerObserver.observe(element));
       }
+
+      window.addEventListener('resize', this.headerResizeHandler, { passive: true });
+      window.addEventListener('scroll', this.headerResizeHandler, { passive: true });
     },
 
     /* ----------------------------------------------------------------------
