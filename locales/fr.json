@@ -39,7 +39,10 @@
       "announcement_bar": "Annonces",
       "announcement_number": "Annonce {{ number }}",
       "currently_selected": "Actuellement sélectionné",
-      "sold_out": "Épuisé"
+      "sold_out": "Épuisé",
+      "media_type_image": "Image",
+      "media_type_video": "Vidéo",
+      "media_type_model": "Modèle 3D"
     },
     "meta": {
       "tags": "Mots clés \"{{ tags }}\"",
