@@ -39,7 +39,10 @@
       "announcement_bar": "Annunci",
       "announcement_number": "Annuncio {{ number }}",
       "currently_selected": "Attualmente selezionato",
-      "sold_out": "Esaurito"
+      "sold_out": "Esaurito",
+      "media_type_image": "Immagine",
+      "media_type_video": "Video",
+      "media_type_model": "Modello 3D"
     },
     "meta": {
       "tags": "Contrassegnato da tag \"{{ tag }}\"",
