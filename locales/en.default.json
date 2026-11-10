@@ -37,7 +37,9 @@
       "recently_viewed_products": "Recently viewed products",
       "pagination": "Pagination",
       "announcement_bar": "Announcements",
-      "announcement_number": "Announcement {{ number }}"
+      "announcement_number": "Announcement {{ number }}",
+      "currently_selected": "Currently selected",
+      "sold_out": "Sold out"
     },
     "meta": {
       "tags": "Tagged \"{{ tags }}\"",
