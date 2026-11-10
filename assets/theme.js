@@ -98,52 +98,91 @@ console.log(theme.settings.themeName + ' theme (' + theme.settings.themeVersion 
     trapFocusHandlers: {},
 
     getFocusableElements: (container) => {
-      return Array.from(
+      if (!container) return [];
+
+      const candidates = Array.from(
         container.querySelectorAll(
-          'summary, a[href], button:enabled, [tabindex]:not([tabindex^="-"]), [draggable], area, input:not([type=hidden]):enabled, select:enabled, textarea:enabled, object, iframe'
+          'summary, a[href], button, [tabindex]:not([tabindex^="-"]), [draggable], area[href], input:not([type="hidden"]), select, textarea, object, iframe'
         )
       );
+
+      return candidates.filter((element) => {
+        if (element.disabled || element.hidden || element.getAttribute('aria-disabled') === 'true') return false;
+
+        let ancestor = element;
+        while (ancestor && ancestor !== container.parentElement) {
+          if (
+            ancestor.hidden ||
+            ancestor.hasAttribute('inert') ||
+            ancestor.getAttribute('aria-hidden') === 'true'
+          ) return false;
+
+          const style = window.getComputedStyle(ancestor);
+          if (style.display === 'none' || style.visibility === 'hidden' || style.visibility === 'collapse') return false;
+          if (ancestor === container) break;
+          ancestor = ancestor.parentElement;
+        }
+
+        return element.getClientRects().length > 0;
+      });
     },
 
     trapFocus: (container, elementToFocus = container) => {
-      const elements = theme.a11y.getFocusableElements(container);
-      const first = elements[0];
-      const last = elements[elements.length - 1];
-
       theme.a11y.removeTrapFocus();
 
-      theme.a11y.trapFocusHandlers.focusin = (event) => {
-        if (event.target !== container && event.target !== last && event.target !== first) return;
+      const getElements = () => theme.a11y.getFocusableElements(container);
+      let elements = getElements();
+      let target = elementToFocus;
 
-        document.addEventListener('keydown', theme.a11y.trapFocusHandlers.keydown);
+      if (!target || (target !== container && !elements.includes(target))) {
+        target = elements[0] || container;
+      }
+
+      if (target === container && !container.hasAttribute('tabindex')) {
+        container.setAttribute('tabindex', '-1');
+      }
+
+      theme.a11y.trapFocusHandlers.focusin = (event) => {
+        if (container.contains(event.target) || event.target === container) {
+          document.addEventListener('keydown', theme.a11y.trapFocusHandlers.keydown);
+        } else {
+          document.removeEventListener('keydown', theme.a11y.trapFocusHandlers.keydown);
+        }
       };
 
-      theme.a11y.trapFocusHandlers.focusout = function () {
+      theme.a11y.trapFocusHandlers.focusout = () => {
         document.removeEventListener('keydown', theme.a11y.trapFocusHandlers.keydown);
       };
 
-      theme.a11y.trapFocusHandlers.keydown = function (event) {
-        if (event.code.toUpperCase() !== 'TAB') return; // If not TAB key
-        // On the last focusable element and tab forward, focus the first element.
-        if (event.target === last && !event.shiftKey) {
+      theme.a11y.trapFocusHandlers.keydown = (event) => {
+        if (event.key !== 'Tab') return;
+
+        elements = getElements();
+        if (!elements.length) {
           event.preventDefault();
-          first.focus();
+          container.focus();
+          return;
         }
 
-        //  On the first focusable element and tab backward, focus the last element.
-        if ((event.target === container || event.target === first) && event.shiftKey) {
+        const first = elements[0];
+        const last = elements[elements.length - 1];
+
+        if (event.shiftKey && (event.target === first || event.target === container)) {
           event.preventDefault();
           last.focus();
+        } else if (!event.shiftKey && event.target === last) {
+          event.preventDefault();
+          first.focus();
         }
       };
 
       document.addEventListener('focusout', theme.a11y.trapFocusHandlers.focusout);
       document.addEventListener('focusin', theme.a11y.trapFocusHandlers.focusin);
 
-      elementToFocus.focus();
+      target.focus();
 
-      if (elementToFocus.tagName === 'INPUT' && ['search', 'text', 'email', 'url'].includes(elementToFocus.type) && elementToFocus.value) {
-        elementToFocus.setSelectionRange(0, elementToFocus.value.length);
+      if (target.tagName === 'INPUT' && ['search', 'text', 'email', 'url'].includes(target.type) && target.value) {
+        target.setSelectionRange(0, target.value.length);
       }
     },
     removeTrapFocus: (elementToFocus = null) => {
@@ -1715,7 +1754,16 @@ class ModalElement extends HTMLElement {
   }
 
   get focusElement() {
-    return this.querySelector('button');
+    const explicitTarget = this.querySelector('[data-modal-focus]');
+    if (explicitTarget && theme.a11y.getFocusableElements(this).includes(explicitTarget)) {
+      return explicitTarget;
+    }
+
+    const firstVisibleTarget = theme.a11y.getFocusableElements(this)[0];
+    if (firstVisibleTarget) return firstVisibleTarget;
+
+    if (!this.hasAttribute('tabindex')) this.setAttribute('tabindex', '-1');
+    return this;
   }
 
   connectedCallback() {
