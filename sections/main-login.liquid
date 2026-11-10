@@ -21,7 +21,11 @@
         {%- liquid
           if form.errors
             assign form_errors = form.errors | default_errors
+            echo '<div id="RecoverFormError" data-a11y-error-summary tabindex="-1">' 
+            echo '<div id="LoginFormError" data-a11y-error-summary tabindex="-1">' 
             render 'alert', status: 'error', content: form_errors
+            echo '</div>'
+            echo '</div>'
           endif
 
           assign recover_success = form.posted_successfully?
@@ -30,7 +34,7 @@
         <div class="field">
           <input
             required
-            class="input is-floating{% if form.errors %} invalid{% endif %}"
+            class="input is-floating{% if form.errors %} invalid{% endif %}"{% if form.errors %} aria-invalid="true" aria-describedby="RecoverFormError"{% endif %}
             type="email"
             value=""
             name="email"
@@ -91,7 +95,7 @@
           <div class="field">
             <input
               required
-              class="input is-floating{% if form.errors contains 'form' %} invalid{% endif %}"
+              class="input is-floating{% if form.errors contains 'form' %} invalid{% endif %}"{% if form.errors contains 'form' %} aria-invalid="true" aria-describedby="LoginFormError"{% endif %}{% if form.errors contains 'form' %} aria-invalid="true" aria-describedby="LoginFormError"{% endif %}
               type="email"
               name="customer[email]"
               id="CustomerEmail"
