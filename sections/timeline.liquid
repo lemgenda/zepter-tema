@@ -1,14 +1,26 @@
 <style>
   #shopify-section-{{ section.id }} {
+    overflow-x: hidden;
     --section-padding-top: {{ section.settings.padding_top }}px;
     --section-padding-bottom: {{ section.settings.padding_bottom }}px;
     {%- render 'section-variables', section: section -%}
     --section-blocks-count: {{ section.blocks.size }};
+    --card-grid-per-row: 1;
+  }
+
+  #shopify-section-{{ section.id }} .timeline,
+  #shopify-section-{{ section.id }} .timeline__item,
+  #shopify-section-{{ section.id }} .timeline__item-content {
+    min-width: 0;
+  }
+
+  #shopify-section-{{ section.id }} .timeline__item-content {
+    overflow-wrap: anywhere;
   }
 </style>
 
 <div class="section section--padding{% if section.settings.divider %} section--divider{% endif %}{% if section.settings.rounded %} section--rounded relative{% endif %}">
-  <div class="page-width{% if section.settings.full_width %} page-width--full{% endif %} relative overflow-hidden md:overflow-visible">
+  <div class="page-width{% if section.settings.full_width %} page-width--full{% endif %} relative overflow-hidden">
     {%- capture indicators -%}
       {%- if section.blocks.size > 1 -%}
         <div class="indicators hidden lg:flex gap-2d5">
@@ -30,7 +42,7 @@
     {%- render 'section-heading', section: section, section_button: indicators -%}
 
     {%- if section.blocks.size > 0 -%}
-      <slider-element id="Slider-{{ section.id }}" class="grid slider slider--desktop slider--tablet" selector=".card-grid>.card">
+      <slider-element id="Slider-{{ section.id }}" class="timeline-slider grid slider slider--desktop slider--tablet" selector=".card-grid>.card">
         <motion-list class="timeline card-grid grid{% if section.blocks.size == 1 %} with-only1{% endif %}">
           {%- liquid
             assign with_gradient = false
@@ -39,7 +51,7 @@
             endif
           -%}
           {%- for block in section.blocks -%}
-            <div class="timeline__item card{% if forloop.first %} selected{% endif %} relative" {{ block.shopify_attributes }}>
+            <div class="timeline__item card{% if forloop.first %} selected{% else %} inert-slide{% endif %} relative"{% unless forloop.first %} aria-hidden="true" inert{% endunless %} {{ block.shopify_attributes }}>
               <div class="flex flex-col md:grid grid-cols-2 overflow-hidden">
                 <picture class="media media--{{ section.settings.image_ratio }} mobile:media--{{ section.settings.image_ratio_mobile }} block relative overflow-hidden">
                   {%- if block.settings.image != blank -%}

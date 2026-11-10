@@ -12,6 +12,20 @@ const paths = (process.env.WCAG_TEST_PATHS || '/,/collections/all,/cart,/search?
   .map((path) => path.trim())
   .filter(Boolean);
 
+// Shopify preview credentials are carried in query parameters on the preview
+// URL. Preserve them when navigating to each test path; otherwise /cart,
+// /search, and collection checks silently fall back to the published theme.
+const previewBase = new URL(baseUrl);
+const buildTestUrl = (path) => {
+  const target = new URL(path, previewBase);
+  if (target.origin === previewBase.origin) {
+    previewBase.searchParams.forEach((value, key) => {
+      if (!target.searchParams.has(key)) target.searchParams.append(key, value);
+    });
+  }
+  return target.toString();
+};
+
 const viewports = [
   { name: 'desktop', width: 1365, height: 900 },
   { name: 'mobile', width: 375, height: 812 },
@@ -24,18 +38,67 @@ const report = [];
 
 try {
   for (const viewport of viewports) {
-    const context = await browser.newContext({ viewport });
+    const context = await browser.newContext({ viewport, reducedMotion: 'reduce' });
     const page = await context.newPage();
 
     for (const path of paths) {
-      const url = new URL(path, baseUrl).toString();
-      const result = { viewport: viewport.name, url, axeViolations: [], focus: null, textSpacing: null, smallTargets: [] };
+      const url = buildTestUrl(path);
+      const result = { viewport: viewport.name, url, axeViolations: [], focus: null, textSpacing: null, smallTargets: [], diagnostics: null };
 
       try {
         await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
         await page.waitForTimeout(1200);
 
+        result.diagnostics = await page.evaluate(() => {
+          const describe = (element) => {
+            const rect = element.getBoundingClientRect();
+            return {
+              tag: element.tagName,
+              id: element.id || null,
+              className: typeof element.className === 'string' ? element.className : '',
+              accessibleName: element.getAttribute('aria-label') || element.getAttribute('aria-labelledby') || '',
+              text: (element.getAttribute('aria-label') || element.textContent || '').trim().slice(0, 120),
+              rect: { left: Math.round(rect.left), right: Math.round(rect.right), width: Math.round(rect.width) },
+              scrollWidth: element.scrollWidth,
+              clientWidth: element.clientWidth,
+              outerHTML: element.outerHTML.slice(0, 700),
+            };
+          };
+          const headings = Array.from(document.querySelectorAll('h1')).map(describe);
+          const slider = document.querySelector('#Slider-template--28718057521481__multicolumn_ym6DgV');
+          const logoImages = Array.from(document.querySelectorAll('img[alt="Hyperlight Optics®"]')).map((img) => ({
+            image: describe(img),
+            parent: img.parentElement?.outerHTML.slice(0, 900) || null,
+          }));
+          const viewportWidth = document.documentElement.clientWidth;
+          const overflowElements = Array.from(document.querySelectorAll('body *'))
+            .filter((element) => {
+              const rect = element.getBoundingClientRect();
+              const style = getComputedStyle(element);
+              return rect.width > 0 && rect.height > 0 && style.position !== 'fixed' &&
+                (rect.right > viewportWidth + 1 || element.scrollWidth > element.clientWidth + 2);
+            })
+            .sort((a, b) => b.getBoundingClientRect().right - a.getBoundingClientRect().right)
+            .slice(0, 20)
+            .map(describe);
+          return {
+            h1Count: headings.length,
+            h1: headings,
+            logoImages,
+            targetSlider: slider ? {
+              attributes: Array.from(slider.attributes).map(({ name, value }) => ({ name, value })),
+              outerHTML: slider.outerHTML.slice(0, 1200),
+              nearestHeading: slider.parentElement?.querySelector('h1,h2,h3,h4,h5,h6')?.outerHTML || null,
+            } : null,
+            viewportWidth,
+            overflowElements,
+          };
+        });
+
         const axe = await new AxeBuilder({ page })
+          // Shopify's preview editor toolbar is injected outside the storefront and
+          // is not part of the theme's accessibility surface.
+          .exclude('#PBarNextFrame')
           .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa', 'best-practice'])
           .analyze();
 
@@ -84,7 +147,95 @@ try {
           horizontalOverflow: document.documentElement.scrollWidth > document.documentElement.clientWidth + 1,
         }));
 
-        await page.emulateMedia({ forcedColors: 'active', reducedMotion: 'reduce' });
+        result.diagnostics.textSpacingOverflowElements = await page.evaluate(() => {
+          const viewportWidth = document.documentElement.clientWidth;
+          return Array.from(document.querySelectorAll('body *'))
+            .filter((element) => {
+              const rect = element.getBoundingClientRect();
+              const style = getComputedStyle(element);
+              return rect.width > 0 && rect.height > 0 && style.position !== 'fixed' &&
+                (rect.right > viewportWidth + 1 || element.scrollWidth > element.clientWidth + 2);
+            })
+            .sort((a, b) => b.getBoundingClientRect().right - a.getBoundingClientRect().right)
+            .slice(0, 30)
+            .map((element) => {
+              const rect = element.getBoundingClientRect();
+              return {
+                tag: element.tagName,
+                id: element.id || null,
+                className: typeof element.className === 'string' ? element.className : '',
+                text: (element.getAttribute('aria-label') || element.textContent || '').trim().slice(0, 100),
+                left: Math.round(rect.left),
+                right: Math.round(rect.right),
+                width: Math.round(rect.width),
+                scrollWidth: element.scrollWidth,
+                clientWidth: element.clientWidth,
+                outerHTML: element.outerHTML.slice(0, 500),
+              };
+            });
+        });
+
+        // The first overflow list can be dominated by intentionally off-canvas
+        // slider slides. Report the actual page-width boundary separately and
+        // collapse descendants so the element expanding the document is visible.
+        result.diagnostics.pageWidthCandidates = await page.evaluate(() => {
+          const viewportWidth = document.documentElement.clientWidth;
+          const documentWidth = document.documentElement.scrollWidth;
+          const describe = (element) => {
+            const rect = element.getBoundingClientRect();
+            const style = getComputedStyle(element);
+            const ancestors = [];
+            let parent = element.parentElement;
+            while (parent && parent !== document.body) {
+              const parentRect = parent.getBoundingClientRect();
+              const parentStyle = getComputedStyle(parent);
+              ancestors.push({
+                tag: parent.tagName,
+                id: parent.id || null,
+                className: typeof parent.className === 'string' ? parent.className : '',
+                left: Math.round(parentRect.left),
+                right: Math.round(parentRect.right),
+                width: Math.round(parentRect.width),
+                scrollWidth: parent.scrollWidth,
+                clientWidth: parent.clientWidth,
+                overflowX: parentStyle.overflowX,
+              });
+              parent = parent.parentElement;
+            }
+            return {
+              tag: element.tagName,
+              id: element.id || null,
+              className: typeof element.className === 'string' ? element.className : '',
+              text: (element.getAttribute('aria-label') || element.textContent || '').trim().slice(0, 100),
+              left: Math.round(rect.left),
+              right: Math.round(rect.right),
+              width: Math.round(rect.width),
+              scrollWidth: element.scrollWidth,
+              clientWidth: element.clientWidth,
+              overflowX: style.overflowX,
+              outerHTML: element.outerHTML.slice(0, 500),
+              ancestors: ancestors.slice(0, 8),
+            };
+          };
+          const candidates = Array.from(document.querySelectorAll('body *')).filter((element) => {
+            const rect = element.getBoundingClientRect();
+            const style = getComputedStyle(element);
+            return rect.width > 0 && rect.height > 0 && style.position !== 'fixed' &&
+              rect.right > viewportWidth + 1 && rect.left < documentWidth + 1 &&
+              rect.right <= documentWidth + 2;
+          });
+          const roots = candidates.filter((element) =>
+            !candidates.some((candidate) => candidate !== element && candidate.contains(element))
+          );
+          return {
+            viewportWidth,
+            documentWidth,
+            bodyScrollWidth: document.body.scrollWidth,
+            candidates: roots.slice(0, 20).map(describe),
+          };
+        });
+
+        await page.emulateMedia({ forcedColors: 'active' });
         await page.waitForTimeout(250);
         result.reducedMotion = await page.evaluate(() => ({
           active: window.matchMedia('(prefers-reduced-motion: reduce)').matches,

@@ -12162,6 +12162,13 @@ button:is([is=media-lightbox-button], [is=media-hover-button]):focus-visible {
 
 .image-with-text__media.with-2nd-image {
   padding-inline: var(--page-padding);
+  /* Keep the decorative parallax layer inside this image composition. */
+  overflow: clip;
+}
+
+.image-with-text__item:has(.image-with-text__media.with-2nd-image) {
+  /* Contain the parallax layer at the complete image/text composition boundary. */
+  overflow: clip;
 }
 
 .image-with-text__item .media:not(.media--rounded) {
@@ -12181,6 +12188,8 @@ button:is([is=media-lightbox-button], [is=media-hover-button]):focus-visible {
 .image-with-text__image-second+.image-with-text__image-first {
   transform: rotate(calc(3deg * var(--transform-logical)));
   width: 75%;
+  max-width: 100%;
+  min-width: 0;
   margin-inline-start: auto;
 }
 
@@ -12682,13 +12691,16 @@ button:is([is=media-lightbox-button], [is=media-hover-button]):focus-visible {
 }
 
 .timeline-dots {
-  width: max-content;
-  min-width: 100%;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
   margin-block-start: var(--sp-8);
   grid: auto / repeat(var(--section-blocks-count), minmax(0, 1fr));
 }
 
 .timeline-dots button {
+  min-width: 0;
+  overflow-wrap: anywhere;
   word-break: normal;
   transition: color var(--animation-primary);
 }
@@ -13822,8 +13834,14 @@ lookbook-element .banner__box .title-wrapper {
   margin-inline-end: 0;
 }
 
+.slideshow {
+  /* Clip transformed Flickity cells at the carousel boundary without creating a scroll container. */
+  overflow: clip;
+}
+
 .slideshow .flickity-viewport {
   height: 100%;
+  overflow: clip;
 }
 
 .slideshow>.banner~.banner {
@@ -14664,4 +14682,81 @@ lookbook-element .banner__box .title-wrapper {
   font-weight: normal;
   font-style: normal;
   font-display: swap;
+}
+
+/* WCAG: constrain timeline card contents without clipping its scrollable track. */
+.timeline__item {
+  box-sizing: border-box;
+  min-width: 0;
+}
+.timeline__item > .flex {
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+.timeline__item > .flex > *,
+.timeline__item-content,
+.timeline__item-content > * {
+  min-width: 0;
+  max-width: 100%;
+}
+.timeline__item-content { overflow-wrap: anywhere; }
+.timeline__item-content .heading,
+.timeline__item-content .split-words,
+.timeline__item-content .split-words .word {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.scrolling-text-section {
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: clip;
+}
+.scrolling-text-section marquee-element {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: clip;
+}
+.scrolling-text-section .marquee { min-width: 0; }
+@media screen and (max-width: 767px) {
+  .scrolling-text-section .scrolling-text__item.with-media img {
+    width: auto;
+    max-width: calc(100vw - 2rem);
+    height: auto;
+    object-fit: contain;
+  }
+}
+
+/* WCAG: footer localization controls must fit narrow viewports. */
+@media screen and (max-width: 767px) {
+  .footer-copyright .localization {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .footer-copyright .localization__form {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .footer-copyright .localization__item {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+}
+
+/* WCAG: prevent the timeline slider grid item from expanding its page-width parent. */
+.timeline-slider {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr);
+}
+.timeline-slider > .timeline {
+  min-width: 0;
 }

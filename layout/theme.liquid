@@ -106,10 +106,6 @@
   data-title-animation
   data-page-rendering
 >
-  <a class="sr-only skip-link" href="#MainContent">
-    {{ 'general.accessibility.skip_to_content' | t }}
-  </a>
-
   {%- liquid
     if settings.enable_page_transition
       render 'loading-bar'
@@ -117,6 +113,9 @@
 
     render 'mouse-cursor'
 
+    echo '<nav class="skip-links" aria-label="Skip navigation"><a class="sr-only skip-link" href="#MainContent">'
+    echo 'general.accessibility.skip_to_content' | t
+    echo '</a></nav>'
     sections 'header-group'
     sections 'overlay-group'
   -%}
@@ -126,9 +125,7 @@
       {{ content_for_layout }}
     </main>
 
-    <footer-group class="footer-group block w-full">
-      {%- sections 'footer-group' -%}
-    </footer-group>
+    {%- sections 'footer-group' -%}
   </div>
 
   <!--

@@ -6,6 +6,9 @@
   assign video_id = video.id | default: video_url.id
   assign video_alt = video.alt | default: description
   assign alt = 'general.accessibility.load_video' | t: description: video_alt | escape
+  if autoplay and muted and video_alt == blank
+    assign alt = ''
+  endif
   assign preview_image = video.preview_image | default: cover_image
 
   capture poster
@@ -27,7 +30,14 @@
 
     <template>
       {%- if video != blank -%}
-        {{- video | video_tag: playsinline: true, muted: muted, autoplay: true, loop: loop, controls: false, preload: 'none', image_size: '800x' -}}
+        {%- capture video_markup -%}
+          {{- video | video_tag: playsinline: true, muted: muted, autoplay: true, loop: loop, controls: false, preload: 'none', image_size: '800x' -}}
+        {%- endcapture -%}
+        {%- if autoplay and muted and video_alt == blank -%}
+          {{- video_markup | replace: '<img ', '<img alt="" role="presentation" ' -}}
+        {%- else -%}
+          {{- video_markup -}}
+        {%- endif -%}
       {%- else -%}
         {%- if video_url.type == 'youtube' -%}
           <iframe src="https://www.youtube.com/embed/{{ video_url.id }}?playsinline=1&controls=0{% if autoplay %}&autoplay=1{% endif %}{% if muted %}&mute=1{% endif %}{% if loop %}&loop=1{% endif %}&playlist={{ video_url.id }}&enablejsapi=1&rel=0&modestbranding=1&origin={{ 'https://' | append: request.host | url_encode }}" allow="autoplay; encrypted-media" allowfullscreen="allowfullscreen"></iframe>

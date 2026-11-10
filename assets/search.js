@@ -109,7 +109,6 @@ class PredictiveSearch extends HTMLFormElement {
 
     this.input.value = '';
     this.input.focus();
-    this.input.setAttribute('aria-expanded', 'false');
     this.removeAttribute('results');
   }
 
@@ -148,7 +147,6 @@ class PredictiveSearch extends HTMLFormElement {
   renderSectionFromCache(url) {
     const responseText = this.cachedMap.get(url);
     this.renderSearchResults(responseText);
-    this.input.setAttribute('aria-expanded', 'true');
     this.setAttribute('results', '');
   }
 
@@ -165,7 +163,6 @@ class PredictiveSearch extends HTMLFormElement {
         this.cachedMap.set(url, responseText);
 
         this.removeAttribute('loading');
-        this.input.setAttribute('aria-expanded', 'true');
         this.setAttribute('results', '');
       })
       .catch((error) => {
@@ -174,7 +171,6 @@ class PredictiveSearch extends HTMLFormElement {
         }
         else {
           this.removeAttribute('loading');
-          this.input.setAttribute('aria-expanded', 'false');
           console.error(error);
         }
       });

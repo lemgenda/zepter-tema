@@ -24,10 +24,10 @@ permissions:
 jobs:
   theme-check:
     name: Liquid, JSON, and theme lint
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     steps:
       - name: Check out theme
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -66,14 +66,14 @@ jobs:
   browser-accessibility:
     name: Browser accessibility smoke tests
     if: github.event_name == 'workflow_dispatch' && inputs.preview_url != ''
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     steps:
       - name: Check out test harness
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Set up Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node-version: '20'
+          node-version: '24'
       - name: Install browser test dependencies
         run: npm install --no-save playwright @axe-core/playwright
       - name: Install Chromium

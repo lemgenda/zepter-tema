@@ -31,6 +31,8 @@
     motionObserver: null,
     recipientObserver: null,
     iframeObserver: null,
+    announcementObserver: null,
+    externalLinkObserver: null,
 
     initialized: false,
 
@@ -51,6 +53,11 @@
       this.initFormErrorFocus();
       this.initShineRecipientForms();
       this.initEmbeddedFrameTitles();
+      this.initAnnouncementSlideInert();
+      this.initAccessibleExternalLinks();
+      this.initThirdPartySkipFocus();
+      this.initScrollableRegions();
+      this.initFloatingAppLandmarks();
       this.initReducedMotion();
       this.initShopifySectionEvents();
 
@@ -384,6 +391,232 @@
       }
     },
 
+
+    initAnnouncementSlideInert() {
+      const focusableSelector = 'a[href], area[href], button, input, select, textarea, iframe, audio[controls], video[controls], [tabindex]';
+      const syncSlide = (slide) => {
+        if (!slide.matches('.announcement__slide')) return;
+        const hidden = slide.getAttribute('aria-hidden') === 'true';
+
+        if (hidden) {
+          slide.setAttribute('inert', '');
+          slide.querySelectorAll(focusableSelector).forEach((item) => {
+            if (!item.hasAttribute('data-a11y-original-tabindex')) {
+              const original = item.getAttribute('tabindex');
+              item.setAttribute('data-a11y-original-tabindex', original === null ? '__a11y_none__' : original);
+            }
+            item.setAttribute('tabindex', '-1');
+          });
+          return;
+        }
+
+        slide.removeAttribute('inert');
+        slide.querySelectorAll('[data-a11y-original-tabindex]').forEach((item) => {
+          const original = item.getAttribute('data-a11y-original-tabindex');
+          if (original === '__a11y_none__') item.removeAttribute('tabindex');
+          else item.setAttribute('tabindex', original);
+          item.removeAttribute('data-a11y-original-tabindex');
+        });
+      };
+
+      document.querySelectorAll('.announcement__slide').forEach(syncSlide);
+      if (this.announcementObserver || !('MutationObserver' in window)) return;
+
+      this.announcementObserver = new MutationObserver((records) => {
+        records.forEach((record) => {
+          if (record.type === 'attributes') {
+            syncSlide(record.target);
+            return;
+          }
+
+          const parentSlide = record.target.nodeType === Node.ELEMENT_NODE
+            ? record.target.closest('.announcement__slide')
+            : record.target.parentElement?.closest('.announcement__slide');
+          if (parentSlide) syncSlide(parentSlide);
+
+          record.addedNodes.forEach((node) => {
+            if (node.nodeType !== Node.ELEMENT_NODE) return;
+            if (node.matches('.announcement__slide')) syncSlide(node);
+            node.querySelectorAll?.('.announcement__slide').forEach(syncSlide);
+          });
+        });
+      });
+
+      this.announcementObserver.observe(document.body, {
+        subtree: true,
+        childList: true,
+        attributes: true,
+        attributeFilter: ['aria-hidden']
+      });
+    },
+
+    initAccessibleExternalLinks() {
+      const selector = 'a[rel~="nofollow"][target="_blank"]';
+      const labelLink = (link) => {
+        const ariaLabel = link.getAttribute('aria-label')?.trim();
+        const labelledBy = (link.getAttribute('aria-labelledby') || '')
+          .split(/\\s+/)
+          .filter(Boolean)
+          .some((id) => document.getElementById(id)?.textContent.trim());
+        const descendantName = link.querySelector(
+          'img[alt]:not([alt=""]), svg[aria-label]:not([aria-label=""]), [aria-label]:not([aria-label=""]), [title]:not([title=""])'
+        );
+
+        if (ariaLabel || labelledBy || link.textContent.trim() || descendantName || link.title.trim()) return;
+
+        try {
+          const host = new URL(link.href, window.location.href).hostname.replace(/^www\\./, '');
+          link.setAttribute('aria-label', 'Visit ' + host + ' (opens in a new tab)');
+        } catch (error) {
+          link.setAttribute('aria-label', 'Open external link in a new tab');
+        }
+      };
+
+      document.querySelectorAll(selector).forEach(labelLink);
+      if (this.externalLinkObserver || !('MutationObserver' in window)) return;
+
+      this.externalLinkObserver = new MutationObserver((records) => {
+        records.forEach((record) => {
+          const parentLink = record.target.nodeType === Node.ELEMENT_NODE
+            ? record.target.closest(selector)
+            : record.target.parentElement?.closest(selector);
+          if (parentLink) labelLink(parentLink);
+
+          record.addedNodes.forEach((node) => {
+            if (node.nodeType !== Node.ELEMENT_NODE) return;
+            if (node.matches(selector)) labelLink(node);
+            node.querySelectorAll?.(selector).forEach(labelLink);
+          });
+        });
+      });
+      this.externalLinkObserver.observe(document.body, { childList: true, subtree: true });
+    },
+
+    initThirdPartySkipFocus() {
+      const selectors = '#uw-skip-to-main, .uw-sl__item';
+      const styledRoots = new WeakSet();
+
+      const applyFocusIndicator = (element) => {
+        if (!element || !element.matches?.(selectors)) return;
+        element.style.setProperty('outline', '4px solid #000', 'important');
+        element.style.setProperty('outline-offset', '4px', 'important');
+        element.style.setProperty('border', '3px solid #fff', 'important');
+        element.style.setProperty('box-shadow', '0 0 0 7px #000', 'important');
+        element.style.setProperty('background', '#fff', 'important');
+        element.style.setProperty('color', '#000', 'important');
+      };
+
+      const attachRoot = (root) => {
+        if (!root || styledRoots.has(root)) return;
+        styledRoots.add(root);
+
+        if (root instanceof ShadowRoot) {
+          const style = document.createElement('style');
+          style.textContent = `
+            #uw-skip-to-main:focus,
+            #uw-skip-to-main:focus-visible,
+            .uw-sl__item:focus,
+            .uw-sl__item:focus-visible {
+              outline: 4px solid #000 !important;
+              outline-offset: 4px !important;
+              border: 3px solid #fff !important;
+              box-shadow: 0 0 0 7px #000 !important;
+              background: #fff !important;
+              color: #000 !important;
+            }
+            @media (forced-colors: active) {
+              #uw-skip-to-main:focus,
+              #uw-skip-to-main:focus-visible,
+              .uw-sl__item:focus,
+              .uw-sl__item:focus-visible {
+                outline: 3px solid Highlight !important;
+                outline-offset: 3px !important;
+                border: 2px solid Canvas !important;
+                box-shadow: 0 0 0 5px Highlight !important;
+                background: Canvas !important;
+                color: CanvasText !important;
+              }
+            }
+          `;
+          root.appendChild(style);
+        }
+
+        root.addEventListener('focusin', (event) => applyFocusIndicator(event.target), true);
+        root.querySelectorAll?.('*').forEach((element) => {
+          if (element.shadowRoot) attachRoot(element.shadowRoot);
+        });
+      };
+
+      attachRoot(document);
+      document.addEventListener('focusin', (event) => applyFocusIndicator(event.target), true);
+
+      if ('MutationObserver' in window) {
+        const observer = new MutationObserver((records) => {
+          records.forEach((record) => record.addedNodes.forEach((node) => {
+            if (node.nodeType !== Node.ELEMENT_NODE) return;
+            if (node.shadowRoot) attachRoot(node.shadowRoot);
+            node.querySelectorAll?.('*').forEach((element) => {
+              if (element.shadowRoot) attachRoot(element.shadowRoot);
+            });
+            if (node.matches?.(selectors)) applyFocusIndicator(node);
+            node.querySelectorAll?.(selectors).forEach(applyFocusIndicator);
+          }));
+        });
+        observer.observe(document.documentElement, { childList: true, subtree: true });
+      }
+    },
+
+    initScrollableRegions() {
+      const labelRegion = (slider) => {
+        if (!(slider instanceof HTMLElement)) return;
+        const isScrollable = slider.scrollWidth > slider.clientWidth + 1;
+        if (!isScrollable) return;
+
+        if (!slider.hasAttribute('tabindex')) slider.setAttribute('tabindex', '0');
+        if (!slider.hasAttribute('role')) slider.setAttribute('role', 'region');
+
+        if (!slider.hasAttribute('aria-label') && !slider.hasAttribute('aria-labelledby')) {
+          const section = slider.closest('.shopify-section');
+          const heading = section?.querySelector('h1, h2, h3, h4, h5, h6');
+          const name = heading?.textContent?.trim();
+          slider.setAttribute('aria-label', name || 'Scrollable content');
+        }
+      };
+
+      document.querySelectorAll('slider-element').forEach(labelRegion);
+      if ('MutationObserver' in window) {
+        const observer = new MutationObserver(() => {
+          document.querySelectorAll('slider-element').forEach(labelRegion);
+        });
+        observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['class', 'style'] });
+        window.addEventListener('resize', () => {
+          document.querySelectorAll('slider-element').forEach(labelRegion);
+        }, { passive: true });
+      }
+    },
+
+    initFloatingAppLandmarks() {
+      const labelFloatingBlock = (element) => {
+        if (!(element instanceof HTMLElement)) return;
+        if (!element.hasAttribute('role')) element.setAttribute('role', 'region');
+        if (!element.hasAttribute('aria-label') && !element.hasAttribute('aria-labelledby')) {
+          element.setAttribute('aria-label', 'Floating store controls');
+        }
+      };
+
+      document.querySelectorAll('#shopify-block-floating').forEach(labelFloatingBlock);
+      if ('MutationObserver' in window) {
+        const observer = new MutationObserver((records) => {
+          records.forEach((record) => record.addedNodes.forEach((node) => {
+            if (node.nodeType !== Node.ELEMENT_NODE) return;
+            if (node.matches('#shopify-block-floating')) labelFloatingBlock(node);
+            node.querySelectorAll?.('#shopify-block-floating').forEach(labelFloatingBlock);
+          }));
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+      }
+    },
+
     initReducedMotion() {
       const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
       const applyPreference = (event) => {
@@ -399,6 +632,8 @@
               const control = document.querySelector('[is="control-button"][aria-controls="' + root.id + '"]');
               control?.setAttribute('paused', '');
               root.slider?.pausePlayer();
+              root.pause?.();
+              root.pause?.();
             }
 
             if (root.matches?.('slideshow-element[autoplay]')) {
@@ -425,11 +660,16 @@
           disableAutoplay(document.documentElement);
           if (!this.motionObserver && 'MutationObserver' in window) {
             this.motionObserver = new MutationObserver((records) => {
-              records.forEach((record) => record.addedNodes.forEach((node) => {
-                if (node.nodeType === Node.ELEMENT_NODE) disableAutoplay(node);
-              }));
+              records.forEach((record) => {
+                if (record.type === 'attributes' && record.target.nodeType === Node.ELEMENT_NODE) disableAutoplay(record.target);
+                record.addedNodes.forEach((node) => {
+                  if (node.nodeType === Node.ELEMENT_NODE) disableAutoplay(node);
+                });
+              });
             });
-            this.motionObserver.observe(document.documentElement, { childList: true, subtree: true });
+            this.motionObserver.observe(document.documentElement, {
+              childList: true, subtree: true, attributes: true, attributeFilter: ['autoplay']
+            });
           }
         }
       };

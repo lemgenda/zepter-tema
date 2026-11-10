@@ -338,3 +338,120 @@ html {
 /* --------------------------------------------------------------------------
    End of global accessibility layer
    -------------------------------------------------------------------------- */
+
+/* Carousel controls, search targets and third-party skip controls */
+.slideshow-control {
+  min-width: 24px !important;
+  min-height: 24px !important;
+  width: 32px;
+  height: 32px;
+}
+
+.search__field .clear,
+.search__field button[type="reset"] {
+  min-width: 24px !important;
+  min-height: 24px !important;
+  padding: 4px !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#uw-skip-to-main:focus,
+#uw-skip-to-main:focus-visible,
+.uw-sl__item:focus,
+.uw-sl__item:focus-visible {
+  outline: 3px solid #155eef !important;
+  outline-offset: 3px !important;
+  box-shadow: 0 0 0 3px #ffffff !important;
+}
+
+@media (forced-colors: active) {
+  :where(a[href], button, input, select, textarea, summary, [tabindex]:not([tabindex="-1"])):focus,
+  #uw-skip-to-main:focus,
+  .uw-sl__item:focus {
+    outline: 3px solid Highlight !important;
+    outline-offset: 3px !important;
+    forced-color-adjust: auto;
+  }
+}
+
+html,
+body {
+  max-width: 100%;
+}
+body {
+  overflow-x: clip;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  announcement-bar[autoplay],
+  slideshow-element[autoplay],
+  video-media[autoplay],
+  video[autoplay] {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+
+/* WCAG follow-up: third-party focus, compact slideshow and search controls */
+#uw-skip-to-main:focus,
+#uw-skip-to-main:focus-visible,
+.uw-sl__item:focus,
+.uw-sl__item:focus-visible {
+  outline: 4px solid #000 !important;
+  outline-offset: 4px !important;
+  border: 3px solid #fff !important;
+  box-shadow: 0 0 0 7px #000 !important;
+  background: #fff !important;
+  color: #000 !important;
+}
+
+@media (forced-colors: active) {
+  #uw-skip-to-main:focus,
+  #uw-skip-to-main:focus-visible,
+  .uw-sl__item:focus,
+  .uw-sl__item:focus-visible {
+    outline: 3px solid Highlight !important;
+    border: 2px solid Canvas !important;
+    box-shadow: 0 0 0 5px Highlight !important;
+    background: Canvas !important;
+    color: CanvasText !important;
+    forced-color-adjust: auto !important;
+  }
+}
+
+.slideshow-control {
+  position: static !important;
+  display: inline-flex !important;
+  inline-size: 32px !important;
+  block-size: 32px !important;
+  min-inline-size: 32px !important;
+  min-block-size: 32px !important;
+  clip: auto !important;
+  clip-path: none !important;
+  overflow: visible !important;
+  opacity: 1 !important;
+}
+
+.search__field .clear,
+.search__field button[type="reset"],
+button.clear.text-xs[type="reset"] {
+  min-inline-size: 32px !important;
+  min-block-size: 32px !important;
+  padding: 6px !important;
+  line-height: 1.25 !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 360px) {
+  .search__field .clear,
+  .search__field button[type="reset"],
+  button.clear.text-xs[type="reset"] {
+    min-inline-size: 32px !important;
+    min-block-size: 32px !important;
+  }
+}
