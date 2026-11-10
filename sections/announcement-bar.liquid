@@ -96,7 +96,7 @@
           {%- if section.settings.autoplay -%}
             <button
               type="button"
-              class="slideshow-control flex items-center justify-center rounded-full sr-only"
+              class="slideshow-control flex items-center justify-center rounded-full"
               is="control-button"
               aria-controls="Slider-{{ section.id }}"
             >
@@ -112,7 +112,7 @@
           {%- endif -%}
         {%- endif -%}
         {%- if section.settings.autoplay and announcement_block_count > 1 and section.settings.show_navigation == false -%}
-          <button type="button" class="slideshow-control flex items-center justify-center rounded-full sr-only" is="control-button" aria-controls="Slider-{{ section.id }}">
+          <button type="button" class="slideshow-control flex items-center justify-center rounded-full" is="control-button" aria-controls="Slider-{{ section.id }}">
             <span class="slideshow-control__pause">
               {%- render 'icon', icon: 'pause' -%}
               <span class="sr-only">{{ 'sections.slideshow.pause_slideshow' | t }}</span>
