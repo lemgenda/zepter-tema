@@ -18,8 +18,8 @@
   data-expiry="{{ section.settings.expiry }}"
   data-test-mode="{% if section.settings.mode == 'testing' %}true{% else %}false{% endif %}"
   role="dialog"
-  aria-labelledby="Dialog-{{ section.id }}-Heading1"
-  aria-modal="false"
+  aria-label="{{ 'sections.age-verifier.name' | t | escape }}"
+  aria-modal="true"
   shopify-design-mode
 >
   <overlay-element class="overlay fixed-modal invisible opacity-0 fixed bottom-0 left-0 w-full h-screen" aria-controls="AgeVerifier" aria-expanded="false">
@@ -32,7 +32,7 @@
   </overlay-element>
   <div class="drawer__inner z-10 absolute bottom-0 {{ section.settings.content_position }} flex flex-col w-full h-full overflow-hidden">
     <gesture-element class="drawer__header flex justify-between opacity-0 invisible relative sr-only">
-      <button class="button button--secondary button--close drawer__close hidden sm:flex items-center justify-center" type="button" is="hover-button" aria-controls="AgeVerifier" aria-expanded="false" aria-label="{{ 'general.accessibility.close' | t | escape }}">
+      <button class="button button--secondary button--close drawer__close flex items-center justify-center" type="button" is="hover-button" aria-controls="AgeVerifier" aria-expanded="false" aria-label="{{ 'general.accessibility.close' | t | escape }}">
         <span class="btn-fill" data-fill></span>
         <span class="btn-text">
           {%- render 'icon', icon: 'close', size: 'sm' -%}
@@ -86,7 +86,7 @@
                   <div class="cookie__buttons" {{ block.shopify_attributes }}>
                     <div class="inline-flex gap-4">
                       {%- if block.settings.button_label_1 != blank -%}
-                        <button type="button" class="button button--primary icon-with-text" is="hover-button" aria-controls="AgeVerifier" aria-expanded="false">
+                        <button type="button" class="button button--primary icon-with-text" data-modal-focus is="hover-button" aria-controls="AgeVerifier" aria-expanded="false">
                           <span class="btn-fill" data-fill></span>
                           <span class="btn-text">
                             {%- liquid
