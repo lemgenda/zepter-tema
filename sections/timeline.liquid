@@ -5,6 +5,17 @@
     --section-padding-bottom: {{ section.settings.padding_bottom }}px;
     {%- render 'section-variables', section: section -%}
     --section-blocks-count: {{ section.blocks.size }};
+    --card-grid-per-row: 1;
+  }
+
+  #shopify-section-{{ section.id }} .timeline,
+  #shopify-section-{{ section.id }} .timeline__item,
+  #shopify-section-{{ section.id }} .timeline__item-content {
+    min-width: 0;
+  }
+
+  #shopify-section-{{ section.id }} .timeline__item-content {
+    overflow-wrap: anywhere;
   }
 </style>
 
