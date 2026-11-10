@@ -1355,7 +1355,7 @@ class AnnouncementBar extends HTMLElement {
   }
 
   get autoplay() {
-    return this.hasAttribute('autoplay');
+    return this.hasAttribute('autoplay') && !theme.config.motionReduced;
   }
 
   get speed() {
@@ -6036,7 +6036,7 @@ class SlideshowElement extends HTMLElement {
         fromVideoElement?.pause();
       }
 
-      if (toElement.getAttribute('data-type') === 'video') {
+      if (toElement.getAttribute('data-type') === 'video' && !theme.config.motionReduced) {
         const toVideoElement = theme.utils.visibleMedia(toElement.querySelectorAll('video-media'));
         toVideoElement?.play();
       }
@@ -6053,7 +6053,7 @@ class SlideshowElement extends HTMLElement {
   }
 
   onReady(selectedElement) {
-    if (selectedElement.getAttribute('data-type') === 'video') {
+    if (selectedElement.getAttribute('data-type') === 'video' && !theme.config.motionReduced) {
       const videoElement = theme.utils.visibleMedia(selectedElement.querySelectorAll('video-media'));
       videoElement?.play();
     }
@@ -6209,10 +6209,12 @@ class ControlButton extends HTMLButtonElement {
   attributeChangedCallback(name, oldValue, newValue) {
     if (name === 'paused') {
       if (oldValue === null && newValue === '') {
+        this.controlledElement?.setAttribute('aria-live', 'polite');
         return (this.controlledElement ?? this).dispatchEvent(new CustomEvent('slider:pause', { bubbles: true }));
       }
 
       if (newValue === null) {
+        this.controlledElement?.setAttribute('aria-live', 'off');
         return (this.controlledElement ?? this).dispatchEvent(new CustomEvent('slider:play', { bubbles: true }));
       }
     }
