@@ -9,7 +9,7 @@
 </style>
 
 <div class="section section--padding{% if section.settings.divider %} section--divider{% endif %}{% if section.settings.rounded %} section--rounded relative{% endif %}">
-  <div class="page-width{% if section.settings.full_width %} page-width--full{% endif %} relative overflow-hidden md:overflow-visible">
+  <div class="page-width{% if section.settings.full_width %} page-width--full{% endif %} relative overflow-hidden">
     {%- capture indicators -%}
       {%- if section.blocks.size > 1 -%}
         <div class="indicators hidden lg:flex gap-2d5">
