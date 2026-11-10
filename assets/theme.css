@@ -14668,3 +14668,47 @@ lookbook-element .banner__box .title-wrapper {
   font-style: normal;
   font-display: swap;
 }
+
+/* WCAG: keep animated and carousel content inside its layout viewport. */
+.timeline {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: clip;
+}
+.timeline__item {
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
+}
+.timeline__item > .flex {
+  min-width: 0;
+  max-width: 100%;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+.timeline__item > .flex > *,
+.timeline__item-content,
+.timeline__item-content > * {
+  min-width: 0;
+  max-width: 100%;
+}
+.timeline__item-content { overflow-wrap: anywhere; }
+.timeline__item-content .heading,
+.timeline__item-content .split-words,
+.timeline__item-content .split-words .word {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.scrolling-text-section {
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: clip;
+}
+.scrolling-text-section marquee-element {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: clip;
+}
+.scrolling-text-section .marquee { min-width: 0; }
