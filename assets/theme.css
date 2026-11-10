@@ -14712,3 +14712,11 @@ lookbook-element .banner__box .title-wrapper {
   overflow-x: clip;
 }
 .scrolling-text-section .marquee { min-width: 0; }
+@media screen and (max-width: 767px) {
+  .scrolling-text-section .scrolling-text__item.with-media img {
+    width: auto;
+    max-width: calc(100vw - 2rem);
+    height: auto;
+    object-fit: contain;
+  }
+}
