@@ -45,6 +45,8 @@
 
       this.initHeaderOffset();
       this.initLiveAnnouncements();
+      this.initFormErrorFocus();
+      this.initReducedMotion();
       this.initShopifySectionEvents();
 
       this.initialized = true;
@@ -231,6 +233,22 @@
        * Existing theme event emitted when adding a product fails.
        */
       document.addEventListener(
+        'cart:updated',
+        () => {
+          const message = document.body.dataset.a11yCartUpdated || 'Your cart has been updated.';
+          this.announce(message);
+        }
+      );
+
+      document.addEventListener(
+        'cart:error',
+        () => {
+          const message = document.body.dataset.a11yCartError || 'There was a problem updating your cart.';
+          this.announceError(message);
+        }
+      );
+
+      document.addEventListener(
         'ajaxProduct:error',
         (event) => {
           const message =
@@ -242,6 +260,37 @@
           this.announceError(message);
         }
       );
+    },
+
+    initFormErrorFocus() {
+      const summary = Array.from(document.querySelectorAll('[data-a11y-error-summary]')).find((element) => element.getClientRects().length > 0);
+      if (!summary) return;
+
+      window.requestAnimationFrame(() => {
+        summary.focus({ preventScroll: true });
+        summary.scrollIntoView({ block: 'center', behavior: 'auto' });
+      });
+    },
+
+    initReducedMotion() {
+      const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const applyPreference = (event) => {
+        if (window.theme && window.theme.config) {
+          window.theme.config.motionReduced = event.matches;
+        }
+
+        if (event.matches) {
+          document.querySelectorAll('slideshow-element').forEach((slideshow) => slideshow.slider?.pausePlayer());
+          document.querySelectorAll('video-media').forEach((video) => video.pause?.());
+        }
+      };
+
+      applyPreference(mediaQuery);
+      if (mediaQuery.addEventListener) {
+        mediaQuery.addEventListener('change', applyPreference);
+      } else if (mediaQuery.addListener) {
+        mediaQuery.addListener(applyPreference);
+      }
     },
 
     /* ----------------------------------------------------------------------
