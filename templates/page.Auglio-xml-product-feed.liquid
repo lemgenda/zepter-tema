@@ -1,0 +1,22 @@
+{% layout none %}<?xml version="1.0" encoding="UTF-8"?>
+<SHOP>
+    {% paginate collections.all.products by 2000 %}
+	    {% for product in collections.all.products %}
+            {% for variant in product.variants %}	
+                <SHOPITEM>
+                    <GROUP_ID>{{ product.id }}</GROUP_ID>
+                    <ITEM_ID>{{ variant.id }}</ITEM_ID>
+                    <PRODUCTNAME><![CDATA[{{ product.title | strip_html | strip_newlines | escape }}{% if product.variants.size > 1 %} - {{ variant.title | strip_html | strip_newlines | escape }}{% endif %}]]></PRODUCTNAME>
+                    <DESCRIPTION><![CDATA[{{ product.description | strip_html | strip_newlines }}]]></DESCRIPTION>
+                    <PRICE>{{ product.price | money_without_currency }}</PRICE>
+                    <IMGURL>{{ variant.featured_image | default: product.featured_image | img_url: '400x' | prepend: 'https:' }}</IMGURL>
+                    <URL>{{ shop.url }}{{ variant.url }}</URL>
+                    <MANUFACTURER><![CDATA[{{product.vendor | escape }}]]></MANUFACTURER>
+                    <CATEGORY>16</CATEGORY>
+                    <SEX>U</SEX>
+                    <EAN>{{ variant.sku }}</EAN>
+                </SHOPITEM>
+            {% endfor %}
+        {% endfor %}
+    {% endpaginate %}
+</SHOP>

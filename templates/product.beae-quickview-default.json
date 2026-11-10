@@ -1,0 +1,13 @@
+{
+    "layout": "next",
+    "sections": {
+      "beae-quickview-default": {
+        "type": "beae-quickview-default",
+        "settings": {
+        }
+      }
+    },
+    "order": [
+      "beae-quickview-default"
+    ]
+  }
