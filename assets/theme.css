@@ -12166,6 +12166,11 @@ button:is([is=media-lightbox-button], [is=media-hover-button]):focus-visible {
   overflow: clip;
 }
 
+.image-with-text__item:has(.image-with-text__media.with-2nd-image) {
+  /* Contain the parallax layer at the complete image/text composition boundary. */
+  overflow: clip;
+}
+
 .image-with-text__item .media:not(.media--rounded) {
   border-radius: var(--rounded-block);
 }
@@ -13829,10 +13834,14 @@ lookbook-element .banner__box .title-wrapper {
   margin-inline-end: 0;
 }
 
+.slideshow {
+  /* Clip transformed Flickity cells at the carousel boundary without creating a scroll container. */
+  overflow: clip;
+}
+
 .slideshow .flickity-viewport {
   height: 100%;
-  /* Keep transformed Flickity wrap-around cells inside the carousel's paint area. */
-  contain: paint;
+  overflow: clip;
 }
 
 .slideshow>.banner~.banner {
