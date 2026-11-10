@@ -32,7 +32,7 @@
     {{ block.shopify_attributes }}
   >
     <template>
-      <div class="pickup-availability-preview grid items-start justify-between gap-5">
+      <div class="pickup-availability-preview grid items-start justify-between gap-5" role="status" aria-live="polite" aria-atomic="true">
         <div class="pickup-availability-info flex items-start gap-2d5">
           {%- render 'icon', icon: 'alert-circle-filled', size: 'sm', class: 'flex-auto' -%}
           <div class="grid gap-1">
