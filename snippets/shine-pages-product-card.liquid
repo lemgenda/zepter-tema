@@ -148,7 +148,7 @@
                          sizes="(min-width: 1200px) 1200px, (min-width: 990px) 990px, (min-width: 750px) 750px, 650px)"
                          alt="{{ product.featured_media.alt | escape }}"
                          width="{{ product.featured_media.width }}"
-                         height="{{ product.featured_media.height }}"
+                         height="{{ product.featured_media.height }}"\n                         loading="lazy"
                          data-change-variant-image="{{ product.featured_media | image_url: width: 550 }}"
                          data-change-variant-image-set="
                   {%- if product.featured_media.width >= 165 -%}{{ product.featured_media | image_url: width: 165 }} 165w,{%- endif -%}
