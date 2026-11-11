@@ -226,7 +226,16 @@
       "max_error": "This item has a maximum of {{ max }}",
       "step_error": "You can only add this item in increments of {{ step }}"
     },
-    "beae-quickview-default": "Beae Quick View",
+    "beae-quickview-default": {
+      "be42255992_html": "TODO",
+      "be42216636_html": "TODO",
+      "be649020154_html": "TODO",
+      "be28375103_html": "TODO",
+      "be1182278043_html": "TODO",
+      "be1538394658_html": "TODO",
+      "be1427617666_html": "TODO",
+      "be719299147_html": "TODO"
+    },
     "header": {
       "primary_navigation": "Primary navigation",
       "secondary_navigation": "Secondary navigation",

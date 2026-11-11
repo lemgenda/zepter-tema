@@ -419,7 +419,7 @@
                 {% comment %} PRODUCT RATING END {% endcomment %}
 
                 {% comment %} PRODUCT PRICE START {% endcomment %}
-                {% assign use_variant = true %}
+                
                 {% assign show_compare_at_price = true %}
                 {% assign currency_code_enabled = true %}
                 {% if settings.product_card_show_price %}
@@ -550,7 +550,6 @@
                             assign compare_at_price = target.compare_at_price
                             assign price = target.price | default: 1999
                             assign available = target.available | default: false
-                            assign money_price = price | money
                             if product_card_show_currency_code
                             endif
                         -%}

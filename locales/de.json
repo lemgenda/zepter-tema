@@ -492,7 +492,8 @@
       "xr_button_label": "\"Ansicht in deinem Raum\" lädt den Artikel in ein Augmented-Reality-Fenster",
       "read_more": "Alle Details anzeigen",
       "quick_add": "Hinzufügen",
-      "quick_view": "Ansehen"
+      "quick_view": "Ansehen",
+      "quantity": "TODO"
     },
     "price": {
       "regular_price": "Normaler Preis",

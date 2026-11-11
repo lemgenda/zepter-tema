@@ -316,7 +316,7 @@
                                                 {%- if downcased_option == 'color' or downcased_option == 'colour' or downcased_option == 'couleur' or downcased_option == colorSwatcheKey -%}
                                                     {%- assign variant_option = 'option' | append: forloop.index -%}
                                                     {%- for value in option.values -%}
-                                                        {%- assign downcased_value = value | downcase -%}
+                                                        
                                                         {%- capture color_id -%}{{ section.id }}-{{ product.id }}-{% increment color_index %}{%- endcapture -%}
                                                         {%- for variant in product.variants -%}
                                                             {%- if variant[variant_option] == value -%}
@@ -389,7 +389,7 @@
                     </h3>
 
                     {% comment %} PRODUCT PRICE START {% endcomment %}
-                    {% assign use_variant = true %}
+                    
                     {% assign show_compare_at_price = true %}
                     {% assign currency_code_enabled = true %}
                     {% if settings.product_card_show_price %}
@@ -538,7 +538,6 @@
                             assign compare_at_price = target.compare_at_price
                             assign price = target.price | default: 1999
                             assign available = target.available | default: false
-                            assign money_price = price | money
                             if product_card_show_currency_code
                             endif
                         -%}

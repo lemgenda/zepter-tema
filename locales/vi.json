@@ -492,7 +492,8 @@
       "xr_button_label": "Xem tại không gian của bạn, tải mặt hàng trong cửa sổ thực tế ảo tăng cường",
       "read_more": "Xem chi tiết",
       "quick_add": "Thêm",
-      "quick_view": "Xem"
+      "quick_view": "Xem",
+      "quantity": "TODO"
     },
     "price": {
       "regular_price": "Giá thông thường",

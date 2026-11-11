@@ -492,7 +492,8 @@
       "xr_button_label": "Visualizza nel tuo spazio, carica l'articolo nella finestra della realtà aumentata",
       "read_more": "Visualizza tutti i dettagli",
       "quick_add": "Aggiungere",
-      "quick_view": "Visualizza"
+      "quick_view": "Visualizza",
+      "quantity": "TODO"
     },
     "price": {
       "regular_price": "Prezzo di listino",
