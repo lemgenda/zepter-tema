@@ -573,9 +573,11 @@ try {
           // This is separate from the live checkbox interaction below.
           const requestedFacetParams = new URL(page.url()).searchParams;
           const activeFacetExpectations = [
-            ['filter.p.m.custom.type2', 'gid://shopify/Metaobject/103490912585'],
-            ['filter.p.m.custom.enviroment1', 'gid://shopify/Metaobject/103493927241'],
-          ].filter(([name]) => requestedFacetParams.has(name));
+            'filter.p.m.custom.type2',
+            'filter.p.m.custom.enviroment1',
+          ]
+            .filter((name) => requestedFacetParams.has(name))
+            .map((name) => [name, requestedFacetParams.get(name)]);
           if (activeFacetExpectations.length) {
             const activeFacetState = await page.evaluate((expected) => expected.map(([name, value]) => {
               const controls = Array.from(document.querySelectorAll('.facet-form input[name]'))
@@ -640,6 +642,9 @@ try {
           if (facetIndex >= 0) {
             const facet = candidates.nth(facetIndex);
             const beforeUrl = page.url();
+            const beforeSelected = await facet.isChecked();
+            const facetName = await facet.getAttribute('name');
+            const facetValue = await facet.getAttribute('value');
             const beforeCount = await page.locator('#ProductCount').innerText().catch(() => '');
             await facet.evaluate((input) => {
               const label = Array.from(input.labels || []).find((item) => {
@@ -654,9 +659,26 @@ try {
             await page.waitForFunction((beforeUrl) => location.href !== beforeUrl, beforeUrl, { timeout: 12000 }).catch(() => {});
             await page.waitForTimeout(500);
             const afterCount = await page.locator('#ProductCount').innerText().catch(() => '');
+            const afterFacetState = await page.evaluate(({ name, value }) => {
+              const params = new URL(location.href).searchParams;
+              const stillInUrl = params.getAll(name).includes(value);
+              const controls = Array.from(document.querySelectorAll('.facet-form input[type="checkbox"]'))
+                .filter((input) => input.name === name && input.value === value);
+              return {
+                selectedInUrl: stillInUrl,
+                checked: controls.some((input) => input.checked),
+                controlCount: controls.length,
+              };
+            }, { name: facetName, value: facetValue });
+            const expectedSelected = !beforeSelected;
             result.facetsInteraction = {
               tested: true,
-              checked: await facet.isChecked().catch(() => false),
+              beforeSelected,
+              expectedSelected,
+              checked: afterFacetState.checked,
+              selectedInUrl: afterFacetState.selectedInUrl,
+              stateMatchesAction: afterFacetState.checked === expectedSelected &&
+                afterFacetState.selectedInUrl === expectedSelected,
               urlChanged: page.url() !== beforeUrl,
               productCountBefore: beforeCount,
               productCountAfter: afterCount,
@@ -665,8 +687,8 @@ try {
               drawerOpened: await page.locator('#FacetDrawer').count() > 0,
               openedFacetGroups: await page.locator('#FacetDrawer .facet-form details[data-filter][open]').count()
             };
-            if (!result.facetsInteraction.checked && !result.facetsInteraction.urlChanged) {
-              failures.push(`${viewport.name} ${url}: facet click neither checked the filter nor changed the URL`);
+            if (!result.facetsInteraction.urlChanged || !result.facetsInteraction.stateMatchesAction) {
+              failures.push(`${viewport.name} ${url}: facet click did not produce the expected checked state and URL selection`);
             }
           } else {
             result.facetsInteraction = {
