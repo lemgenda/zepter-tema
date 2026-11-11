@@ -162,11 +162,9 @@ try {
               const snapshot = await item.ariaSnapshot();
               // Count accessible role/name entries only. Counting raw substrings
               // also matches URL attributes (for example "Blog" in "/blogs/news").
-              const escapedLabel = label.replace(/[.*+?^${}()|[\]\\]/g, '\\              const snapshot = await item.ariaSnapshot();
-              const occurrences = label ? snapshot.toLowerCase().split(label.toLowerCase()).length - 1 : 0;
-              itemReviews.push({ label, occurrences, snapshot });');
+              const escapedLabel = label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
               const namedRole = new RegExp('^\\s*-\\s*(?:link|group|button)(?:\\s+"' + escapedLabel + '"|:\\s*' + escapedLabel + '\\s*$)', 'i');
-              const occurrences = label ? snapshot.split('\\n').filter((line) => namedRole.test(line)).length : 0;
+              const occurrences = label ? snapshot.split('\n').filter((line) => namedRole.test(line)).length : 0;
               itemReviews.push({ label, occurrences, snapshot });
             }
             result.primaryNavigationAccessibilityTree = {
