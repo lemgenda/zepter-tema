@@ -36,7 +36,7 @@
                 -%}
               </span>
               {%- if section.settings.menu_active == 'block' -%}
-                <span class="btn-text btn-duplicate" aria-hidden="true" data-label="{{ link.title | escape }}">
+                <span class="btn-text btn-duplicate" aria-hidden="true" inert data-label="{{ link.title | escape }}">
                   {%- unless section.settings.hover_menu -%}
                     {%- render 'icon', icon: 'chevron-menu' -%}
                   {%- endunless -%}
@@ -63,7 +63,7 @@
                 -%}
               </span>
               {%- if section.settings.menu_active == 'block' -%}
-                <span class="btn-text btn-duplicate" aria-hidden="true" data-label="{{ link.title | escape }}">
+                <span class="btn-text btn-duplicate" aria-hidden="true" inert data-label="{{ link.title | escape }}">
                   {%- unless section.settings.hover_menu -%}
                     {%- render 'icon', icon: 'chevron-menu' -%}
                   {%- endunless -%}
@@ -116,7 +116,7 @@
         <a href="{{ link.url }}" class="menu__item text-sm-lg flex items-center font-medium z-2 relative cursor-pointer" is="magnet-link"{% if section.settings.menu_active == 'block' %} data-magnet="0"{% endif %}>
           <span class="btn-text" data-text>{{ link.title }}</span>
           {%- if section.settings.menu_active == 'block' -%}
-            <span class="btn-text btn-duplicate" aria-hidden="true" data-label="{{ link.title | escape }}"></span>
+            <span class="btn-text btn-duplicate" aria-hidden="true" inert data-label="{{ link.title | escape }}"></span>
           {%- endif -%}
         </a>
       </li>
