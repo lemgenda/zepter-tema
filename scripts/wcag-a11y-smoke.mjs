@@ -182,8 +182,10 @@ try {
         }
 
         if (path.startsWith('/pages/science-behind')) {
-          const scienceHeading = await page.locator('main h1').first().innerText().catch(() => '');
-          const headingText = scienceHeading.replace(/\\s+/g, ' ').trim();
+          const scienceHeading = await page.locator('main h1').first().textContent().catch(() => '');
+          // textContent avoids CSS text-transform (the visual hero is uppercase),
+          // while whitespace normalization matches the accessible heading name.
+          const headingText = scienceHeading.replace(/\s+/g, ' ').trim();
           const placeholders = await page.locator('main h1, main h2, main h3, main h4, main h5, main h6').allInnerTexts();
           const mainAccessibilityTree = await page.locator('main').ariaSnapshot();
           // The document title is SEO metadata ("Science behind"), while the
