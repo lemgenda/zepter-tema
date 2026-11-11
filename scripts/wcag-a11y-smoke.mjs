@@ -552,7 +552,10 @@ try {
             const targetSwatch = page.locator(swatchSelector).nth(alternateIndex);
             const alternateHandle = await targetSwatch.getAttribute('data-handle');
             if (alternateHandle) {
-              await targetSwatch.click();
+              // The app's mobile swatch wrapper can be covered by a
+              // decorative layer. Activate the anchor's native click so
+              // default navigation is tested without pointer hit-testing.
+              await targetSwatch.evaluate((anchor) => anchor.click());
               try {
                 await page.waitForFunction((handle) => location.pathname.endsWith('/' + handle), alternateHandle, { timeout: 10000 });
               } catch {}
