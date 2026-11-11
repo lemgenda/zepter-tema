@@ -58,7 +58,12 @@ jobs:
                   // Some Shopify-exported JSON files have a leading
                   // block-comment banner. Strip only leading comments
                   // before validating the actual JSON payload.
-                  const source = (await readFile(path, 'utf8')).replace(/^\\uFEFF?\\s*(?:\\/\\*[\\s\\S]*?\\*\\/\\s*)+/, '');
+                  let source = (await readFile(path, 'utf8')).replace(/^\uFEFF/, '').trimStart();
+                  while (source.startsWith('/*')) {
+                    const commentEnd = source.indexOf('*/');
+                    if (commentEnd === -1) break;
+                    source = source.slice(commentEnd + 2).trimStart();
+                  }
                   JSON.parse(source);
                 } catch (error) {
                   console.error(path + ': ' + error.message);
