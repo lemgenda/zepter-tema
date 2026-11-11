@@ -133,7 +133,7 @@
                                                 <img src="{{ item.image | image_url: width: 320 }}"
                                                      alt="{{ item.image.alt | default: item.product.title | escape }}"
                                                      width="320"
-                                                     height="{{ 320 | divided_by: item.image.aspect_ratio | ceil }}"
+                                                     height="{{ 320 | divided_by: item.image.aspect_ratio | ceil }}"\n                                                     loading="lazy"
                                                 >
                                             </a>
                                         </div>
