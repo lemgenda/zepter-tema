@@ -148,27 +148,34 @@ try {
         });
 
 
-        // Capture the browser's computed accessibility tree for the primary
-        // navigation. Each top-level list item must expose its visible label
-        // exactly once (not once as a list item and again as a duplicate child).
-        result.primaryNavigationAccessibilityTree = await page.evaluate(async () => {
-          const nav = document.querySelector('header nav[aria-label]');
-          if (!nav) return { applicable: false, reason: 'Primary navigation not present.' };
-          const items = Array.from(nav.querySelectorAll(':scope > ul > li'));
-          const snapshot = [];
-          for (const item of items) {
-            const control = item.querySelector(':scope > details > summary, :scope > a');
-            const label = (control?.getAttribute('aria-label') || control?.innerText || control?.textContent || '').trim().replace(/\\s+/g, ' ');
-            const accessibleTree = await (async () => {
-              // Playwright's ARIA snapshot is generated from Chromium's
-              // accessibility tree, not from raw DOM textContent.
-              const locator = window.__wcagAriaSnapshotUnavailable;
-              return locator;
-            })();
-            snapshot.push({ label, controlTag: control?.tagName || null, labelOccurrences: null, accessibleTreeAvailable: false, accessibleTree });
+        // Use Playwright's ARIA snapshot, backed by Chromium's accessibility
+        // tree, to verify each top-level menu label is represented once.
+        if (viewport.name === 'desktop') {
+          const nav = page.locator('header nav[aria-label]').first();
+          if (await nav.count()) {
+            const items = nav.locator(':scope > ul > li');
+            const itemReviews = [];
+            for (let index = 0; index < await items.count(); index += 1) {
+              const item = items.nth(index);
+              const control = item.locator(':scope > details > summary, :scope > a').first();
+              const label = (await control.getAttribute('aria-label')) || (await control.innerText()).trim();
+              const snapshot = await item.ariaSnapshot();
+              const escapedLabel = label.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&');
+              const occurrences = label ? (snapshot.match(new RegExp(escapedLabel, 'gi')) || []).length : 0;
+              itemReviews.push({ label, occurrences, snapshot });
+            }
+            result.primaryNavigationAccessibilityTree = {
+              tested: true,
+              items: itemReviews,
+              passed: itemReviews.length > 0 && itemReviews.every((item) => item.occurrences === 1),
+            };
+            if (!result.primaryNavigationAccessibilityTree.passed) {
+              failures.push(`${viewport.name} ${url}: primary navigation ARIA tree contains a missing or repeated top-level menu label`);
+            }
+          } else {
+            result.primaryNavigationAccessibilityTree = { tested: false, reason: 'Primary navigation not present.' };
           }
-          return { applicable: true, items: snapshot, note: 'DOM-side metadata only; Playwright locator ariaSnapshot assertions run in the Node test context.' };
-        });
+        }
 
         if (path.startsWith('/pages/science-behind')) {
           const scienceHeading = await page.locator('main h1').first().innerText().catch(() => '');
