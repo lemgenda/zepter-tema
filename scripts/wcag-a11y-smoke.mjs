@@ -164,8 +164,9 @@ try {
               // also matches URL attributes (for example "Blog" in "/blogs/news").
               const escapedLabel = label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
               const namedRole = new RegExp('^\\s*-\\s*(?:link|group|button)(?:\\s+"' + escapedLabel + '"|:\\s*' + escapedLabel + '\\s*$)', 'i');
-              const occurrences = label ? snapshot.split('\n').filter((line) => namedRole.test(line)).length : 0;
-              itemReviews.push({ label, occurrences, snapshot });
+              const roleNameEntries = label ? snapshot.split('\n').filter((line) => namedRole.test(line)) : [];
+              const occurrences = roleNameEntries.length;
+              itemReviews.push({ label, occurrences, roleNameEntries, snapshot });
             }
             result.primaryNavigationAccessibilityTree = {
               tested: true,
