@@ -23,12 +23,7 @@
 
   <!-- START THEME HEADER -->
 
-  <!-- BEAE-GLOBAL-FONT -->
-  {% capture the_snippet_global_font %}{% include 'beae-global-font' %}{% endcapture %}
-  {% unless the_snippet_global_font contains 'Liquid error' %}
-    {{ the_snippet_global_font }}
-  {% endunless %}
-  <!-- END BEAE-GLOBAL-FONT -->
+  <!-- Optional BEAE global-font snippet is not installed in this theme. -->
 
   <!-- BEAE-HEADER -->
   {%- render 'beae_header' -%}
