@@ -499,3 +499,17 @@ button.clear.text-xs[type="reset"] {
   min-block-size: 24px !important;
   line-height: 1.25 !important;
 }
+
+/* WCAG 2.5.8 follow-up: raise compact theme-owned text links to 24 CSS px.
+   Inline-flex keeps these anchors in text flow while giving the full line a
+   reliable pointer and touch target. Third-party widgets remain separately
+   identified in the browser audit. */
+footer a[href],
+.rte a[href],
+.product__media-container a[href] {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 24px;
+  vertical-align: middle;
+}
