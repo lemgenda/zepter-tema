@@ -1,0 +1,24 @@
+{%- liquid
+  assign quantity_id = id | default: product_form_id | append: '-quantity'
+  assign quantity_min = selected_variant.quantity_rule.min | default: 1
+  assign quantity_step = selected_variant.quantity_rule.increment | default: 1
+-%}
+
+<label class="sr-only" for="{{ quantity_id }}">
+  {{ 'products.product.quantity.label' | t }}
+</label>
+<input
+  id="{{ quantity_id }}"
+  class="hdt-quantity-input"
+  type="number"
+  name="quantity"
+  value="{{ quantity_min }}"
+  min="{{ quantity_min }}"
+  step="{{ quantity_step }}"
+  {% if selected_variant.quantity_rule.max != null %}
+    max="{{ selected_variant.quantity_rule.max }}"
+  {% endif %}
+  form="{{ product_form_id }}"
+  inputmode="numeric"
+  autocomplete="off"
+>
