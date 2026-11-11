@@ -2,10 +2,14 @@
 
 **Repozitorij:** https://github.com/lemgenda/zepter-tema  
 **Grana:** `wcag-22`  
-**Datum ažuriranja:** 10. 11. 2026.  
+**Datum ažuriranja:** 11. 11. 2026.  
 **Opseg:** popravci otvorenih stavki iz prethodne verzije izvještaja i dodavanje testnog workflowa.
 
 ## Sažetak
+
+U ovom prolazu zatvoren je dodatni dio nedovršenih stavki: customer i gift-card forme, navigacija, predictive search, facets/pagination, announcement i product carouseli, pickup statusi, alternativni tekstovi ključnih slika, reduced-motion ponašanje, iframe naslovi, dinamičke najave i testni workflow.
+
+**Važno:** potpuna WCAG 2.2 AA sukladnost još nije potvrđena. Browser workflow sada je izvršen na aktivnom Shopify preview storefrontu (run [#42933526297](https://github.com/lemgenda/zepter-tema/actions/runs/42933526297), commit `69adb4a`) i automatske provjere su prošle. Međutim, korisnik je potvrdio da se ponavljanje naziva stavke „Science Behind” i dalje čuje pri navigaciji strelicama u NVDA-u/ScreenVoxu. Taj problem ostaje **otvoren**; uspješan axe/Playwright rezultat ne testira stvarni govor čitača zaslona.
 
 U ovom prolazu zatvoren je dodatni dio nedovršenih stavki: customer i gift-card forme, navigacija, predictive search, facets/pagination, announcement i product carouseli, pickup statusi, alternativni tekstovi ključnih slika, reduced-motion ponašanje, iframe naslovi, dinamičke najave i testni workflow.
 
@@ -148,3 +152,11 @@ Dodani su:
 6. Tek nakon ponovljenog browser i ručnog audita ažurirati status na WCAG 2.2 AA verified.
 
 **Zaključak:** dodan je veći skup dodatnih implementacija i pripremljena je testna infrastruktura. Ipak, dok Theme Check i browser testovi ne budu stvarno izvršeni na aktivnoj Shopify preview trgovini i dok se ne zatvore third-party i ručni testovi, nije opravdano tvrditi da je tema WCAG 2.2 AA sukladna.
+## 9. Dodatna provjera desktop navigacije — problem i dalje otvoren
+
+- Korisnik je ponovno potvrdio da NVDA uz ScreenVox pri čitanju desktop navigacije izgovara „Science Behind” dvaput, iako je `Tab` redoslijed ispravan.
+- Pokušaj suzbijanja ponavljanja postavljanjem `role="presentation"` na vanjski `ul` u `snippets/header-nav-desktop.liquid` nije riješio problem prema ručnom testu korisnika. Ova izmjena **nije potvrđeno rješenje** i ne smije se tretirati kao zatvorena WCAG stavka.
+- Commit `e3af0ce` sadrži izmjenu navigacijskog markup-a; commit `69adb4a` proširuje dijagnostiku. Workflow [#42933526297](https://github.com/lemgenda/zepter-tema/actions/runs/42933526297) izvršen je na commitu `69adb4a66874a060b730aa503e3e4ba3e1c479b5` i završio je uspješno.
+- Workflow je zabilježio `listRole: presentation`, eksplicitna imena kontrola i skriveni dekorativni tekst. `navigationTabOrder` je prošao, a axe nije prijavio automatizirane povrede na pregledanim rutama. To potvrđuje samo DOM/automatizirane provjere; ne potvrđuje izgovor pri kretanju strelicama.
+- **Status:** otvoreno — ponavljanje „Science Behind” / „Our Tech” pri kretanju strelicama nije riješeno niti verificirano. Ne uklanjati dalje semantiku elemenata naslijepo. Potrebno je pregledati stvarni accessibility tree i DOM potomaka svake stavke, uključujući eventualne duple tekstualne čvorove koje generira animacijski/custom element, te provjeriti s NVDA/ScreenVox nakon ciljane izmjene.
+- Sljedeći korak: dodati dijagnostiku punog `outerHTML`/strukture potomaka stavki navigacije i izračunatog accessible name-a; zatim testirati promjenu na previewu i zatražiti ponovni NVDA/ScreenVox test. Playwright/axe ne mogu sami potvrditi govor čitača zaslona.
