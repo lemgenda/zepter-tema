@@ -621,22 +621,28 @@ try {
           }
 
           const candidates = page.locator('#FacetDrawer .facet-form input[type="checkbox"]:not([disabled])');
-          let facetIndex = -1;
           const checkboxOptions = await candidates.all();
+          // Shopify's facet controls can have a programmatically associated
+          // label whose visible swatch/label is rendered by a separate wrapper.
+          // Select a real labelled, unchecked input and activate its native
+          // click event; requiring the label itself to have a non-zero box
+          // incorrectly skips valid controls in this theme.
+          let facetIndex = -1;
           for (let index = 0; index < checkboxOptions.length; index += 1) {
             const candidate = checkboxOptions[index];
-            const visibleLabelIndex = await candidate.evaluate((input) =>
-              Array.from(input.labels || []).findIndex((label) => {
-                const rect = label.getBoundingClientRect();
-                const style = getComputedStyle(label);
-                return rect.width > 0 && rect.height > 0 &&
-                  style.display !== 'none' && style.visibility !== 'hidden';
-              })
-            );
-            if (visibleLabelIndex >= 0) {
+            const details = await candidate.evaluate((input) => ({
+              labelled: Boolean(input.labels?.length),
+              checked: input.checked,
+            }));
+            if (details.labelled && !details.checked) {
               facetIndex = index;
               break;
             }
+          }
+          if (facetIndex < 0) {
+            facetIndex = await Promise.all(checkboxOptions.map((candidate) =>
+              candidate.evaluate((input) => Boolean(input.labels?.length))
+            )).then((labelled) => labelled.findIndex(Boolean));
           }
 
           if (facetIndex >= 0) {
@@ -646,16 +652,12 @@ try {
             const facetName = await facet.getAttribute('name');
             const facetValue = await facet.getAttribute('value');
             const beforeCount = await page.locator('#ProductCount').innerText().catch(() => '');
-            await facet.evaluate((input) => {
-              const label = Array.from(input.labels || []).find((item) => {
-                const rect = item.getBoundingClientRect();
-                const style = getComputedStyle(item);
-                return rect.width > 0 && rect.height > 0 &&
-                  style.display !== 'none' && style.visibility !== 'hidden';
-              });
-              if (!label) throw new Error('Facet checkbox has no visible associated label');
-              label.click();
+            const activation = await facet.evaluate((input) => {
+              if (!input.labels?.length) throw new Error('Facet checkbox has no associated accessible label');
+              input.click();
+              return { checkedAfterClick: input.checked, labelCount: input.labels.length };
             });
+            result.facetsInteractionActivation = activation;
             await page.waitForFunction((beforeUrl) => location.href !== beforeUrl, beforeUrl, { timeout: 12000 }).catch(() => {});
             await page.waitForTimeout(500);
             const afterCount = await page.locator('#ProductCount').innerText().catch(() => '');
