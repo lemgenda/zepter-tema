@@ -585,22 +585,38 @@ try {
           }
 
           const candidates = page.locator('#FacetDrawer .facet-form input[type="checkbox"]:not([disabled])');
-          let facetId = null;
-          for (const candidate of await candidates.all()) {
-            const id = await candidate.getAttribute('id');
-            if (!id) continue;
-            const label = page.locator('label[for="' + id.replace(/"/g, '\\"') + '"]').first();
-            if (await label.count() && await label.isVisible()) {
-              facetId = id;
+          let facetIndex = -1;
+          const checkboxOptions = await candidates.all();
+          for (let index = 0; index < checkboxOptions.length; index += 1) {
+            const candidate = checkboxOptions[index];
+            const visibleLabelIndex = await candidate.evaluate((input) =>
+              Array.from(input.labels || []).findIndex((label) => {
+                const rect = label.getBoundingClientRect();
+                const style = getComputedStyle(label);
+                return rect.width > 0 && rect.height > 0 &&
+                  style.display !== 'none' && style.visibility !== 'hidden';
+              })
+            );
+            if (visibleLabelIndex >= 0) {
+              facetIndex = index;
               break;
             }
           }
 
-          if (facetId) {
-            const facet = page.locator('#' + CSS.escape(facetId));
+          if (facetIndex >= 0) {
+            const facet = candidates.nth(facetIndex);
             const beforeUrl = page.url();
             const beforeCount = await page.locator('#ProductCount').innerText().catch(() => '');
-            await page.locator('label[for="' + facetId.replace(/"/g, '\\"') + '"]').first().click();
+            await facet.evaluate((input) => {
+              const label = Array.from(input.labels || []).find((item) => {
+                const rect = item.getBoundingClientRect();
+                const style = getComputedStyle(item);
+                return rect.width > 0 && rect.height > 0 &&
+                  style.display !== 'none' && style.visibility !== 'hidden';
+              });
+              if (!label) throw new Error('Facet checkbox has no visible associated label');
+              label.click();
+            });
             await page.waitForFunction((beforeUrl) => location.href !== beforeUrl, beforeUrl, { timeout: 12000 }).catch(() => {});
             await page.waitForTimeout(500);
             const afterCount = await page.locator('#ProductCount').innerText().catch(() => '');
