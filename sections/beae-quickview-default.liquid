@@ -424,7 +424,7 @@ data-option-position="{{option.position}}"
   {% elsif beae_variant_size_guide_type contains 'dynamic' %}
     {% if beae_variant_dynamic_source.type contains 'file_reference' %}
       {% capture size_guide_content %}
-        <img src={{ beae_variant_dynamic_source | image_url }} width="300" height="300" alt="Size chart"/>
+        <img src={{ beae_variant_dynamic_source | image_url }} width="300" height="300" alt="Size chart" loading="lazy"/>
       {% endcapture %}
     {% else %}
       {% assign size_guide_content = beae_variant_dynamic_source %}
@@ -544,7 +544,7 @@ id="beae-variant-selector-{{section.id}}-beae-wzeubsdv"
 ],
 "shopColors": {{ shop.metafields.beae.colors }}
 }
-</script><script src="https://cdn.beae.com/vendors/js-v2/shopify_option_selection.min.js" defer></script><!----><script type="text/javascript">window.BEAEARGS['beae-wzeubsdvsection-featured-product'] = {
+</script>{% # theme-check-disable RemoteAsset %} <!-- Required Beae quick-view option-selection vendor asset. -->\n<script src="https://cdn.beae.com/vendors/js-v2/shopify_option_selection.min.js" defer></script>\n{% # theme-check-enable RemoteAsset %}<!----><script type="text/javascript">window.BEAEARGS['beae-wzeubsdvsection-featured-product'] = {
 "id": "beae-wzeubsdv",
 "mode": {"value": "live"},
 "reactiveJs":{"id":"8646285132066","name":"Boonie hat classic khaki","thumbnail":"https://cdn.shopify.com/s/files/1/0798/2271/7218/products/WindbreakerBoonieHatClassicKhaki1.jpg?v=1695718882","handle":"copy-of-jackson-backpack-botanical-1","value":"copy-of-jackson-backpack-botanical-1","image":"https://cdn.shopify.com/s/files/1/0798/2271/7218/products/WindbreakerBoonieHatClassicKhaki1.jpg?v=1695718882"}
