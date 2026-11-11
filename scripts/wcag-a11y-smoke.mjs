@@ -460,91 +460,144 @@ try {
         });
 
         if (path.startsWith('/products/')) {
-          result.productVariantFlow = { tested: false, reason: 'No alternate enabled option found.' };
-          const radioOptions = page.locator('variant-selects input[type="radio"]:not(:checked):not(:disabled)');
-          const selectOptions = page.locator('variant-selects select');
+          const picker = page.locator('variant-selects');
           const initialVariant = await page.locator('product-info [data-selected-variant]').first().textContent().catch(() => null);
           let initialId = null;
           try { initialId = initialVariant ? JSON.parse(initialVariant).id : null; } catch {}
-          if (await radioOptions.count()) {
-            const option = radioOptions.first();
+          const radioOptions = picker.locator('input[type="radio"]:not(:checked):not(:disabled)');
+          const selectOptions = picker.locator('select');
+          let selectedControl = null;
+
+          // Radio inputs are intentionally visually hidden; their associated
+          // labels are the visible, clickable controls.
+          for (const option of await radioOptions.all()) {
             const id = await option.getAttribute('id');
-            const label = id ? page.locator(`label[for="${id}"]`) : null;
-            if (label && await label.count() && await label.first().isVisible()) {
-              await label.first().click();
-              result.productVariantFlow.tested = true;
-              result.productVariantFlow.control = 'radio';
-            }
-          } else if (await selectOptions.count()) {
-            const select = selectOptions.first();
-            const current = await select.inputValue();
-            const alternative = await select.locator('option:not([disabled])').evaluateAll((items) => items.find((item) => item.value && item.value !== items.find((option) => option.selected)?.value)?.value);
-            if (alternative) {
-              await select.selectOption(alternative);
-              result.productVariantFlow.tested = true;
-              result.productVariantFlow.control = 'select';
+            const label = id ? page.locator(`label[for="${id}"]`).first() : option.locator('xpath=ancestor::label[1]');
+            if (await label.count() && await label.isVisible()) {
+              await label.click();
+              selectedControl = 'radio';
+              break;
             }
           }
-          if (result.productVariantFlow.tested) {
+
+          if (!selectedControl) {
+            for (const select of await selectOptions.all()) {
+              const alternative = await select.locator('option:not([disabled])').evaluateAll((items) => {
+                const selected = items.find((option) => option.selected)?.value;
+                return items.find((option) => option.value && option.value !== selected)?.value || null;
+              });
+              if (alternative) {
+                await select.selectOption(alternative);
+                selectedControl = 'select';
+                break;
+              }
+            }
+          }
+
+          if (selectedControl) {
             try {
               await page.waitForFunction(({ initialId }) => {
                 const raw = document.querySelector('product-info [data-selected-variant]')?.textContent;
                 try { const current = raw ? JSON.parse(raw) : null; return Boolean(current?.id && current.id !== initialId); } catch { return false; }
               }, { initialId }, { timeout: 15000 });
-            } catch (error) {
-              result.productVariantFlow.waitError = error.message;
-            }
+            } catch {}
             await page.waitForTimeout(500);
-            result.productVariantFlow = await page.evaluate(({ initialId }) => {
+            result.productVariantFlow = await page.evaluate(({ initialId, selectedControl }) => {
               const raw = document.querySelector('product-info [data-selected-variant]')?.textContent;
               let current = null;
               try { current = raw ? JSON.parse(raw) : null; } catch {}
               const picker = document.querySelector('variant-selects');
               const selected = picker?.querySelector('input[type="radio"]:checked, select option:checked');
               const pickup = document.querySelector('product-info pickup-availability');
+              const changed = Boolean(current?.id && current.id !== initialId);
               return {
-                tested: true,
+                tested: changed,
+                control: selectedControl,
                 initialVariantId: initialId,
                 selectedVariantId: current?.id || null,
                 selectedControlValue: selected?.value || null,
-                variantChanged: Boolean(current?.id && current.id !== initialId),
+                variantChanged: changed,
                 pickupVariantId: pickup?.getAttribute('data-variant-id') || null,
                 pickupMatchesVariant: !pickup || !current?.id || pickup.getAttribute('data-variant-id') === String(current.id),
                 priceStatusPresent: Boolean(document.querySelector('[id^="Price-"][aria-live], [id^="Price-"][role="status"]')),
                 skuStatusPresent: Boolean(document.querySelector('[id^="Sku-"][aria-live], [id^="Sku-"][role="status"]'))
               };
-            }, { initialId });
-            if (!result.productVariantFlow.variantChanged) failures.push(`${viewport.name} ${url}: variant selection did not produce a changed selected variant`);
+            }, { initialId, selectedControl });
+            if (!result.productVariantFlow.variantChanged) failures.push(`${viewport.name} ${url}: variant control did not change the selected variant ID`);
             if (!result.productVariantFlow.pickupMatchesVariant) failures.push(`${viewport.name} ${url}: pickup availability is not synchronized with selected variant`);
+          } else {
+            result.productVariantFlow = {
+              tested: false,
+              notApplicable: await picker.count() === 0,
+              reason: await picker.count() === 0
+                ? 'This product has no native Shopify variant picker; third-party product swatches are product links, not variant controls.'
+                : 'No enabled alternative Shopify variant option is available in this product fixture.',
+              pickerCount: await picker.count(),
+              radioCount: await picker.locator('input[type="radio"]').count(),
+              selectCount: await selectOptions.count()
+            };
+          }
+
+          // PL Swatches renders cross-product links, not Shopify variant inputs.
+          // Test that separate interaction honestly instead of reporting it as a variant change.
+          const currentHandle = new URL(page.url()).pathname.split('/').filter(Boolean).pop();
+          const alternateSwatch = page.locator('#pl-swatches-embed-copied a[data-handle]').filter({
+            hasNot: page.locator(`[data-handle="${currentHandle}"]`)
+          }).first();
+          if (await alternateSwatch.count()) {
+            const alternateHandle = await alternateSwatch.getAttribute('data-handle');
+            await alternateSwatch.click();
+            try {
+              await page.waitForFunction((handle) => location.pathname.endsWith('/' + handle), alternateHandle, { timeout: 10000 });
+            } catch {}
+            result.productSwatchNavigation = {
+              tested: new URL(page.url()).pathname.endsWith('/' + alternateHandle),
+              fromHandle: currentHandle,
+              toHandle: alternateHandle,
+              finalUrl: page.url()
+            };
+            if (!result.productSwatchNavigation.tested) failures.push(`${viewport.name} ${url}: product swatch did not navigate to its linked product`);
           }
         }
 
         if (path.startsWith('/collections/') || path.startsWith('/search')) {
-          result.facetsInteraction = { tested: false, reason: 'No enabled facet with a visible label was found after opening the filter drawer.' };
+          result.facetsInteraction = { tested: false, reason: 'No enabled facet checkbox with an exposed label was found.' };
           const drawerTrigger = page.locator('.facet-wrapper > button[aria-controls="FacetDrawer"]').first();
           if (await drawerTrigger.count() && await drawerTrigger.isVisible()) {
-            await drawerTrigger.click();
-            await page.locator('#FacetDrawer').waitFor({ state: 'visible', timeout: 5000 }).catch(() => {});
+            const expanded = await drawerTrigger.getAttribute('aria-expanded');
+            if (expanded !== 'true') await drawerTrigger.click();
+            await page.locator('#FacetDrawer').waitFor({ state: 'visible', timeout: 8000 });
           }
-          const facetId = await page.locator('.facet-form input[type="checkbox"]:not([disabled])').evaluateAll((inputs) => {
-            const visible = (element) => {
-              if (!element) return false;
-              const rect = element.getBoundingClientRect();
-              const style = getComputedStyle(element);
-              return rect.width > 0 && rect.height > 0 && style.display !== 'none' && style.visibility !== 'hidden';
-            };
-            const input = inputs.find((candidate) => {
-              const label = candidate.id ? document.querySelector('label[for="' + CSS.escape(candidate.id) + '"]') : candidate.closest('label');
-              return visible(label);
-            });
-            return input?.id || null;
-          }).catch(() => null);
+
+          // Facet groups are native <details>; opening the drawer alone does not
+          // expose checkbox labels inside collapsed filter accordions.
+          const facetGroups = page.locator('#FacetDrawer .facet-form details[data-filter]');
+          for (const group of await facetGroups.all()) {
+            if (!(await group.evaluate((node) => node.open))) {
+              const summary = group.locator(':scope > summary').first();
+              if (await summary.count() && await summary.isVisible()) await summary.click();
+            }
+          }
+
+          const candidates = page.locator('#FacetDrawer .facet-form input[type="checkbox"]:not([disabled])');
+          let facetId = null;
+          for (const candidate of await candidates.all()) {
+            const id = await candidate.getAttribute('id');
+            if (!id) continue;
+            const label = page.locator('label[for="' + id.replace(/"/g, '\\"') + '"]').first();
+            if (await label.count() && await label.isVisible()) {
+              facetId = id;
+              break;
+            }
+          }
+
           if (facetId) {
             const facet = page.locator('#' + CSS.escape(facetId));
             const beforeUrl = page.url();
             const beforeCount = await page.locator('#ProductCount').innerText().catch(() => '');
-            await page.locator('label[for="' + facetId.replace(/"/g, '\\"') + '"]').click();
-            await page.waitForTimeout(1800);
+            await page.locator('label[for="' + facetId.replace(/"/g, '\\"') + '"]').first().click();
+            await page.waitForFunction((beforeUrl) => location.href !== beforeUrl, beforeUrl, { timeout: 12000 }).catch(() => {});
+            await page.waitForTimeout(500);
             const afterCount = await page.locator('#ProductCount').innerText().catch(() => '');
             result.facetsInteraction = {
               tested: true,
@@ -554,7 +607,20 @@ try {
               productCountAfter: afterCount,
               productCountChanged: beforeCount !== afterCount,
               formPresent: await page.locator('.facet-form[is="facet-form"][data-history]').count() > 0,
-              drawerOpened: await page.locator('#FacetDrawer').count() > 0
+              drawerOpened: await page.locator('#FacetDrawer').count() > 0,
+              openedFacetGroups: await page.locator('#FacetDrawer .facet-form details[data-filter][open]').count()
+            };
+            if (!result.facetsInteraction.checked && !result.facetsInteraction.urlChanged) {
+              failures.push(`${viewport.name} ${url}: facet click neither checked the filter nor changed the URL`);
+            }
+          } else {
+            result.facetsInteraction = {
+              tested: false,
+              reason: 'Drawer opened, but no enabled checkbox with a visible associated label was available.',
+              drawerOpened: await page.locator('#FacetDrawer').count() > 0,
+              facetGroupCount: await facetGroups.count(),
+              openFacetGroupCount: await page.locator('#FacetDrawer .facet-form details[data-filter][open]').count(),
+              checkboxCount: await candidates.count()
             };
           }
         }
