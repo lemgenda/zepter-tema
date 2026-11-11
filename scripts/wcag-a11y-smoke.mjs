@@ -541,22 +541,25 @@ try {
           // PL Swatches renders cross-product links, not Shopify variant inputs.
           // Test that separate interaction honestly instead of reporting it as a variant change.
           const currentHandle = new URL(page.url()).pathname.split('/').filter(Boolean).pop();
-          const alternateSwatch = page.locator('#pl-swatches-embed-copied a[data-handle]').filter({
-            hasNot: page.locator(`[data-handle="${currentHandle}"]`)
-          }).first();
-          if (await alternateSwatch.count()) {
-            const alternateHandle = await alternateSwatch.getAttribute('data-handle');
-            await alternateSwatch.click();
-            try {
-              await page.waitForFunction((handle) => location.pathname.endsWith('/' + handle), alternateHandle, { timeout: 10000 });
-            } catch {}
-            result.productSwatchNavigation = {
-              tested: new URL(page.url()).pathname.endsWith('/' + alternateHandle),
-              fromHandle: currentHandle,
-              toHandle: alternateHandle,
-              finalUrl: page.url()
-            };
-            if (!result.productSwatchNavigation.tested) failures.push(`${viewport.name} ${url}: product swatch did not navigate to its linked product`);
+          const alternateHandle = await page.locator('#pl-swatches-embed-copied a[data-handle]').evaluateAll((anchors, current) =>
+            anchors.find((anchor) => anchor.dataset.handle && anchor.dataset.handle !== current)?.dataset.handle || null,
+            currentHandle
+          );
+          if (alternateHandle) {
+            const targetSwatch = page.locator(`#pl-swatches-embed-copied a[data-handle="${CSS.escape(alternateHandle)}"]`).first();
+            if (await targetSwatch.count()) {
+              await targetSwatch.click();
+              try {
+                await page.waitForFunction((handle) => location.pathname.endsWith('/' + handle), alternateHandle, { timeout: 10000 });
+              } catch {}
+              result.productSwatchNavigation = {
+                tested: new URL(page.url()).pathname.endsWith('/' + alternateHandle),
+                fromHandle: currentHandle,
+                toHandle: alternateHandle,
+                finalUrl: page.url()
+              };
+              if (!result.productSwatchNavigation.tested) failures.push(`${viewport.name} ${url}: product swatch did not navigate to its linked product`);
+            }
           }
         }
 
