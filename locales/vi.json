@@ -241,7 +241,17 @@
     "cookie-banner": {
       "name": "Tùy chọn cookie"
     },
-    "beae-quickview-default": "Xem nhanh Beae"
+    "beae-quickview-default": {
+      "name": "Xem nhanh Beae",
+      "be42255992_html": "Hiển thị thêm",
+      "be42216636_html": "Hiển thị ít hơn",
+      "be649020154_html": "Thêm vào giỏ hàng",
+      "be28375103_html": "Hết hàng",
+      "be1182278043_html": "Đã thêm vào giỏ hàng",
+      "be1538394658_html": "Hết hàng",
+      "be1427617666_html": "Đã thêm vào giỏ hàng thành công",
+      "be719299147_html": "Chọn tùy chọn"
+    }
   },
   "blogs": {
     "article": {
@@ -493,7 +503,13 @@
       "read_more": "Xem chi tiết",
       "quick_add": "Thêm",
       "quick_view": "Xem",
-      "quantity": "TODO"
+      "quantity": {
+        "0": "T",
+        "1": "O",
+        "2": "D",
+        "3": "O",
+        "label": "Số lượng"
+      }
     },
     "price": {
       "regular_price": "Giá thông thường",
