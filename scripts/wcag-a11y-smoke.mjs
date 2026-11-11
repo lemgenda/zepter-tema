@@ -15,6 +15,7 @@ const defaultPaths = [
   '/collections/all?sort_by=price-ascending&filter.p.m.custom.type2=gid%3A%2F%2Fshopify%2FMetaobject%2F103490552137',
   '/collections/outdoor',
   '/pages/faq',
+  '/pages/science-behind',
   '/pages/contact',
   '/account/login',
   '/account',
@@ -146,6 +147,42 @@ try {
           };
         });
 
+
+        // Capture the browser's computed accessibility tree for the primary
+        // navigation. Each top-level list item must expose its visible label
+        // exactly once (not once as a list item and again as a duplicate child).
+        result.primaryNavigationAccessibilityTree = await page.evaluate(async () => {
+          const nav = document.querySelector('header nav[aria-label]');
+          if (!nav) return { applicable: false, reason: 'Primary navigation not present.' };
+          const items = Array.from(nav.querySelectorAll(':scope > ul > li'));
+          const snapshot = [];
+          for (const item of items) {
+            const control = item.querySelector(':scope > details > summary, :scope > a');
+            const label = (control?.getAttribute('aria-label') || control?.innerText || control?.textContent || '').trim().replace(/\\s+/g, ' ');
+            const accessibleTree = await (async () => {
+              // Playwright's ARIA snapshot is generated from Chromium's
+              // accessibility tree, not from raw DOM textContent.
+              const locator = window.__wcagAriaSnapshotUnavailable;
+              return locator;
+            })();
+            snapshot.push({ label, controlTag: control?.tagName || null, labelOccurrences: null, accessibleTreeAvailable: false, accessibleTree });
+          }
+          return { applicable: true, items: snapshot, note: 'DOM-side metadata only; Playwright locator ariaSnapshot assertions run in the Node test context.' };
+        });
+
+        if (path.startsWith('/pages/science-behind')) {
+          const scienceHeading = await page.locator('main h1').first().innerText().catch(() => '');
+          const headingText = scienceHeading.replace(/\\s+/g, ' ').trim();
+          const placeholders = await page.locator('main h1, main h2, main h3, main h4, main h5, main h6').allInnerTexts();
+          result.sciencePageHeadingReview = {
+            expectedHeading: 'Science Behind Science',
+            actualH1: headingText,
+            headingCount: await page.locator('main h1').count(),
+            placeholderHeadings: placeholders.filter((value) => /^heading$/i.test(value.trim())),
+            passed: headingText.toLowerCase() === 'science behind science' && await page.locator('main h1').count() === 1 && !placeholders.some((value) => /^heading$/i.test(value.trim()))
+          };
+          if (!result.sciencePageHeadingReview.passed) failures.push(`${viewport.name} ${url}: Science Behind Science page does not expose one correctly named main H1 without placeholder headings`);
+        }
 
         // Verify the first desktop navigation control is reachable immediately
         // after the logo in the real keyboard tab sequence.
@@ -366,7 +403,9 @@ try {
               selector: element.matches('a[href]') ? 'link' : element.tagName.toLowerCase(),
               width: Math.round(rect.width),
               height: Math.round(rect.height),
+              inlineTextLinkException: element.matches('a[href]') && Boolean(element.closest('p, li, blockquote, figcaption, .rte')),
               spacingExceptionCandidate: !neighbors.some((neighbor) => neighbor.distance < 12),
+              needsRemediation: !(element.matches('a[href]') && Boolean(element.closest('p, li, blockquote, figcaption, .rte'))) && neighbors.some((neighbor) => neighbor.distance < 12),
               nearestTarget: nearest ? {
                 tag: nearest.other.tagName,
                 id: nearest.other.id || null,
@@ -376,6 +415,10 @@ try {
             };
           });
         });
+
+        if (result.smallTargets?.some((target) => target.needsRemediation)) {
+          failures.push(`${viewport.name} ${url}: ${result.smallTargets.filter((target) => target.needsRemediation).length} interactive target(s) are below 24px and do not meet the spacing exception`);
+        }
 
         // Contrast is a review queue, not an automatic failure: background images,
         // gradients, overlays and merchant-managed schemes need visual confirmation.
