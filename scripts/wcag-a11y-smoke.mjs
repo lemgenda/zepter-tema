@@ -65,6 +65,18 @@ try {
         if (result.httpStatus !== null && result.httpStatus >= 400) {
           throw new Error(`HTTP ${result.httpStatus} while loading ${result.finalUrl}`);
         }
+
+        // Shopify's new Customer Accounts are hosted on a separate origin and
+        // are not rendered or styled by this theme. Record the redirect clearly
+        // without treating the external account UI as a theme accessibility failure.
+        if (result.finalUrl && new URL(result.finalUrl).origin !== previewBase.origin) {
+          result.externalRedirect = true;
+          result.externalOrigin = new URL(result.finalUrl).origin;
+          result.skippedReason = 'Route redirects to a separately hosted service outside the theme control surface.';
+          report.push(result);
+          continue;
+        }
+
         await page.waitForTimeout(1200);
 
         result.diagnostics = await page.evaluate(() => {
@@ -83,6 +95,19 @@ try {
             };
           };
           const headings = Array.from(document.querySelectorAll('h1')).map(describe);
+          const primaryNavigation = Array.from(document.querySelectorAll('header nav[aria-label]')).map((nav) => ({
+            label: nav.getAttribute('aria-label'),
+            items: Array.from(nav.querySelectorAll(':scope > ul > li')).map((item) => {
+              const control = item.querySelector(':scope > details > summary, :scope > a');
+              const textWrapper = control?.querySelector(':scope > magnet-element');
+              return {
+                text: (control?.getAttribute('aria-label') || control?.textContent || '').trim(),
+                controlTag: control?.tagName || null,
+                hasExplicitName: Boolean(control?.getAttribute('aria-label')),
+                decorativeTextHidden: !textWrapper || textWrapper.getAttribute('aria-hidden') === 'true',
+              };
+            }),
+          }));
           const slider = document.querySelector('#Slider-template--28718057521481__multicolumn_ym6DgV');
           const logoImages = Array.from(document.querySelectorAll('img[alt="Hyperlight Optics®"]')).map((img) => ({
             image: describe(img),
@@ -102,6 +127,7 @@ try {
           return {
             h1Count: headings.length,
             h1: headings,
+            primaryNavigation,
             logoImages,
             targetSlider: slider ? {
               attributes: Array.from(slider.attributes).map(({ name, value }) => ({ name, value })),
@@ -288,6 +314,9 @@ try {
         });
 
         if (result.axeViolations.length) failures.push(`${viewport.name} ${url}: axe reported ${result.axeViolations.length} violation(s)`);
+        if (viewport.name === 'desktop' && result.diagnostics?.primaryNavigation?.some((nav) =>
+          nav.items.some((item) => !item.hasExplicitName || !item.decorativeTextHidden)
+        )) failures.push(`${viewport.name} ${url}: desktop navigation contains an unnamed control or exposed decorative text clone`);
         if (result.focus && !result.focus.indicatorVisible) failures.push(`${viewport.name} ${url}: first Tab stop has no detectable focus indicator`);
         if (result.textSpacing?.horizontalOverflow) failures.push(`${viewport.name} ${url}: horizontal overflow with WCAG text-spacing overrides`);
         if (result.reducedMotion?.autoplayElementsRemaining) failures.push(`${viewport.name} ${url}: autoplay media remains active with reduced motion enabled`);
