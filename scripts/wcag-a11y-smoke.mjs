@@ -180,12 +180,18 @@ try {
           const scienceHeading = await page.locator('main h1').first().innerText().catch(() => '');
           const headingText = scienceHeading.replace(/\\s+/g, ' ').trim();
           const placeholders = await page.locator('main h1, main h2, main h3, main h4, main h5, main h6').allInnerTexts();
+          const mainAccessibilityTree = await page.locator('main').ariaSnapshot();
+          const accessibleScienceH1Count = await page.getByRole('heading', { name: 'Science Behind Science', exact: true, level: 1 }).count();
+          const exposedPlaceholderHeading = /heading \"(?:heading|<none>)\"/i.test(mainAccessibilityTree);
           result.sciencePageHeadingReview = {
             expectedHeading: 'Science Behind Science',
             actualH1: headingText,
             headingCount: await page.locator('main h1').count(),
+            accessibleScienceH1Count,
+            accessibleMainTree: mainAccessibilityTree,
             placeholderHeadings: placeholders.filter((value) => /^heading$/i.test(value.trim())),
-            passed: headingText.toLowerCase() === 'science behind science' && await page.locator('main h1').count() === 1 && !placeholders.some((value) => /^heading$/i.test(value.trim()))
+            exposedPlaceholderHeading,
+            passed: headingText.toLowerCase() === 'science behind science' && await page.locator('main h1').count() === 1 && accessibleScienceH1Count === 1 && !exposedPlaceholderHeading && !placeholders.some((value) => /^heading$/i.test(value.trim()))
           };
           if (!result.sciencePageHeadingReview.passed) failures.push(`${viewport.name} ${url}: Science Behind Science page does not expose one correctly named main H1 without placeholder headings`);
         }
