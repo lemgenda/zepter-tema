@@ -11,7 +11,7 @@ U ovom prolazu popravljena je desktop navigacija nakon što je prethodno dodani 
 
 Browser test sada se pokreće i na svakom pushu grane `wcag-22`, uz aktivni Shopify preview URL i zadane rute home, product, collections, FAQ, contact, login, account, cart i search. Test dodatno provjerava nativnu list semantiku, redundantna imena i target size za linkove, gumbe i disclosure kontrole.
 
-**Status na zadnjem ažuriranju:** automatizirani workflow [#42963791626](https://github.com/lemgenda/zepter-tema/actions/runs/42963791626) završio je uspješno, a korisnik je potvrdio da je cijela ručna audit checklista provedena i da su sve stavke u redu. Povijesni nalazi i tada otvorene stavke u nastavku dokumentiraju ranije faze rada; završni status i opseg zatvaranja navedeni su u odjeljku 13. Ovo je evidencija rezultata implementacije i testiranja, a ne neovisna formalna certifikacija sukladnosti.
+**Trenutačni status:** automatizirani workflow [#42963791626](https://github.com/lemgenda/zepter-tema/actions/runs/42963791626) završio je uspješno, a korisnik je potvrdio da je cijela ručna audit checklista provedena i da su sve stavke u redu. Raniji privremeni statusi i popisi otvorenih koraka uklonjeni su iz aktivnog izvještaja jer ih nadjačavaju završni rezultati. Ovo je evidencija implementacije i testiranja, a ne neovisna formalna certifikacija sukladnosti.
 
 ## Implementirane izmjene u ovom prolazu
 
@@ -117,87 +117,7 @@ Dodani su:
 - `.github/workflows/wcag-22.yml`: na push/pull request prema `wcag-22` pokreće Shopify Theme Check i JSON parse validaciju; manual `workflow_dispatch` s preview URL-om pokreće browser test.
 - `scripts/wcag-a11y-smoke.mjs`: Playwright + axe-core smoke test za desktop, 375 px i 320 px širine, uključujući WCAG axe pravila, prvi keyboard focus indikator, tekstualni spacing override, forced-colors/reduced-motion i popis malih interaktivnih targeta za ručni pregled.
 
-### 8. Validacije izvršene u ovom prolazu
-
-- Svih šest locale JSON datoteka uspješno je parsirano; provjereni su navigacijski, dialog, carousel, pagination, cart, media-type i product-state ključevi.
-- `node --check` prošao je za `scripts/wcag-a11y-smoke.mjs`, `assets/accessibility.js`, `assets/search.js`, `assets/recipient-form.js` te izdvojene izmijenjene klase `AnnouncementBar`, `SlideshowElement` i `SliderElement` iz `assets/theme.js`.
-- Ruby YAML parser uspješno je parsirao `.github/workflows/wcag-22.yml`.
-- Statički su pregledani relevantni Liquid/JS/CSS dijelovi i potvrđene su promjene na grani.
-- Shopify Theme Check i JSON validacija uspješno su izvršeni u workflowu [#42934986286](https://github.com/lemgenda/zepter-tema/actions/runs/42934986286).
-- Playwright + axe-core browser audit pokrenut je na preview URL-u kroz isti workflow; status i nalazi tog browser joba još se provjeravaju.
-- Liquid render u Shopify runtimeu i ručni NVDA/Firefox, VoiceOver/Safari i TalkBack/Chrome testovi nisu potvrđeni.
-
-## Preostale stavke / nije moguće potvrditi bez preview trgovine
-
-1. **Stvarni browser audit:** pokrenuti `workflow_dispatch` s javno dostupnim Shopify preview URL-om i putanjama koje uključuju stvarne product, collection, FAQ, contact, login, account, cart i search stranice. Trenutni smoke test defaultno provjerava home, all collections, cart i search.
-2. **Shopify Theme Check:** workflow je pripremljen, ali rezultat nije dostupan jer workflow nije izvršen. Liquid parser i Theme Check status stoga ostaju nepotvrđeni.
-3. **Ručni assistive technology testovi:** NVDA/Firefox, VoiceOver/Safari i TalkBack/Chrome nisu testirani. Potrebno je provjeriti redoslijed fokusa, izgovor, povrat fokusa, modal Escape/close i dinamičke najave.
-4. **Kontrast i theme schemes:** stvarne kombinacije foreground/background boja za sve merchant color schemes, overlaye, hover/focus/disabled stanja i button varijante nisu izmjerene.
-5. **Zoom/reflow:** 320 px reflow i tekstualni spacing override su u test harnessu; stvarni browser zoom 200%/400% i sadržaj na 320 CSS px još nisu testirani na storefrontu.
-6. **Target size 2.5.8:** skripta izlistava kontrole manje od 24 × 24 px; svaku stavku treba ručno provjeriti zbog WCAG iznimaka (inline, ekvivalentna kontrola, spacing i user-agent kontrola).
-7. **Product variant i pickup flow:** odabrana vrijednost, cijena, SKU, cijena po komadu, inventory i pickup preview sada imaju status/live semantiku; stvarni redoslijed i čitljivost najava nakon AJAX promjene još treba provjeriti na trgovini.
-8. **Facets/filteri:** count live region je dodan, ali stvarni rezultat nakon AJAX filtriranja, fokusni povratak, URL/history i kombinacije checkbox/swatch filtera trebaju browser test.
-9. **Product recommendations/recently viewed:** imenovane carousel regije, load statusi i inert/aria-hidden upravljanje izvan-viewport karticama su implementirani; stvarna keyboard operabilnost, screen-reader izgovor i scroll/focus interakcija još trebaju browser test.
-10. **Ostale slike:** sve ostale merchant-managed image settinge, article/blog, footer, map, promo i app-provided slike treba pregledati u stvarnom sadržaju. Fallback alt ne može zamijeniti dobar opis koji odgovara stvarnoj slici.
-11. **Third-party/hosted flows:** BEAE quickview/header, Shine Pages cart open/close/focus state, Auglio, hCaptcha, external video iframeovi, Shopify Customer Privacy API, checkout i hosted customer challenge nisu testirani niti mijenjani u ovoj iteraciji. Njihovo ponašanje ne treba mijenjati bez runtime provjere.
-12. **Cross-browser i responsive:** Safari, Firefox, Chromium, iOS/Android touch, forced colors i dinamičke Shopify theme editor section reload situacije nisu ručno testirane.
-
-## Sljedeći koraci za zatvaranje
-
-1. Pokrenuti workflow ručno s aktivnim preview URL-om i stvarnim putanjama proizvoda/kolekcija.
-2. Ispraviti sve Theme Check i axe nalaze te ponoviti CI.
-3. Proći tipkovnicu i screen reader kroz sve glavne tokove.
-4. Izmjeriti kontrast i target size u svim relevantnim stanjima.
-5. Testirati third-party integracije na stvarnoj trgovini.
-6. Tek nakon ponovljenog browser i ručnog audita ažurirati status na WCAG 2.2 AA verified.
-
-**Zaključak:** dodan je veći skup dodatnih implementacija i pripremljena je testna infrastruktura. Ipak, dok Theme Check i browser testovi ne budu stvarno izvršeni na aktivnoj Shopify preview trgovini i dok se ne zatvore third-party i ručni testovi, nije opravdano tvrditi da je tema WCAG 2.2 AA sukladna.
-## 9. Dodatna provjera desktop navigacije — problem i dalje otvoren
-
-- Korisnik je ponovno potvrdio da NVDA uz ScreenVox pri čitanju desktop navigacije izgovara „Science Behind” dvaput, iako je `Tab` redoslijed ispravan.
-- Pokušaj suzbijanja ponavljanja postavljanjem `role="presentation"` na vanjski `ul` u `snippets/header-nav-desktop.liquid` nije riješio problem prema ručnom testu korisnika. Ova izmjena **nije potvrđeno rješenje** i ne smije se tretirati kao zatvorena WCAG stavka.
-- Commit `e3af0ce` sadrži izmjenu navigacijskog markup-a; commit `69adb4a` proširuje dijagnostiku. Workflow [#42933526297](https://github.com/lemgenda/zepter-tema/actions/runs/42933526297) izvršen je na commitu `69adb4a66874a060b730aa503e3e4ba3e1c479b5` i završio je uspješno.
-- Workflow je zabilježio `listRole: presentation`, eksplicitna imena kontrola i skriveni dekorativni tekst. `navigationTabOrder` je prošao, a axe nije prijavio automatizirane povrede na pregledanim rutama. To potvrđuje samo DOM/automatizirane provjere; ne potvrđuje izgovor pri kretanju strelicama.
-- **Status:** otvoreno — ponavljanje „Science Behind” / „Our Tech” pri kretanju strelicama nije riješeno niti verificirano. Ne uklanjati dalje semantiku elemenata naslijepo. Potrebno je pregledati stvarni accessibility tree i DOM potomaka svake stavke, uključujući eventualne duple tekstualne čvorove koje generira animacijski/custom element, te provjeriti s NVDA/ScreenVox nakon ciljane izmjene.
-- Sljedeći korak: dodati dijagnostiku punog `outerHTML`/strukture potomaka stavki navigacije i izračunatog accessible name-a; zatim testirati promjenu na previewu i zatražiti ponovni NVDA/ScreenVox test. Playwright/axe ne mogu sami potvrditi govor čitača zaslona.
-
-## 10. Ispravak desktop navigacije i proširenje automatskih provjera
-
-- Uklonjeni su `role="none"` s top-level `li` elemenata i `role="presentation"` s navigacijskog `ul`. Nativna struktura liste je vraćena kako čitač zaslona ne bi izgovarao „none”.
-- Uklonjeni su redundantni `aria-label` atributi s top-level `summary` i link kontrola; naziv se sada izvodi iz vidljivog teksta.
-- Uklonjen je `aria-hidden="true"` s `magnet-element` wrappera, dok animacijski duplikat `.btn-duplicate` ostaje skriven. Time accessibility tree dobiva jedan vidljivi naziv.
-- Playwright dijagnostika provjerava native `ul/li` semantiku, odsutnost redundantnih naziva i skrivanje animacijskog duplikata.
-- Browser audit se sada izvršava i na push, ne samo ručnim `workflow_dispatch`. Zadane rute uključuju deset vrsta stranica, a target-size pregled obuhvaća linkove, gumbe i `summary` kontrole.
-- Shopify Theme Check i JSON validacija prošli su u workflowu #42934986286. Browser dio tog runa bio je u tijeku u trenutku ažuriranja.
-- Nije moguće programski potvrditi izgovor NVDA/ScreenVox samo iz DOM-a. Potrebna je nova ručna provjera na preview temi nakon što se promjena deploya.
-- Kontrast u svim merchant schemes, stvarni 200%/400% browser zoom, dinamički AJAX tokovi, cross-browser i third-party integracije i dalje zahtijevaju stvarne runtime testove. Automatizirani axe test pokriva samo stanje stranice koje je učitano.
-
-
-
-## 11. Rezultati workflowa #42938093837 i dorada dijagnostike
-
-- Workflow [#42938093837](https://github.com/lemgenda/zepter-tema/actions/runs/42938093837) izvršen je na commitu `fa1dcc89c11a551c4004a38fd08b6d0d926506fa` i završio je uspješno. Oba joba — Browser accessibility smoke tests i Liquid/JSON/Theme Check — imaju status `success`.
-- axe-core nije prijavio povrede na rutama koje su se uspješno učitale. Heuristički kontrastni pregled nije našao low-contrast kandidate u uzorkovanim tekstualnim čvorovima; to ne pokriva pouzdano pozadine s fotografijama/gradijentima, transparentnost, overlaye ni sva interaktivna stanja.
-- U testiranim viewportima 1365, 375 i 320 px nije pronađen horizontalni overflow pri WCAG text-spacing overrideu. Reduced-motion i forced-colors focus smoke provjere prošle su.
-- Pregled slika pronašao je jednu sliku bez alt teksta unutar skrivenog `.nodisplay` watermarka third-party aplikacije Pretty Comparison Tables; dvije prazne alt slike u rezultatima bloga bile su u linkovima koji su već `aria-hidden` i izvan tab-redoslijeda. Nije potvrđen problem s vidljivim slikama teme iz tih nalaza.
-- Product variant interakcija nije izvršena jer testirana stranica `/products/rio-havana` nije izložila drugu omogućenu varijantu. To nije dokaz da je promjena varijante provjerena.
-- AJAX facets interakcija nije izvršena jer su filteri u zatvorenom draweru; prethodni selektor tražio je vidljiv checkbox prije otvaranja drawera. Carousel pregled na jednoj stranici zabilježio je regiju `You may also like` s jednom karticom; to nije dovoljno za zaključak o višekartičnoj keyboard/AT operabilnosti.
-- Target-size izvještaj sadrži male inline tekstualne linkove i skip-link koji je namjerno vizualno skriven do fokusa. Njihove dimenzije same po sebi ne znače automatski WCAG neusklađenost; potrebna je procjena iznimki i konteksta. Ne treba povećavati tekstualne linkove naslijepo.
-- Nakon pregleda rezultata poboljšan je testni harness: sada otvara filter drawer prije traženja checkboxa, provjerava vidljivost alt nedostataka i zanemaruje skip-link dok nije fokusiran. Izmjena je commitana kao `ad6b45c355544419315cc66e4743b38ce7263424` (`Improve WCAG filter and image diagnostics`). Novi CI run treba potvrditi tu doradu.
-- **Status:** automatizirani run #42938093837 je uspješan, ali kontrast u svim stanjima, 2.5.8 target size, stvarna promjena varijante/pickup najave, AJAX filter tok i višekartični carousel još nisu u potpunosti verificirani. NVDA/Firefox, VoiceOver/Safari, TalkBack/Chrome i 200%/400% zoom ostaju ručni testovi.
-
-
-## 12. Specific live storefront routes supplied for variant and filter testing
-
-- The browser smoke test now uses `/products/001-yellow` instead of `/products/rio-havana` for the product variant interaction, based on the user-supplied product route.
-- The collection route now includes the supplied active `type2` metafield filter and ascending price sort, so the filter drawer test starts from the filtered collection state.
-- These are test fixtures only; their presence in the route list does not establish that the interactions passed. The next push-triggered workflow run must show `productVariantFlow.tested: true` and `facetsInteraction.tested: true` on the browser job. If either remains skipped, inspect the actual rendered controls and correct the test selectors/interaction rather than treating the check as complete.
-- No Shopify theme publishing or activation was performed.
-
-
-## 13. Završni CI i ručni audit — 11. 11. 2026.
-
-### 13.1 Automatizirane provjere
+### 8. Završne automatizirane provjere
 
 Workflow [#42963791626](https://github.com/lemgenda/zepter-tema/actions/runs/42963791626) (workflow #409), na grani `wcag-22`, commit `7de3af302af9407a2d04a59f0c1a32ff61927785`, završio je sa statusom **success**.
 
@@ -209,7 +129,7 @@ Uspješno su završila oba joba:
 Zabilježeni rezultati:
 
 - Theme Check s `--auto-correct`: 293 datoteke pregledane, 0 prekršaja.
-- Theme Check s `--fail-level suggestion`: 293 datoteke pregledane, 0 prekršaja.
+- Theme Check s `--fail-level suggestion`: 293 datoteke pregledane, 0 prekršaja/sugestija koje bi uzrokovale neuspjeh.
 - JSON validacija: sve JSON datoteke valjane.
 - Browser accessibility smoke test: prošao.
 - Pregled ciljnih veličina: 0 kontrola ispod 24 px u izvještaju, 0 stavki označenih kao obavezna korekcija i 0 stavki označenih za ručni pregled.
@@ -217,17 +137,26 @@ Zabilježeni rezultati:
 - Pregled slika: 33 slike, bez nedostajućeg alt teksta i bez praznog alt teksta unutar imenovanih linkova.
 - Reduced motion: aktivan; preostali autoplay elementi: 0.
 - Forced-colors provjera fokusa: prošla.
-- Facet interakcija: drawer se otvorio, dva facet groupa bila su dostupna, odabir checkboxa i sinkronizacija URL-a potvrđeni su.
+- Facet interakcija: drawer se otvorio, dvije facet grupe bile su dostupne, a odabir checkboxa i sinkronizacija URL-a potvrđeni su.
 
-**Ograničenja automatiziranog rezultata:** heuristički kontrast ne zamjenjuje mjerenje svih pozadina i stanja; axe/Playwright ne potvrđuju govor stvarnog čitača zaslona. U logu su ostala Ruby `Template.register_tag` i Node `punycode` deprecation upozorenja, ali bez Theme Check prekršaja ili neuspjelih jobova. Theme Check sugestije koje su ranije bile prisutne više se ne pojavljuju u ovom runu.
+U logu su ostala Ruby `Template.register_tag` i Node `punycode` deprecation upozorenja. Ona nisu uzrokovala Theme Check prekršaje ni neuspjeh jobova.
 
-### 13.2 Ručni audit storefronta
+### Ograničenja automatiziranih provjera
 
-Korisnik je izričito potvrdio da je **cijela ručna checklistа iz audita provedena i da je sve provjereno i u redu**. Ovaj izvještaj bilježi tu potvrdu; pojedinačni koraci nisu zasebno neovisno opaženi kroz ovaj GitHub zapis.
+Ova ograničenja opisuju granice onoga što alati mogu dokazati; **nisu otvorene stavke za implementaciju**:
+
+- Heuristički kontrastni pregled ne mjeri pouzdano sve kombinacije fotografskih/gradijentnih pozadina, transparentnosti, overlay slojeva i svih hover/focus/disabled stanja.
+- Playwright i axe provjeravaju učitani DOM i automatizabilna pravila; ne mogu sami potvrditi što će čitač zaslona izgovoriti u svim kombinacijama preglednika i pomoćne tehnologije.
+- Automatski pregled slika ne može procijeniti je li svaki opisni alt tekst urednički najbolji mogući opis stvarnog sadržaja slike.
+- Uspješan smoke test predstavlja dokaz za obuhvaćene rute, viewportove i interakcije, a ne matematički dokaz za svaku moguću kombinaciju sadržaja i stanja trgovine.
+
+## 9. Završni ručni audit storefronta
+
+Korisnik je izričito potvrdio da je **cijela ručna checklistа iz audita provedena i da je sve provjereno i u redu**. Ovaj izvještaj bilježi tu potvrdu; pojedinačni koraci nisu zasebno neovisno opaženi kroz GitHub zapis.
 
 Potvrđeni opseg ručnog audita:
 
-- Priprema okruženja i prikaz na desktopu (1440 px), tabletu (768 px), mobitelu (390 px) i minimalnoj širini (320 px).
+- Prikaz na desktopu (1440 px), tabletu (768 px), mobitelu (390 px) i minimalnoj širini (320 px).
 - Ključne storefront stranice: početna, kolekcije, kolekcije s filterima, proizvod, FAQ, kontakt, prijava, korisnički račun, košarica i pretraživanje.
 - Navigacija, dropdowni, mobilni izbornik, semantika i provjera ponovljenih najava stavki.
 - Čitači zaslona: NVDA + Firefox, VoiceOver + Safari te TalkBack + Chrome.
@@ -238,14 +167,23 @@ Potvrđeni opseg ručnog audita:
 
 **Ishod ručnog audita prema korisničkoj potvrdi: PASS — bez prijavljenih odstupanja.**
 
-### 13.3 Završni status i tumačenje
+## 10. Završni status
 
-- CI / Theme Check / JSON: **PASS**.
-- Browser accessibility smoke tests: **PASS**.
-- Ručni audit prema dostavljenoj checklisti: **PASS prema potvrdi korisnika**.
-- Otvoreni problemi iz navedene audit checkliste: **0 prijavljenih**.
-- Nisu potrebne dodatne korekcije na temelju ovog audita.
+| Područje | Status | Osnova |
+|---|---|---|
+| Theme Check | **PASS** | Workflow #42963791626; 293 datoteke, 0 prekršaja |
+| JSON validacija | **PASS** | Workflow #42963791626 |
+| Browser accessibility smoke tests | **PASS** | Workflow #42963791626 |
+| Facet interakcija | **PASS za provjereni tok** | Drawer, dvije facet grupe, checkbox i URL sinkronizacija |
+| Reduced motion / forced colors | **PASS za automatizirane provjere** | Workflow #42963791626 |
+| Ručni storefront audit | **PASS prema potvrdi korisnika** | Cijela dostavljena checklista potvrđena kao provedena i uredna |
+| Prijavljeni otvoreni problemi iz ovog audita | **0** | Nije prijavljeno odstupanje |
 
-Povijesni odjeljci 1–12 zadržani su radi traga implementacije i ranijih nalaza. Njihove tadašnje napomene o testovima koji su bili u tijeku ili nisu bili provedeni odnose se na datum tih zapisa i nadjačane su završnim rezultatima iz ovog odjeljka.
+**Zaključak:** na temelju posljednjeg uspješnog CI runa i korisnikove potvrde ručnog audita, evidentirani opseg WCAG 2.2 AA implementacije i provjera je zatvoren. Nema preostalih implementacijskih zadataka ni „sljedećih koraka za zatvaranje” iz ovog audita.
 
-**Zaključak:** završni CI run je uspješan, a korisnik je potvrdio da je ručni WCAG audit prema checklisti prošao bez problema. Rezultati podupiru zatvaranje evidentiranih stavki implementacije i audita. Ne predstavljaju formalnu certifikaciju od neovisnog auditora niti jamstvo da buduće izmjene teme neće uvesti regresije.
+Ovaj zaključak nije neovisna formalna certifikacija niti jamstvo da buduće izmjene teme neće uvesti regresije. Nakon budućih promjena teme treba ponovno pokrenuti CI i provjeriti relevantne korisničke tokove.
+
+## 11. Povijest implementacije
+
+Odjeljci 1–7 iznad opisuju implementirane promjene i tehnički opseg rada. Raniji privremeni nalazi, neuspjeli pokušaji i međurezultati iz tijeka razvoja nisu zadržani kao aktivne stavke ovog završnog izvještaja. Njihovo zadržavanje uz aktualni status stvaralo bi dojam da su provjere još otvorene, iako su naknadno provedene i zatvorene završnim CI runom i ručnim auditom.
+
