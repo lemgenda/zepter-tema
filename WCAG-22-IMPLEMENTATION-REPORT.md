@@ -3,7 +3,7 @@
 **Repozitorij:** https://github.com/lemgenda/zepter-tema  
 **Grana:** `wcag-22`  
 **Datum ažuriranja:** 11. 11. 2026.  
-**Opseg:** popravci otvorenih stavki iz prethodne verzije izvještaja i dodavanje testnog workflowa.
+**Opseg:** implementacija WCAG 2.2 AA poboljšanja, automatizirane CI provjere i završna ručna provjera storefronta prema checklisti.
 
 ## Sažetak
 
@@ -11,7 +11,7 @@ U ovom prolazu popravljena je desktop navigacija nakon što je prethodno dodani 
 
 Browser test sada se pokreće i na svakom pushu grane `wcag-22`, uz aktivni Shopify preview URL i zadane rute home, product, collections, FAQ, contact, login, account, cart i search. Test dodatno provjerava nativnu list semantiku, redundantna imena i target size za linkove, gumbe i disclosure kontrole.
 
-**Status:** potpuna WCAG 2.2 AA sukladnost nije potvrđena. Shopify Theme Check i JSON validacija prošli su u workflowu [#42934986286](https://github.com/lemgenda/zepter-tema/actions/runs/42934986286). Browser audit istog workflowa još je u tijeku u trenutku ovog ažuriranja. Prolaz automatiziranih provjera ne zamjenjuje ručno testiranje NVDA/Firefox, VoiceOver/Safari i TalkBack/Chrome.
+**Status na zadnjem ažuriranju:** automatizirani workflow [#42963791626](https://github.com/lemgenda/zepter-tema/actions/runs/42963791626) završio je uspješno, a korisnik je potvrdio da je cijela ručna audit checklista provedena i da su sve stavke u redu. Povijesni nalazi i tada otvorene stavke u nastavku dokumentiraju ranije faze rada; završni status i opseg zatvaranja navedeni su u odjeljku 13. Ovo je evidencija rezultata implementacije i testiranja, a ne neovisna formalna certifikacija sukladnosti.
 
 ## Implementirane izmjene u ovom prolazu
 
@@ -193,3 +193,59 @@ Dodani su:
 - The collection route now includes the supplied active `type2` metafield filter and ascending price sort, so the filter drawer test starts from the filtered collection state.
 - These are test fixtures only; their presence in the route list does not establish that the interactions passed. The next push-triggered workflow run must show `productVariantFlow.tested: true` and `facetsInteraction.tested: true` on the browser job. If either remains skipped, inspect the actual rendered controls and correct the test selectors/interaction rather than treating the check as complete.
 - No Shopify theme publishing or activation was performed.
+
+
+## 13. Završni CI i ručni audit — 11. 11. 2026.
+
+### 13.1 Automatizirane provjere
+
+Workflow [#42963791626](https://github.com/lemgenda/zepter-tema/actions/runs/42963791626) (workflow #409), na grani `wcag-22`, commit `7de3af302af9407a2d04a59f0c1a32ff61927785`, završio je sa statusom **success**.
+
+Uspješno su završila oba joba:
+
+- **Liquid, JSON, and theme lint**
+- **Browser accessibility smoke tests**
+
+Zabilježeni rezultati:
+
+- Theme Check s `--auto-correct`: 293 datoteke pregledane, 0 prekršaja.
+- Theme Check s `--fail-level suggestion`: 293 datoteke pregledane, 0 prekršaja.
+- JSON validacija: sve JSON datoteke valjane.
+- Browser accessibility smoke test: prošao.
+- Pregled ciljnih veličina: 0 kontrola ispod 24 px u izvještaju, 0 stavki označenih kao obavezna korekcija i 0 stavki označenih za ručni pregled.
+- Heuristički pregled kontrasta: 2649 tekstualnih čvorova uzorkovano, bez kandidata s niskim kontrastom.
+- Pregled slika: 33 slike, bez nedostajućeg alt teksta i bez praznog alt teksta unutar imenovanih linkova.
+- Reduced motion: aktivan; preostali autoplay elementi: 0.
+- Forced-colors provjera fokusa: prošla.
+- Facet interakcija: drawer se otvorio, dva facet groupa bila su dostupna, odabir checkboxa i sinkronizacija URL-a potvrđeni su.
+
+**Ograničenja automatiziranog rezultata:** heuristički kontrast ne zamjenjuje mjerenje svih pozadina i stanja; axe/Playwright ne potvrđuju govor stvarnog čitača zaslona. U logu su ostala Ruby `Template.register_tag` i Node `punycode` deprecation upozorenja, ali bez Theme Check prekršaja ili neuspjelih jobova. Theme Check sugestije koje su ranije bile prisutne više se ne pojavljuju u ovom runu.
+
+### 13.2 Ručni audit storefronta
+
+Korisnik je izričito potvrdio da je **cijela ručna checklistа iz audita provedena i da je sve provjereno i u redu**. Ovaj izvještaj bilježi tu potvrdu; pojedinačni koraci nisu zasebno neovisno opaženi kroz ovaj GitHub zapis.
+
+Potvrđeni opseg ručnog audita:
+
+- Priprema okruženja i prikaz na desktopu (1440 px), tabletu (768 px), mobitelu (390 px) i minimalnoj širini (320 px).
+- Ključne storefront stranice: početna, kolekcije, kolekcije s filterima, proizvod, FAQ, kontakt, prijava, korisnički račun, košarica i pretraživanje.
+- Navigacija, dropdowni, mobilni izbornik, semantika i provjera ponovljenih najava stavki.
+- Čitači zaslona: NVDA + Firefox, VoiceOver + Safari te TalkBack + Chrome.
+- Tipkovnički pristup, redoslijed i vidljivost fokusa, zatvaranje modala/izbornika i povrat fokusa.
+- Kombinacije filtera, URL i rezultati, promjena varijante, košarica i dinamičke najave.
+- Obrasci, oznake polja, validacijske poruke i korisnički račun.
+- Kontrast, povećanje teksta, 400% zoom/reflow, horizontalni overflow, ciljevi dodira, reduced motion i forced colors.
+
+**Ishod ručnog audita prema korisničkoj potvrdi: PASS — bez prijavljenih odstupanja.**
+
+### 13.3 Završni status i tumačenje
+
+- CI / Theme Check / JSON: **PASS**.
+- Browser accessibility smoke tests: **PASS**.
+- Ručni audit prema dostavljenoj checklisti: **PASS prema potvrdi korisnika**.
+- Otvoreni problemi iz navedene audit checkliste: **0 prijavljenih**.
+- Nisu potrebne dodatne korekcije na temelju ovog audita.
+
+Povijesni odjeljci 1–12 zadržani su radi traga implementacije i ranijih nalaza. Njihove tadašnje napomene o testovima koji su bili u tijeku ili nisu bili provedeni odnose se na datum tih zapisa i nadjačane su završnim rezultatima iz ovog odjeljka.
+
+**Zaključak:** završni CI run je uspješan, a korisnik je potvrdio da je ručni WCAG audit prema checklisti prošao bez problema. Rezultati podupiru zatvaranje evidentiranih stavki implementacije i audita. Ne predstavljaju formalnu certifikaciju od neovisnog auditora niti jamstvo da buduće izmjene teme neće uvesti regresije.
