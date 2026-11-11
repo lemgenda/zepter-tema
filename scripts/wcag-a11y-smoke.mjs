@@ -105,6 +105,8 @@ try {
               return {
                 text: (control?.getAttribute('aria-label') || control?.textContent || '').trim(),
                 controlTag: control?.tagName || null,
+                itemRole: item.getAttribute('role') || null,
+                listItemSemanticsSuppressed: item.getAttribute('role') === 'none' || item.getAttribute('role') === 'presentation',
                 hasExplicitName: Boolean(control?.getAttribute('aria-label')),
                 decorativeTextHidden: !textWrapper || textWrapper.getAttribute('aria-hidden') === 'true',
               };
@@ -355,7 +357,7 @@ try {
 
         if (result.axeViolations.length) failures.push(`${viewport.name} ${url}: axe reported ${result.axeViolations.length} violation(s)`);
         if (viewport.name === 'desktop' && result.diagnostics?.primaryNavigation?.some((nav) =>
-          !nav.listSemanticsSuppressed || nav.items.some((item) => !item.hasExplicitName || !item.decorativeTextHidden)
+          !nav.listSemanticsSuppressed || nav.items.some((item) => !item.listItemSemanticsSuppressed || !item.hasExplicitName || !item.decorativeTextHidden)
         )) failures.push(`${viewport.name} ${url}: desktop navigation exposes list-item announcements, an unnamed control, or decorative text clones`);
         if (result.navigationTabOrder?.applicable && !result.navigationTabOrder.passed) failures.push(`${viewport.name} ${url}: Tab after the logo does not focus the first primary navigation item`);
         if (result.focus && !result.focus.indicatorVisible) failures.push(`${viewport.name} ${url}: first Tab stop has no detectable focus indicator`);
