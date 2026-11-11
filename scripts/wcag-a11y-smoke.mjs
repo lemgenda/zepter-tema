@@ -160,7 +160,13 @@ try {
               const control = item.locator(':scope > details > summary, :scope > a').first();
               const label = (await control.getAttribute('aria-label')) || (await control.innerText()).trim();
               const snapshot = await item.ariaSnapshot();
+              // Count accessible role/name entries only. Counting raw substrings
+              // also matches URL attributes (for example "Blog" in "/blogs/news").
+              const escapedLabel = label.replace(/[.*+?^${}()|[\]\\]/g, '\\              const snapshot = await item.ariaSnapshot();
               const occurrences = label ? snapshot.toLowerCase().split(label.toLowerCase()).length - 1 : 0;
+              itemReviews.push({ label, occurrences, snapshot });');
+              const namedRole = new RegExp('^\\s*-\\s*(?:link|group|button)(?:\\s+"' + escapedLabel + '"|:\\s*' + escapedLabel + '\\s*$)', 'i');
+              const occurrences = label ? snapshot.split('\\n').filter((line) => namedRole.test(line)).length : 0;
               itemReviews.push({ label, occurrences, snapshot });
             }
             result.primaryNavigationAccessibilityTree = {
@@ -181,8 +187,12 @@ try {
           const headingText = scienceHeading.replace(/\\s+/g, ' ').trim();
           const placeholders = await page.locator('main h1, main h2, main h3, main h4, main h5, main h6').allInnerTexts();
           const mainAccessibilityTree = await page.locator('main').ariaSnapshot();
-          const expectedHeading = (await page.title()).split(/[–—|]/)[0].trim();
-          const accessibleScienceH1Count = await page.getByRole('heading', { name: expectedHeading, exact: true, level: 1 }).count();
+          // The document title is SEO metadata ("Science behind"), while the
+          // visible hero heading is the page's actual editorial H1.
+          const expectedHeading = headingText;
+          const accessibleScienceH1Count = expectedHeading
+            ? await page.getByRole('heading', { name: expectedHeading, exact: true, level: 1 }).count()
+            : 0;
           const exposedPlaceholderHeading = /heading \"(?:heading|<none>)\"/i.test(mainAccessibilityTree);
           result.sciencePageHeadingReview = {
             expectedHeading,
