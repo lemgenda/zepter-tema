@@ -1,0 +1,23 @@
+# Theme Check configuration for the Shopify theme.
+#
+# The repository currently uses Theme Check 1.x. Keep correctness and
+# performance checks enabled, while avoiding legacy style heuristics that
+# produce non-actionable noise for this theme's existing Liquid structure.
+# NestedSnippet is deprecated in Theme Check 1.x and is safe to disable.
+# LiquidTag is a formatting preference; converting existing control-flow,
+# capture, and render blocks wholesale risks changing Liquid whitespace.
+# TemplateLength remains enabled with a limit above the largest current
+# theme-owned templates; this preserves a useful regression guard.
+
+NestedSnippet:
+  enabled: false
+
+LiquidTag:
+  enabled: false
+
+TemplateLength:
+  enabled: true
+  max_length: 900
+  exclude_schema: true
+  exclude_stylesheet: true
+  exclude_javascript: true
