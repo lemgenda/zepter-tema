@@ -5212,6 +5212,10 @@ ol {
   transition-property: transform, opacity;
 }
 
+.header__menu>ul.with-block .menu__item .btn-duplicate::before {
+  content: attr(data-label);
+}
+
 .header__menu>ul.with-block .menu__item .btn-duplicate {
   --tw-scale: 0.6;
   --tw-translate-y: 100%;
