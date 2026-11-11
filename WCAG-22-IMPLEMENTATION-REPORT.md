@@ -123,7 +123,9 @@ Dodani su:
 - `node --check` prošao je za `scripts/wcag-a11y-smoke.mjs`, `assets/accessibility.js`, `assets/search.js`, `assets/recipient-form.js` te izdvojene izmijenjene klase `AnnouncementBar`, `SlideshowElement` i `SliderElement` iz `assets/theme.js`.
 - Ruby YAML parser uspješno je parsirao `.github/workflows/wcag-22.yml`.
 - Statički su pregledani relevantni Liquid/JS/CSS dijelovi i potvrđene su promjene na grani.
-- **Nisu izvršeni** Shopify Theme Check, axe-core browser run, Playwright run na storefrontu, Liquid render ni test s čitačem zaslona. Za zadnji commit nisu pronađeni GitHub Actions workflow runovi.
+- Shopify Theme Check i JSON validacija uspješno su izvršeni u workflowu [#42934986286](https://github.com/lemgenda/zepter-tema/actions/runs/42934986286).
+- Playwright + axe-core browser audit pokrenut je na preview URL-u kroz isti workflow; status i nalazi tog browser joba još se provjeravaju.
+- Liquid render u Shopify runtimeu i ručni NVDA/Firefox, VoiceOver/Safari i TalkBack/Chrome testovi nisu potvrđeni.
 
 ## Preostale stavke / nije moguće potvrditi bez preview trgovine
 
