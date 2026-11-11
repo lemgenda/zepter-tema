@@ -226,26 +226,7 @@
       "max_error": "This item has a maximum of {{ max }}",
       "step_error": "You can only add this item in increments of {{ step }}"
     },
-    "beae-quickview-default": {
-      "be427520332_html": "Save { sale }",
-      "be1538363906_html": "Sold Out",
-      "be368228441_html": "Save { sale }%",
-      "be2569319_html": "Sale",
-      "be1203385433_html": "Pickup available at {{ location_name }}",
-      "be1121680012_html": "Pickup currently unavailable at {{ location_name }}",
-      "be1358949576_html": "View store info",
-      "be260978430_html": "Check availability at other stores",
-      "be1316440194_html": "{{ pickup_icon }} Pickup available, {{ pick_up_time }}",
-      "be1961221788_html": "{{ unavailable_icon }} Pickup currently unavailable at {{ location_name }}",
-      "be42255992_html": "Show more",
-      "be42216636_html": "Show less",
-      "be649020154_html": "Add to cart",
-      "be28375103_html": "Out of stock",
-      "be1182278043_html": "Added to cart",
-      "be1538394658_html": "Sold out",
-      "be1427617666_html": "Added to cart successfully",
-      "be719299147_html": "Choose options"
-    },
+    "beae-quickview-default": "Beae Quick View",
     "header": {
       "primary_navigation": "Primary navigation",
       "secondary_navigation": "Secondary navigation",
@@ -513,7 +494,7 @@
       "quick_add": "Add",
       "quick_view": "View",
       "quantity": {
-        "label": "TODO"
+        "label": "Quantity"
       }
     },
     "price": {
