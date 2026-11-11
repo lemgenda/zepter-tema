@@ -7,13 +7,11 @@
 
 ## Sažetak
 
-U ovom prolazu zatvoren je dodatni dio nedovršenih stavki: customer i gift-card forme, navigacija, predictive search, facets/pagination, announcement i product carouseli, pickup statusi, alternativni tekstovi ključnih slika, reduced-motion ponašanje, iframe naslovi, dinamičke najave i testni workflow.
+U ovom prolazu popravljena je desktop navigacija nakon što je prethodno dodani `role="none"` uzrokovao da čitač zaslona izgovara „none”. Vraćena je nativna HTML semantika `nav > ul > li`, uklonjeni su redundantni `aria-label` atributi s linkova i `summary` kontrola te je vidljivi tekst navigacije vraćen u accessibility tree. Animacijski duplikat ostaje izričito skriven s `aria-hidden="true"`.
 
-**Važno:** potpuna WCAG 2.2 AA sukladnost još nije potvrđena. Browser workflow sada je izvršen na aktivnom Shopify preview storefrontu (run [#42933526297](https://github.com/lemgenda/zepter-tema/actions/runs/42933526297), commit `69adb4a`) i automatske provjere su prošle. Međutim, korisnik je potvrdio da se ponavljanje naziva stavke „Science Behind” i dalje čuje pri navigaciji strelicama u NVDA-u/ScreenVoxu. Taj problem ostaje **otvoren**; uspješan axe/Playwright rezultat ne testira stvarni govor čitača zaslona.
+Browser test sada se pokreće i na svakom pushu grane `wcag-22`, uz aktivni Shopify preview URL i zadane rute home, product, collections, FAQ, contact, login, account, cart i search. Test dodatno provjerava nativnu list semantiku, redundantna imena i target size za linkove, gumbe i disclosure kontrole.
 
-U ovom prolazu zatvoren je dodatni dio nedovršenih stavki: customer i gift-card forme, navigacija, predictive search, facets/pagination, announcement i product carouseli, pickup statusi, alternativni tekstovi ključnih slika, reduced-motion ponašanje, iframe naslovi, dinamičke najave i testni workflow.
-
-**Važno:** potpuna WCAG 2.2 AA sukladnost još nije potvrđena. U ovom okruženju nije dostupan aktivni Shopify preview URL ni browser session za stvarno testiranje storefront DOM-a. GitHub Actions workflow je dodan, ali za zadnji commit nisu pronađeni izvršeni workflow runovi. Browser smoke testovi zato nisu označeni kao prošli.
+**Status:** potpuna WCAG 2.2 AA sukladnost nije potvrđena. Shopify Theme Check i JSON validacija prošli su u workflowu [#42934986286](https://github.com/lemgenda/zepter-tema/actions/runs/42934986286). Browser audit istog workflowa još je u tijeku u trenutku ovog ažuriranja. Prolaz automatiziranih provjera ne zamjenjuje ručno testiranje NVDA/Firefox, VoiceOver/Safari i TalkBack/Chrome.
 
 ## Implementirane izmjene u ovom prolazu
 
@@ -160,3 +158,15 @@ Dodani su:
 - Workflow je zabilježio `listRole: presentation`, eksplicitna imena kontrola i skriveni dekorativni tekst. `navigationTabOrder` je prošao, a axe nije prijavio automatizirane povrede na pregledanim rutama. To potvrđuje samo DOM/automatizirane provjere; ne potvrđuje izgovor pri kretanju strelicama.
 - **Status:** otvoreno — ponavljanje „Science Behind” / „Our Tech” pri kretanju strelicama nije riješeno niti verificirano. Ne uklanjati dalje semantiku elemenata naslijepo. Potrebno je pregledati stvarni accessibility tree i DOM potomaka svake stavke, uključujući eventualne duple tekstualne čvorove koje generira animacijski/custom element, te provjeriti s NVDA/ScreenVox nakon ciljane izmjene.
 - Sljedeći korak: dodati dijagnostiku punog `outerHTML`/strukture potomaka stavki navigacije i izračunatog accessible name-a; zatim testirati promjenu na previewu i zatražiti ponovni NVDA/ScreenVox test. Playwright/axe ne mogu sami potvrditi govor čitača zaslona.
+
+## 10. Ispravak desktop navigacije i proširenje automatskih provjera
+
+- Uklonjeni su `role="none"` s top-level `li` elemenata i `role="presentation"` s navigacijskog `ul`. Nativna struktura liste je vraćena kako čitač zaslona ne bi izgovarao „none”.
+- Uklonjeni su redundantni `aria-label` atributi s top-level `summary` i link kontrola; naziv se sada izvodi iz vidljivog teksta.
+- Uklonjen je `aria-hidden="true"` s `magnet-element` wrappera, dok animacijski duplikat `.btn-duplicate` ostaje skriven. Time accessibility tree dobiva jedan vidljivi naziv.
+- Playwright dijagnostika provjerava native `ul/li` semantiku, odsutnost redundantnih naziva i skrivanje animacijskog duplikata.
+- Browser audit se sada izvršava i na push, ne samo ručnim `workflow_dispatch`. Zadane rute uključuju deset vrsta stranica, a target-size pregled obuhvaća linkove, gumbe i `summary` kontrole.
+- Shopify Theme Check i JSON validacija prošli su u workflowu #42934986286. Browser dio tog runa bio je u tijeku u trenutku ažuriranja.
+- Nije moguće programski potvrditi izgovor NVDA/ScreenVox samo iz DOM-a. Potrebna je nova ručna provjera na preview temi nakon što se promjena deploya.
+- Kontrast u svim merchant schemes, stvarni 200%/400% browser zoom, dinamički AJAX tokovi, cross-browser i third-party integracije i dalje zahtijevaju stvarne runtime testove. Automatizirani axe test pokriva samo stanje stranice koje je učitano.
+
