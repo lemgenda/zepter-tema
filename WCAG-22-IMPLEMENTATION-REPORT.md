@@ -117,7 +117,7 @@ Dodani su:
 - `.github/workflows/wcag-22.yml`: na push/pull request prema `wcag-22` pokreće Shopify Theme Check i JSON parse validaciju; manual `workflow_dispatch` s preview URL-om pokreće browser test.
 - `scripts/wcag-a11y-smoke.mjs`: Playwright + axe-core smoke test za desktop, 375 px i 320 px širine, uključujući WCAG axe pravila, prvi keyboard focus indikator, tekstualni spacing override, forced-colors/reduced-motion i popis malih interaktivnih targeta za ručni pregled.
 
-### 8. Završne automatizirane provjere
+## 8. Završne automatizirane provjere
 
 Workflow [#42963791626](https://github.com/lemgenda/zepter-tema/actions/runs/42963791626) (workflow #409), na grani `wcag-22`, commit `7de3af302af9407a2d04a59f0c1a32ff61927785`, završio je sa statusom **success**.
 
