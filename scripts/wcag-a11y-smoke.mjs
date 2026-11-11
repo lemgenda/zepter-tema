@@ -454,7 +454,15 @@ try {
             }
           }
           if (result.productVariantFlow.tested) {
-            await page.waitForTimeout(2500);
+            try {
+              await page.waitForFunction(({ initialId }) => {
+                const raw = document.querySelector('product-info [data-selected-variant]')?.textContent;
+                try { const current = raw ? JSON.parse(raw) : null; return Boolean(current?.id && current.id !== initialId); } catch { return false; }
+              }, { initialId }, { timeout: 15000 });
+            } catch (error) {
+              result.productVariantFlow.waitError = error.message;
+            }
+            await page.waitForTimeout(500);
             result.productVariantFlow = await page.evaluate(({ initialId }) => {
               const raw = document.querySelector('product-info [data-selected-variant]')?.textContent;
               let current = null;
