@@ -241,7 +241,17 @@
     "cookie-banner": {
       "name": "Cookie-Einstellungen"
     },
-    "beae-quickview-default": "Beae-Schnellansicht"
+    "beae-quickview-default": {
+      "name": "Beae-Schnellansicht",
+      "be42255992_html": "Mehr anzeigen",
+      "be42216636_html": "Weniger anzeigen",
+      "be649020154_html": "In den Warenkorb",
+      "be28375103_html": "Nicht vorrätig",
+      "be1182278043_html": "Zum Warenkorb hinzugefügt",
+      "be1538394658_html": "Ausverkauft",
+      "be1427617666_html": "Erfolgreich zum Warenkorb hinzugefügt",
+      "be719299147_html": "Optionen auswählen"
+    }
   },
   "blogs": {
     "article": {
@@ -493,7 +503,13 @@
       "read_more": "Alle Details anzeigen",
       "quick_add": "Hinzufügen",
       "quick_view": "Ansehen",
-      "quantity": "TODO"
+      "quantity": {
+        "0": "T",
+        "1": "O",
+        "2": "D",
+        "3": "O",
+        "label": "Anzahl"
+      }
     },
     "price": {
       "regular_price": "Normaler Preis",
