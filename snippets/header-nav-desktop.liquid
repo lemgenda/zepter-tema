@@ -7,7 +7,7 @@
   endunless
 -%}
 
-<ul class="flex flex-wrap{% unless section.settings.hover_menu %} gap-1{% endunless %} list-menu with-{{ section.settings.menu_active }}">
+<ul role="presentation" class="flex flex-wrap{% unless section.settings.hover_menu %} gap-1{% endunless %} list-menu with-{{ section.settings.menu_active }}">
   {%- for link in main_menu.links limit: limit offset: offset -%}
     {%- liquid
       assign enable_mega_menu = false
