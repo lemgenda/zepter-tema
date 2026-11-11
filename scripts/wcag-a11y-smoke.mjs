@@ -11,6 +11,7 @@ const defaultPaths = [
   '/',
   '/products/001-yellow',
   '/collections/all',
+  '/collections/all?sort_by=price-ascending&filter.p.m.custom.type2=gid%3A%2F%2Fshopify%2FMetaobject%2F103490912585&filter.p.m.custom.enviroment1=gid%3A%2F%2Fshopify%2FMetaobject%2F103493927241&pb=0',
   '/collections/all?sort_by=price-ascending&filter.p.m.custom.type2=gid%3A%2F%2Fshopify%2FMetaobject%2F103490552137',
   '/collections/outdoor',
   '/pages/faq',
