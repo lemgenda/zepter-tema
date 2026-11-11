@@ -488,3 +488,14 @@ button.clear.text-xs[type="reset"] {
   line-height: 1.25 !important;
   vertical-align: middle !important;
 }
+
+
+/* WCAG 2.5.8: ensure product-card text links meet the 24px minimum target size.
+   Keep the card layout intact while increasing the interactive line box. */
+.product-card__top > a.caption,
+.product-card__content .product-card__title {
+  display: inline-flex !important;
+  align-items: center !important;
+  min-block-size: 24px !important;
+  line-height: 1.25 !important;
+}
