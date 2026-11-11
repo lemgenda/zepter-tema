@@ -109,7 +109,7 @@ try {
                 nativeListItemSemantics: item.tagName === 'LI' && !item.hasAttribute('role'),
                 hasRedundantAriaLabel: Boolean(control?.getAttribute('aria-label') && control.textContent?.trim()),
                 textWrapperExposed: !textWrapper || !textWrapper.hasAttribute('aria-hidden'),
-                duplicateTextRemoved: !control?.querySelector('.btn-duplicate') || (control.querySelector('.btn-duplicate').getAttribute('aria-hidden') === 'true' && control.querySelector('.btn-duplicate').textContent.trim() === '' && Boolean(control.querySelector('.btn-duplicate').getAttribute('data-label'))),
+                decorativeCloneIsolated: !control?.querySelector('.btn-duplicate') || (control.querySelector('.btn-duplicate').getAttribute('aria-hidden') === 'true' && control.querySelector('.btn-duplicate').hasAttribute('inert') && control.querySelector('.btn-duplicate').textContent.trim() === '' && Boolean(control.querySelector('.btn-duplicate').getAttribute('data-label'))),
               };
             }),
           }));
@@ -359,8 +359,8 @@ try {
 
         if (result.axeViolations.length) failures.push(`${viewport.name} ${url}: axe reported ${result.axeViolations.length} violation(s)`);
         if (viewport.name === 'desktop' && result.diagnostics?.primaryNavigation?.some((nav) =>
-          !nav.nativeListSemantics || nav.items.some((item) => !item.nativeListItemSemantics || item.hasRedundantAriaLabel || !item.textWrapperExposed || !item.duplicateTextRemoved)
-        )) failures.push(`${viewport.name} ${url}: desktop navigation does not preserve native list semantics or exposes redundant labels/visible duplicate text`);
+          !nav.nativeListSemantics || nav.items.some((item) => !item.nativeListItemSemantics || item.hasRedundantAriaLabel || !item.textWrapperExposed || !item.decorativeCloneIsolated)
+        )) failures.push(`${viewport.name} ${url}: desktop navigation does not preserve native list semantics or exposes redundant labels or an interactive/accessibility-exposed animation clone`);
         if (result.navigationTabOrder?.applicable && !result.navigationTabOrder.passed) failures.push(`${viewport.name} ${url}: Tab after the logo does not focus the first primary navigation item`);
         if (result.focus && !result.focus.indicatorVisible) failures.push(`${viewport.name} ${url}: first Tab stop has no detectable focus indicator`);
         if (result.textSpacing?.horizontalOverflow) failures.push(`${viewport.name} ${url}: horizontal overflow with WCAG text-spacing overrides`);
