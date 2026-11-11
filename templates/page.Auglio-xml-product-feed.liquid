@@ -9,7 +9,7 @@
                     <PRODUCTNAME><![CDATA[{{ product.title | strip_html | strip_newlines | escape }}{% if product.variants.size > 1 %} - {{ variant.title | strip_html | strip_newlines | escape }}{% endif %}]]></PRODUCTNAME>
                     <DESCRIPTION><![CDATA[{{ product.description | strip_html | strip_newlines }}]]></DESCRIPTION>
                     <PRICE>{{ product.price | money_without_currency }}</PRICE>
-                    <IMGURL>{{ variant.featured_image | default: product.featured_image | img_url: '400x' | prepend: 'https:' }}</IMGURL>
+                    <IMGURL>{{ variant.featured_image | default: product.featured_image | image_url: width: 400 }}</IMGURL>
                     <URL>{{ shop.url }}{{ variant.url }}</URL>
                     <MANUFACTURER><![CDATA[{{product.vendor | escape }}]]></MANUFACTURER>
                     <CATEGORY>16</CATEGORY>
