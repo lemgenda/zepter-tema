@@ -335,28 +335,44 @@ try {
         });
 
         result.smallTargets = await page.evaluate(() => {
-          return Array.from(document.querySelectorAll('a[href], button, input:not([type="hidden"]), select, textarea, summary, [role="button"]'))
-            .filter((element) => {
-              const style = getComputedStyle(element);
-              const rect = element.getBoundingClientRect();
-              return !element.disabled && rect.width > 0 && rect.height > 0 &&
-                style.display !== 'none' && style.visibility !== 'hidden' &&
-                (rect.width < 24 || rect.height < 24);
-            })
-            .slice(0, 30)
-            .map((element) => {
-              const rect = element.getBoundingClientRect();
-              return {
-                tag: element.tagName,
-                id: element.id,
-                text: (element.getAttribute('aria-label') || element.textContent || '').trim().slice(0, 80),
-                selector: element.matches('a[href]') ? 'link' : element.tagName.toLowerCase(),
-                width: Math.round(rect.width),
-                height: Math.round(rect.height),
-              };
-            });
+          const selector = 'a[href], button, input:not([type="hidden"]), select, textarea, summary, [role="button"]';
+          const targets = Array.from(document.querySelectorAll(selector)).filter((element) => {
+            const style = getComputedStyle(element);
+            const rect = element.getBoundingClientRect();
+            return !element.disabled && rect.width > 0 && rect.height > 0 &&
+              style.display !== 'none' && style.visibility !== 'hidden';
+          });
+          return targets.filter((element) => {
+            const rect = element.getBoundingClientRect();
+            return rect.width < 24 || rect.height < 24;
+          }).slice(0, 50).map((element) => {
+            const rect = element.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            const neighbors = targets.filter((other) => other !== element).map((other) => {
+              const otherRect = other.getBoundingClientRect();
+              const dx = Math.max(otherRect.left - centerX, 0, centerX - otherRect.right);
+              const dy = Math.max(otherRect.top - centerY, 0, centerY - otherRect.bottom);
+              return { other, distance: Math.hypot(dx, dy) };
+            }).sort((a, b) => a.distance - b.distance);
+            const nearest = neighbors[0];
+            return {
+              tag: element.tagName,
+              id: element.id,
+              text: (element.getAttribute('aria-label') || element.textContent || '').trim().slice(0, 80),
+              selector: element.matches('a[href]') ? 'link' : element.tagName.toLowerCase(),
+              width: Math.round(rect.width),
+              height: Math.round(rect.height),
+              spacingExceptionCandidate: !neighbors.some((neighbor) => neighbor.distance < 12),
+              nearestTarget: nearest ? {
+                tag: nearest.other.tagName,
+                id: nearest.other.id || null,
+                text: (nearest.other.getAttribute('aria-label') || nearest.other.textContent || '').trim().slice(0, 60),
+                distanceFrom24pxCircle: Number(nearest.distance.toFixed(1))
+              } : null
+            };
+          });
         });
-
 
         // Contrast is a review queue, not an automatic failure: background images,
         // gradients, overlays and merchant-managed schemes need visual confirmation.
