@@ -253,7 +253,7 @@ Tax included.
 "mode": {"value": "live"},
 "type":"less_more","numberOfWords":100,"extendOptions":"{}","hasDescription":"{% if product.description != blank %}true{% else %}false{% endif %}"
 };</script><!----><!----></div><!----><!----><!----><!----><div class="beae-yjiwr3gq beae-block beae-core beae-animation" data-loopindex="0" data-uniqueid="zxih1t25"><!----><div class="beae-block beae-x-variant"><div class="beae-variant-wrapper"><div class="beae-variant-container beae-typo-p2">
-{% assign beae_has_variant_picker = true %}
+
 {% assign variant_selected = product.selected_or_first_available_variant %}
 {% assign store_colors = shop.metafields.beae.colors %}
 {% if product.has_only_default_variant %}
@@ -294,7 +294,7 @@ data-swatch-type="{{ beae_variant_color_selector_type }}"
 {%- endif -%}
 </div>
 
-{% assign is_dropdown = "false" %}
+
 
 {% if is_swatch == "true" %}
 {% if beae_variant_color_selector_type == 'dropdown_with_color' %}
