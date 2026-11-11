@@ -14,7 +14,7 @@
     </div>
 
     <div class="page rte {{ section.settings.text_size }}">
-      {{- page.content -}}
+      {{- page.content | replace: '<h1', '<h2' | replace: '</h1>', '</h2>' -}}
     </div>
   </div>
 </div>
