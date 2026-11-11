@@ -160,8 +160,7 @@ try {
               const control = item.locator(':scope > details > summary, :scope > a').first();
               const label = (await control.getAttribute('aria-label')) || (await control.innerText()).trim();
               const snapshot = await item.ariaSnapshot();
-              const escapedLabel = label.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&');
-              const occurrences = label ? (snapshot.match(new RegExp(escapedLabel, 'gi')) || []).length : 0;
+              const occurrences = label ? snapshot.toLowerCase().split(label.toLowerCase()).length - 1 : 0;
               itemReviews.push({ label, occurrences, snapshot });
             }
             result.primaryNavigationAccessibilityTree = {
