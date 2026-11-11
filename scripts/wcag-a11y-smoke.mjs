@@ -568,6 +568,38 @@ try {
         }
 
         if (path.startsWith('/collections/') || path.startsWith('/search')) {
+          // A collection URL with preselected Shopify facets must prove that the
+          // server-rendered facet controls reflect every query-string selection.
+          // This is separate from the live checkbox interaction below.
+          const requestedFacetParams = new URL(page.url()).searchParams;
+          const activeFacetExpectations = [
+            ['filter.p.m.custom.type2', 'gid://shopify/Metaobject/103490912585'],
+            ['filter.p.m.custom.enviroment1', 'gid://shopify/Metaobject/103493927241'],
+          ].filter(([name]) => requestedFacetParams.has(name));
+          if (activeFacetExpectations.length) {
+            const activeFacetState = await page.evaluate((expected) => expected.map(([name, value]) => {
+              const controls = Array.from(document.querySelectorAll('.facet-form input[name]'))
+                .filter((input) => input.name === name && input.value === value);
+              return {
+                name,
+                value,
+                controlCount: controls.length,
+                checkedCount: controls.filter((input) => input.checked).length,
+                checked: controls.some((input) => input.checked),
+                associatedLabelCount: controls.reduce((count, input) => count + (input.labels?.length || 0), 0),
+              };
+            }), activeFacetExpectations);
+            result.activeFacetState = {
+              expectedCount: activeFacetExpectations.length,
+              selectedCount: activeFacetState.filter((facet) => facet.checked).length,
+              facets: activeFacetState,
+              passed: activeFacetState.every((facet) => facet.checked),
+            };
+            if (!result.activeFacetState.passed) {
+              failures.push(`${viewport.name} ${url}: one or more URL-selected facets are not reflected as checked controls`);
+            }
+          }
+
           result.facetsInteraction = { tested: false, reason: 'No enabled facet checkbox with an exposed label was found.' };
           const drawerTrigger = page.locator('.facet-wrapper > button[aria-controls="FacetDrawer"]').first();
           if (await drawerTrigger.count() && await drawerTrigger.isVisible()) {
