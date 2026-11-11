@@ -567,31 +567,57 @@
     },
 
     initScrollableRegions() {
-      const labelRegion = (slider) => {
-        if (!(slider instanceof HTMLElement)) return;
-        const isScrollable = slider.scrollWidth > slider.clientWidth + 1;
+      const labelRegion = (region) => {
+        if (!(region instanceof HTMLElement)) return;
+        const isScrollable = region.scrollWidth > region.clientWidth + 1;
         if (!isScrollable) return;
 
-        if (!slider.hasAttribute('tabindex')) slider.setAttribute('tabindex', '0');
-        if (!slider.hasAttribute('role')) slider.setAttribute('role', 'region');
+        if (!region.hasAttribute('tabindex')) region.setAttribute('tabindex', '0');
+        if (!region.hasAttribute('role')) region.setAttribute('role', 'region');
 
-        if (!slider.hasAttribute('aria-label') && !slider.hasAttribute('aria-labelledby')) {
-          const section = slider.closest('.shopify-section');
+        if (!region.hasAttribute('aria-label') && !region.hasAttribute('aria-labelledby')) {
+          const section = region.closest('.shopify-section');
           const heading = section?.querySelector('h1, h2, h3, h4, h5, h6');
-          const name = heading?.textContent?.trim();
-          slider.setAttribute('aria-label', name || 'Scrollable content');
+          const caption = region.querySelector('caption')?.textContent?.trim();
+          const name = heading?.textContent?.trim() || caption;
+          region.setAttribute('aria-label', name || 'Scrollable content');
         }
       };
 
-      document.querySelectorAll('slider-element').forEach(labelRegion);
-      if ('MutationObserver' in window) {
-        const observer = new MutationObserver(() => {
-          document.querySelectorAll('slider-element').forEach(labelRegion);
+      const syncCarouselControls = () => {
+        document.querySelectorAll(
+          'button[is="previous-button"][aria-controls], button[is="next-button"][aria-controls]'
+        ).forEach((button) => {
+          const targetId = button.getAttribute('aria-controls');
+          const targetExists = Boolean(targetId && document.getElementById(targetId));
+
+          if (!targetExists) {
+            button.hidden = true;
+            button.setAttribute('aria-hidden', 'true');
+            button.dataset.a11yMissingCarouselTarget = 'true';
+          } else if (button.dataset.a11yMissingCarouselTarget === 'true') {
+            button.hidden = false;
+            button.removeAttribute('aria-hidden');
+            delete button.dataset.a11yMissingCarouselTarget;
+          }
         });
-        observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['class', 'style'] });
-        window.addEventListener('resize', () => {
-          document.querySelectorAll('slider-element').forEach(labelRegion);
-        }, { passive: true });
+      };
+
+      const syncRegions = () => {
+        document.querySelectorAll('slider-element, .pc-table_wrapper').forEach(labelRegion);
+        syncCarouselControls();
+      };
+
+      syncRegions();
+      if ('MutationObserver' in window) {
+        const observer = new MutationObserver(syncRegions);
+        observer.observe(document.body, {
+          childList: true,
+          subtree: true,
+          attributes: true,
+          attributeFilter: ['class', 'style', 'id', 'aria-controls']
+        });
+        window.addEventListener('resize', syncRegions, { passive: true });
       }
     },
 
