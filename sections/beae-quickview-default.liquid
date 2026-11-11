@@ -257,7 +257,7 @@ Tax included.
 {% assign variant_selected = product.selected_or_first_available_variant %}
 {% assign store_colors = shop.metafields.beae.colors %}
 {% if product.has_only_default_variant %}
-{% assign beae_has_variant_picker = false %}
+
 {% else %}
 {%- for option in product.options_with_values -%}
 {% assign option_index = option.position | minus: 1 %}
@@ -298,7 +298,7 @@ data-swatch-type="{{ beae_variant_color_selector_type }}"
 
 {% if is_swatch == "true" %}
 {% if beae_variant_color_selector_type == 'dropdown_with_color' %}
-  {% assign is_dropdown = "true" %}
+  
 <div class="beae-custom-select_wrp">
   <button class="beae-custom-select__btn" type="button" data-option-position="{{ option.position }}">
     <span class="beae-selected-color" {% if store_colors and store_colors.value[variant_selected.options[option_index]] != blank %} 

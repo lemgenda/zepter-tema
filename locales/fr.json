@@ -504,10 +504,6 @@
       "quick_add": "Ajouter",
       "quick_view": "Voir",
       "quantity": {
-        "0": "T",
-        "1": "O",
-        "2": "D",
-        "3": "O",
         "label": "Quantité"
       }
     },

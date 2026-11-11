@@ -228,7 +228,6 @@
                         assign available = target.available | default: false
                         assign money_price = price | money
                         if settings.product_card_show_currency_code
-                            assign money_price = price | money_with_currency
                         endif
                     -%}
                 
