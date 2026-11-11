@@ -139,6 +139,44 @@ try {
           };
         });
 
+
+        // Verify the first desktop navigation control is reachable immediately
+        // after the logo in the real keyboard tab sequence.
+        if (viewport.name === 'desktop') {
+          result.navigationTabOrder = await page.evaluate(() => {
+            const logo = document.querySelector('header .header__logo a[href="/"]');
+            const nav = document.querySelector('header nav[aria-label]');
+            if (!logo || !nav || !(logo.compareDocumentPosition(nav) & Node.DOCUMENT_POSITION_FOLLOWING)) {
+              return { applicable: false, reason: 'Logo does not precede primary navigation in this header layout.' };
+            }
+
+            const firstItem = nav.querySelector(':scope > ul > li:first-child');
+            const expected = firstItem?.querySelector(':scope > details > summary, :scope > a');
+            if (!expected) return { applicable: true, passed: false, reason: 'First primary navigation item has no direct summary or link.' };
+
+            logo.focus();
+            return {
+              applicable: true,
+              expectedText: (expected.getAttribute('aria-label') || expected.textContent || '').trim(),
+              expectedTag: expected.tagName,
+              expectedTabIndex: expected.tabIndex,
+            };
+          });
+          if (result.navigationTabOrder?.applicable) {
+            await page.keyboard.press('Tab');
+            result.navigationTabOrder.actual = await page.evaluate(() => {
+              const element = document.activeElement;
+              return {
+                tag: element?.tagName || null,
+                text: (element?.getAttribute('aria-label') || element?.textContent || '').trim().slice(0, 120),
+                isFirstPrimaryItem: Boolean(element?.matches('header nav[aria-label] > ul > li:first-child > details > summary, header nav[aria-label] > ul > li:first-child > a')),
+                tabIndex: element?.tabIndex ?? null,
+              };
+            });
+            result.navigationTabOrder.passed = result.navigationTabOrder.actual.isFirstPrimaryItem;
+          }
+        }
+
         const axe = await new AxeBuilder({ page })
           // Shopify's preview editor toolbar is injected outside the storefront and
           // is not part of the theme's accessibility surface.
@@ -317,6 +355,7 @@ try {
         if (viewport.name === 'desktop' && result.diagnostics?.primaryNavigation?.some((nav) =>
           nav.items.some((item) => !item.hasExplicitName || !item.decorativeTextHidden)
         )) failures.push(`${viewport.name} ${url}: desktop navigation contains an unnamed control or exposed decorative text clone`);
+        if (result.navigationTabOrder?.applicable && !result.navigationTabOrder.passed) failures.push(`${viewport.name} ${url}: Tab after the logo does not focus the first primary navigation item`);
         if (result.focus && !result.focus.indicatorVisible) failures.push(`${viewport.name} ${url}: first Tab stop has no detectable focus indicator`);
         if (result.textSpacing?.horizontalOverflow) failures.push(`${viewport.name} ${url}: horizontal overflow with WCAG text-spacing overrides`);
         if (result.reducedMotion?.autoplayElementsRemaining) failures.push(`${viewport.name} ${url}: autoplay media remains active with reduced motion enabled`);
