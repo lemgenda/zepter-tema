@@ -472,3 +472,19 @@ button.clear.text-xs[type="reset"] {
     forced-color-adjust: auto;
   }
 }
+
+
+/* Third-party PL Swatches product links: WCAG 2.5.8 target size and spacing.
+   These are cross-product navigation links, not native Shopify variant inputs. */
+#pl-swatches-embed-copied .pl-swatches__group--colors .pl-swatches__container > a[data-handle] {
+  box-sizing: border-box !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-inline-size: 48px !important;
+  min-block-size: 32px !important;
+  padding: 8px 12px !important;
+  margin: 6px !important;
+  line-height: 1.25 !important;
+  vertical-align: middle !important;
+}
