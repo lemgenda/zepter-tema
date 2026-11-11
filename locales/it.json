@@ -241,7 +241,17 @@
     "cookie-banner": {
       "name": "Preferenze cookie"
     },
-    "beae-quickview-default": "Visualizzazione rapida Beae"
+    "beae-quickview-default": {
+      "name": "Visualizzazione rapida Beae",
+      "be42255992_html": "Mostra altro",
+      "be42216636_html": "Mostra meno",
+      "be649020154_html": "Aggiungi al carrello",
+      "be28375103_html": "Esaurito",
+      "be1182278043_html": "Aggiunto al carrello",
+      "be1538394658_html": "Esaurito",
+      "be1427617666_html": "Aggiunto al carrello correttamente",
+      "be719299147_html": "Scegli le opzioni"
+    }
   },
   "blogs": {
     "article": {
@@ -493,7 +503,13 @@
       "read_more": "Visualizza tutti i dettagli",
       "quick_add": "Aggiungere",
       "quick_view": "Visualizza",
-      "quantity": "TODO"
+      "quantity": {
+        "0": "T",
+        "1": "O",
+        "2": "D",
+        "3": "O",
+        "label": "Quantità"
+      }
     },
     "price": {
       "regular_price": "Prezzo di listino",
