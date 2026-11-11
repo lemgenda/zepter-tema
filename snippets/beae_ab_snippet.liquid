@@ -4,7 +4,9 @@
     {% if shop.metafields.beae.measurement_id %}
     {% assign beae_helper = false %}
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    {% # theme-check-disable RemoteAsset %} <!-- Merchant-configured Beae Google Analytics integration. -->\n    <script async src="https://www.googletagmanager.com/gtag/js?id={{ shop.metafields.beae.measurement_id }}"></script>\n    {% # theme-check-enable RemoteAsset %}
+    {% # theme-check-disable RemoteAsset %} <!-- Merchant-configured Beae Google Analytics integration. -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ shop.metafields.beae.measurement_id }}"></script>
+    {% # theme-check-enable RemoteAsset %}
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
