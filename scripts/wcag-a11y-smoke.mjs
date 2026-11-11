@@ -335,7 +335,7 @@ try {
         });
 
         result.smallTargets = await page.evaluate(() => {
-          return Array.from(document.querySelectorAll('button, input:not([type="hidden"]), select, textarea, [role="button"]'))
+          return Array.from(document.querySelectorAll('a[href], button, input:not([type="hidden"]), select, textarea, summary, [role="button"]'))
             .filter((element) => {
               const style = getComputedStyle(element);
               const rect = element.getBoundingClientRect();
@@ -350,6 +350,7 @@ try {
                 tag: element.tagName,
                 id: element.id,
                 text: (element.getAttribute('aria-label') || element.textContent || '').trim().slice(0, 80),
+                selector: element.matches('a[href]') ? 'link' : element.tagName.toLowerCase(),
                 width: Math.round(rect.width),
                 height: Math.round(rect.height),
               };
