@@ -227,14 +227,15 @@
       "step_error": "You can only add this item in increments of {{ step }}"
     },
     "beae-quickview-default": {
-      "be42255992_html": "TODO",
-      "be42216636_html": "TODO",
-      "be649020154_html": "TODO",
-      "be28375103_html": "TODO",
-      "be1182278043_html": "TODO",
-      "be1538394658_html": "TODO",
-      "be1427617666_html": "TODO",
-      "be719299147_html": "TODO"
+      "be42255992_html": "Show more",
+      "be42216636_html": "Show less",
+      "be649020154_html": "Add to cart",
+      "be28375103_html": "Out of stock",
+      "be1182278043_html": "Added to cart",
+      "be1538394658_html": "Sold out",
+      "be1427617666_html": "Added to cart successfully",
+      "be719299147_html": "Choose options",
+      "name": "Beae Quick View"
     },
     "header": {
       "primary_navigation": "Primary navigation",
