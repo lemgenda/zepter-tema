@@ -55,7 +55,11 @@ jobs:
               if (entry.isDirectory()) await walk(path);
               else if (entry.isFile() && path.endsWith('.json')) {
                 try {
-                  JSON.parse(await readFile(path, 'utf8'));
+                  // Some Shopify-exported JSON files have a leading
+                  // block-comment banner. Strip only leading comments
+                  // before validating the actual JSON payload.
+                  const source = (await readFile(path, 'utf8')).replace(/^\\uFEFF?\\s*(?:\\/\\*[\\s\\S]*?\\*\\/\\s*)+/, '');
+                  JSON.parse(source);
                 } catch (error) {
                   console.error(path + ': ' + error.message);
                   process.exitCode = 1;
