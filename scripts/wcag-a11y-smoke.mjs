@@ -541,13 +541,15 @@ try {
           // PL Swatches renders cross-product links, not Shopify variant inputs.
           // Test that separate interaction honestly instead of reporting it as a variant change.
           const currentHandle = new URL(page.url()).pathname.split('/').filter(Boolean).pop();
-          const alternateHandle = await page.locator('#pl-swatches-embed-copied a[data-handle]').evaluateAll((anchors, current) =>
-            anchors.find((anchor) => anchor.dataset.handle && anchor.dataset.handle !== current)?.dataset.handle || null,
+          const swatchSelector = '#pl-swatches-embed-copied a[data-handle]';
+          const alternateIndex = await page.locator(swatchSelector).evaluateAll((anchors, current) =>
+            anchors.findIndex((anchor) => anchor.dataset.handle && anchor.dataset.handle !== current),
             currentHandle
           );
-          if (alternateHandle) {
-            const targetSwatch = page.locator(`#pl-swatches-embed-copied a[data-handle="${CSS.escape(alternateHandle)}"]`).first();
-            if (await targetSwatch.count()) {
+          if (alternateIndex >= 0) {
+            const targetSwatch = page.locator(swatchSelector).nth(alternateIndex);
+            const alternateHandle = await targetSwatch.getAttribute('data-handle');
+            if (alternateHandle) {
               await targetSwatch.click();
               try {
                 await page.waitForFunction((handle) => location.pathname.endsWith('/' + handle), alternateHandle, { timeout: 10000 });
