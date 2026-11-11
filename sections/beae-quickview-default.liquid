@@ -74,7 +74,7 @@ assign beae_ct_page_handle = ''
 {% when 'image' %}
 <div class="beae-slide-item" data-index="{{ forloop.index0 }}" data-media-id="{{ media.id  }}" type="{{media.media_type}}">
   <img
-    src="{{ media | img_url: 'master' }}"
+    src="{{ media | image_url }}"
     alt="{{ media.alt | escape | default: 'Product Image' }}"
     width="{{ media.preview_image.width | default: 915 }}"
     height="{{ media.preview_image.height | default: 915 }}"
@@ -86,7 +86,7 @@ assign beae_ct_page_handle = ''
   <img
     preview
     style="display: none !important;"
-    src="{{ media.preview_image | img_url: 'master' }}"
+    src="{{ media.preview_image | image_url }}"
     alt="{{ media.preview_image.alt | escape | default: 'Product Image' }}"
     width="{{ media.preview_image.width | default: 915 }}"
     height="{{ media.preview_image.height | default: 915 }}"
@@ -99,7 +99,7 @@ assign beae_ct_page_handle = ''
   <img
     preview
     style="display: none !important;"
-    src="{{ media.preview_image | img_url: 'master' }}"
+    src="{{ media.preview_image | image_url }}"
     alt="{{ media.preview_image.alt | escape | default: 'Product Image' }}"
     width="{{ media.preview_image.width | default: 915 }}"
     height="{{ media.preview_image.height | default: 915 }}"
@@ -112,7 +112,7 @@ assign beae_ct_page_handle = ''
   <img
     preview
     style="display: none !important;"
-    src="{{ media.preview_image | img_url: 'master' }}"
+    src="{{ media.preview_image | image_url }}"
     alt="{{ media.preview_image.alt | escape | default: 'Product Image' }}"
     width="{{ media.preview_image.width | default: 915 }}"
     height="{{ media.preview_image.height | default: 915 }}"
