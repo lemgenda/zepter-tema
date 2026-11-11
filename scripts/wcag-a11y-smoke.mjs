@@ -97,6 +97,8 @@ try {
           const headings = Array.from(document.querySelectorAll('h1')).map(describe);
           const primaryNavigation = Array.from(document.querySelectorAll('header nav[aria-label]')).map((nav) => ({
             label: nav.getAttribute('aria-label'),
+            listRole: nav.querySelector(':scope > ul')?.getAttribute('role') || null,
+            listSemanticsSuppressed: nav.querySelector(':scope > ul')?.getAttribute('role') === 'presentation',
             items: Array.from(nav.querySelectorAll(':scope > ul > li')).map((item) => {
               const control = item.querySelector(':scope > details > summary, :scope > a');
               const textWrapper = control?.querySelector(':scope > magnet-element');
@@ -353,8 +355,8 @@ try {
 
         if (result.axeViolations.length) failures.push(`${viewport.name} ${url}: axe reported ${result.axeViolations.length} violation(s)`);
         if (viewport.name === 'desktop' && result.diagnostics?.primaryNavigation?.some((nav) =>
-          nav.items.some((item) => !item.hasExplicitName || !item.decorativeTextHidden)
-        )) failures.push(`${viewport.name} ${url}: desktop navigation contains an unnamed control or exposed decorative text clone`);
+          !nav.listSemanticsSuppressed || nav.items.some((item) => !item.hasExplicitName || !item.decorativeTextHidden)
+        )) failures.push(`${viewport.name} ${url}: desktop navigation exposes list-item announcements, an unnamed control, or decorative text clones`);
         if (result.navigationTabOrder?.applicable && !result.navigationTabOrder.passed) failures.push(`${viewport.name} ${url}: Tab after the logo does not focus the first primary navigation item`);
         if (result.focus && !result.focus.indicatorVisible) failures.push(`${viewport.name} ${url}: first Tab stop has no detectable focus indicator`);
         if (result.textSpacing?.horizontalOverflow) failures.push(`${viewport.name} ${url}: horizontal overflow with WCAG text-spacing overrides`);
