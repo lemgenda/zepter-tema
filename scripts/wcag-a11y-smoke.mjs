@@ -73,11 +73,12 @@ try {
         // are not rendered or styled by this theme. Record the redirect clearly
         // without treating the external account UI as a theme accessibility failure.
         if (result.finalUrl && new URL(result.finalUrl).origin !== previewBase.origin) {
+          // Customer Accounts can be hosted by Shopify on a separate origin.
+          // They are outside theme styling control, but their rendered UI still
+          // receives the same axe, keyboard, target-size and text-spacing audit.
           result.externalRedirect = true;
           result.externalOrigin = new URL(result.finalUrl).origin;
-          result.skippedReason = 'Route redirects to a separately hosted service outside the theme control surface.';
-          report.push(result);
-          continue;
+          result.externalAuditScope = 'Rendered external destination audited; theme-level styling remains outside this repository.';
         }
 
         await page.waitForTimeout(1200);
@@ -427,9 +428,22 @@ try {
               selector: element.matches('a[href]') ? 'link' : element.tagName.toLowerCase(),
               width: Math.round(rect.width),
               height: Math.round(rect.height),
-              inlineTextLinkException: element.matches('a[href]') && Boolean(element.closest('p, li, blockquote, figcaption, .rte')),
+              // WCAG 2.5.8's inline-link exception is deliberately narrow:
+              // a genuine inline link in prose, not every link inside an <li>.
+              inlineTextLinkException: element.matches('a[href]') &&
+                getComputedStyle(element).display === 'inline' &&
+                Boolean(element.closest('p, blockquote, figcaption, .rte')) &&
+                !element.closest('nav, header, footer, [role="navigation"]'),
               spacingExceptionCandidate: !neighbors.some((neighbor) => neighbor.distance < 12),
-              needsRemediation: !(element.matches('a[href]') && Boolean(element.closest('p, li, blockquote, figcaption, .rte'))) && neighbors.some((neighbor) => neighbor.distance < 12),
+              needsRemediation: !(element.matches('a[href]') &&
+                getComputedStyle(element).display === 'inline' &&
+                Boolean(element.closest('p, blockquote, figcaption, .rte')) &&
+                !element.closest('nav, header, footer, [role="navigation"]')) &&
+                neighbors.some((neighbor) => neighbor.distance < 12),
+              manualReviewRequired: !neighbors.some((neighbor) => neighbor.distance < 12) &&
+                !(element.matches('a[href]') && getComputedStyle(element).display === 'inline' &&
+                  Boolean(element.closest('p, blockquote, figcaption, .rte')) &&
+                  !element.closest('nav, header, footer, [role="navigation"]')),
               nearestTarget: nearest ? {
                 tag: nearest.other.tagName,
                 id: nearest.other.id || null,
@@ -804,11 +818,13 @@ try {
   await browser.close();
 }
 
-console.log(JSON.stringify(report, null, 2));
+const reportJson = JSON.stringify(report, null, 2);
+console.log(reportJson);
+await (await import('node:fs/promises')).writeFile('wcag-a11y-report.json', reportJson + '\n');
 if (failures.length) {
   console.error('\nAccessibility smoke-test failures:');
   failures.forEach((failure) => console.error('- ' + failure));
   process.exitCode = 1;
 } else {
-  console.log('\nAccessibility smoke tests passed. Review smallTargets manually for WCAG 2.5.8 exceptions and context.');
+  console.log('\nAccessibility smoke tests passed. See wcag-a11y-report.json for external-route results and the small-target manual-review queue.');
 }
