@@ -11,7 +11,7 @@
                     <PRICE>{{ product.price | money_without_currency }}</PRICE>
                     <IMGURL>{{ variant.featured_image | default: product.featured_image | image_url: width: 400 }}</IMGURL>
                     <URL>{{ shop.url }}{{ variant.url }}</URL>
-                    <MANUFACTURER><![CDATA[{{product.vendor | escape }}]]></MANUFACTURER>
+                    <MANUFACTURER><![CDATA[{{ product.vendor | escape }}]]></MANUFACTURER>
                     <CATEGORY>16</CATEGORY>
                     <SEX>U</SEX>
                     <EAN>{{ variant.sku }}</EAN>

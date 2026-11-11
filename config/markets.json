@@ -1,1 +1,13 @@
-{"markets":{"united-states":{"parent":"@default"},"international":{"parent":"@default"},"pl":{"parent":"@default"}}}
+{
+  "markets": {
+    "united-states": {
+      "parent": "@default"
+    },
+    "international": {
+      "parent": "@default"
+    },
+    "pl": {
+      "parent": "@default"
+    }
+  }
+}

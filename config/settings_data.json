@@ -1,12 +1,3 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "current": {
     "logo": "shopify://shop_images/HyperlightOpticsLogoXBioptron_1357a84b-c780-411c-84eb-6a9072acd87e.svg",
@@ -168,27 +159,33 @@
         }
       }
     },
-    "content_for_index": [],
+    "content_for_index": [
+
+    ],
     "blocks": {
       "17870575607751922699": {
         "type": "shopify://apps/platmart-swatches/blocks/product-swatches/3d4801b8-13e2-488f-8d06-69ca04fc155d",
         "disabled": false,
-        "settings": {}
+        "settings": {
+        }
       },
       "16622749705097440781": {
         "type": "shopify://apps/platmart-swatches/blocks/collection-swatches/3d4801b8-13e2-488f-8d06-69ca04fc155d",
         "disabled": false,
-        "settings": {}
+        "settings": {
+        }
       },
       "7709396684840320309": {
         "type": "shopify://apps/socialwidget-instafeed/blocks/social-widget/508b8d5b-b176-4dc6-a0ba-2b222db6eb79",
         "disabled": false,
-        "settings": {}
+        "settings": {
+        }
       },
       "17507259506930353636": {
         "type": "shopify://apps/byterain-smooth-scroll/blocks/app-embed/56750016-72e3-4262-aed3-c79c60d21ca7",
         "disabled": false,
-        "settings": {}
+        "settings": {
+        }
       },
       "15683396631634586217": {
         "type": "shopify://apps/inbox/blocks/chat/841fc607-4181-4ad1-842d-e24d7f8bad6b",
@@ -205,7 +202,8 @@
       "5550728556201851227": {
         "type": "shopify://apps/glc-geolocation/blocks/selector/e347b539-0714-46e4-9e69-23a73992ae3a",
         "disabled": true,
-        "settings": {}
+        "settings": {
+        }
       },
       "5858961087409699889": {
         "type": "shopify://apps/geolocation-orbe/blocks/app-embed-footer-selector/7cb09287-cd2b-4646-837c-f1f9b6ea703e",
@@ -266,52 +264,62 @@
       "8669066016853369741": {
         "type": "shopify://apps/hotjar-install/blocks/global/2903e4ea-7615-463e-8b60-582f487dac4f",
         "disabled": false,
-        "settings": {}
+        "settings": {
+        }
       },
       "back-in-stock-restock-alerts-4bb73be2-b7c2-4870-949f-c528145452a3": {
         "type": "shopify://apps/stoq/blocks/main/4bb73be2-b7c2-4870-949f-c528145452a3",
         "disabled": true,
-        "settings": {}
+        "settings": {
+        }
       },
       "10142937387702430166": {
         "type": "shopify://apps/timesact-pre-order/blocks/app-embed/bf6c109b-79b5-457c-8752-0e5e9e9676e7",
         "disabled": false,
-        "settings": {}
+        "settings": {
+        }
       },
       "14826766009936288847": {
         "type": "shopify://apps/discounty/blocks/sdk/d65eb522-0d94-499f-9831-d4b3301f5340",
         "disabled": false,
-        "settings": {}
+        "settings": {
+        }
       },
       "17368511000352060744": {
         "type": "shopify://apps/goaffpro-affiliate-marketing/blocks/goaffpro-embedded-pixel/2f4d802b-86c2-47e4-8096-ae1aa3efbab2",
         "disabled": false,
-        "settings": {}
+        "settings": {
+        }
       },
       "6858403126979251294": {
         "type": "shopify://apps/consentik-cookie/blocks/omega-cookies-notification/13cba824-a338-452e-9b8e-c83046a79f21",
         "disabled": false,
-        "settings": {}
+        "settings": {
+        }
       },
       "316487575649303945": {
         "type": "shopify://apps/easify-options/blocks/app-embed-block/d2288b18-c1ba-42f5-b3b3-26c75c8820bf",
         "disabled": false,
-        "settings": {}
+        "settings": {
+        }
       },
       "13650390699542216616": {
         "type": "shopify://apps/accessibility-spark/blocks/widget/36895fac-ec38-47a0-807c-7397daa6ec4e",
         "disabled": false,
-        "settings": {}
+        "settings": {
+        }
       },
       "2783554875815837874": {
         "type": "shopify://apps/avada-accessibility/blocks/app-embed/0ab9368b-426b-42b4-93ea-63d9c8e88707",
         "disabled": false,
-        "settings": {}
+        "settings": {
+        }
       },
       "15614416626742018354": {
         "type": "shopify://apps/userway-website-accessibility/blocks/uw-widget-extension/bc2d8a34-1a37-451b-ab1a-271bc4e9daa7",
         "disabled": false,
-        "settings": {}
+        "settings": {
+        }
       }
     }
   },

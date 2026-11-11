@@ -298,7 +298,7 @@
                                 <div class="sp-variant-option">
                                     {% comment %} PRODUCT COLORS SWATCH START {% endcomment %}
                                     {% assign variants = product.variants %}
-                                    {% assign count_variant  = product.has_only_default_variant %}
+                                    
                                     {% if settings.product_card_show_color_swatches and variants %}
                                         {% assign colorSwatcheKey = appId.colorSwatchKey.value | downcase %}
                                         {% assign colorSwatches = appId.colorSwatches.value %}
@@ -524,7 +524,7 @@
                     {% comment %} PRODUCT RATING END {% endcomment %}
 
                     {% comment %} PRODUCT PRICE START {% endcomment %}
-                    {% assign use_variant = true %}
+                    
                     {% assign show_compare_at_price = true %}
                     {% assign currency_code_enabled = true %}
                     {% if settings.product_card_show_price %}
@@ -540,7 +540,6 @@
                             assign available = target.available | default: false
                             assign money_price = price | money
                             if product_card_show_currency_code
-                                assign money_price = price | money_with_currency
                             endif
                         -%}
                     
@@ -591,7 +590,7 @@
                                         {%- assign variant_option = 'option' | append: forloop.index -%}
 
                                         {%- for value in option.values -%}
-                                            {%- assign downcased_value = value | downcase -%}
+                                            
                                             {%- capture color_id -%}{{ section.id }}-{{ product.id }}-{% increment color_index %}{%- endcapture -%}
 
                                             {%- for variant in product.variants -%}

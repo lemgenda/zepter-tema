@@ -511,7 +511,10 @@
       "xr_button_label": "View in your space, loads item in augmented reality window",
       "read_more": "View full details",
       "quick_add": "Add",
-      "quick_view": "View"
+      "quick_view": "View",
+      "quantity": {
+        "label": "TODO"
+      }
     },
     "price": {
       "regular_price": "Regular price",

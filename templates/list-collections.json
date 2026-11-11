@@ -1,1 +1,69 @@
-{"sections":{"main":{"type":"main-list-collections","custom_css":["h2 {font-family: VideoBold, \"Video Bold\", video-bold, -apple-system, sans-serif; font-size: 5vw; line-height: 5vw; letter-spacing: -0.3vw; text-transform: uppercase;}","@media (max-width: 768px) {.h2 {font-size: 9vw; line-height: 7vw; letter-spacing: -0.7vw; }}"],"settings":{"display_type":"all","sort":"products_high","image_type":"collection","image_ratio":"square","overlay_content":true,"show_products_count":true,"columns":3,"columns_mobile":"1","heading":"Collections","heading_size":"title-xl tracking-heading","heading_alignment":"text-left","heading_tag":"h2","padding_top":72,"padding_bottom":120,"divider":false,"full_width":false,"rounded":false}},"recently_viewed_HbtQkg":{"type":"recently-viewed","custom_css":["h2 {font-family: VideoBold, \"Video Bold\", video-bold, -apple-system, sans-serif; font-size: 5vw; line-height: 5vw; letter-spacing: -0.3vw; text-transform: uppercase;}","@media (max-width: 768px) {h2 {font-size: 9vw; line-height: 7vw; letter-spacing: -0.7vw; }}"],"settings":{"product_limit":6,"columns":4,"carousel_on_desktop":true,"columns_mobile":"1","swipe_on_mobile":true,"heading":"Recently viewed","heading_size":"title-md","heading_alignment":"text-left md:items-end md:flex-row","heading_tag":"h2","subheading":"","description":"","highlighted_text":"none","highlighted_scribble":"circle","color_text":"","color_background":"","gradient_background":"","color_highlight":"","gradient_highlight":"","color_button_text":"","color_button_background":"","color_button_gradient":"","padding_top":72,"padding_bottom":72,"divider":false,"full_width":false,"rounded":false}}},"order":["main","recently_viewed_HbtQkg"]}
+{
+  "sections": {
+    "main": {
+      "type": "main-list-collections",
+      "custom_css": [
+        "h2 {font-family: VideoBold, \"Video Bold\", video-bold, -apple-system, sans-serif; font-size: 5vw; line-height: 5vw; letter-spacing: -0.3vw; text-transform: uppercase;}",
+        "@media (max-width: 768px) {.h2 {font-size: 9vw; line-height: 7vw; letter-spacing: -0.7vw; }}"
+      ],
+      "settings": {
+        "display_type": "all",
+        "sort": "products_high",
+        "image_type": "collection",
+        "image_ratio": "square",
+        "overlay_content": true,
+        "show_products_count": true,
+        "columns": 3,
+        "columns_mobile": "1",
+        "heading": "Collections",
+        "heading_size": "title-xl tracking-heading",
+        "heading_alignment": "text-left",
+        "heading_tag": "h2",
+        "padding_top": 72,
+        "padding_bottom": 120,
+        "divider": false,
+        "full_width": false,
+        "rounded": false
+      }
+    },
+    "recently_viewed_HbtQkg": {
+      "type": "recently-viewed",
+      "custom_css": [
+        "h2 {font-family: VideoBold, \"Video Bold\", video-bold, -apple-system, sans-serif; font-size: 5vw; line-height: 5vw; letter-spacing: -0.3vw; text-transform: uppercase;}",
+        "@media (max-width: 768px) {h2 {font-size: 9vw; line-height: 7vw; letter-spacing: -0.7vw; }}"
+      ],
+      "settings": {
+        "product_limit": 6,
+        "columns": 4,
+        "carousel_on_desktop": true,
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "heading": "Recently viewed",
+        "heading_size": "title-md",
+        "heading_alignment": "text-left md:items-end md:flex-row",
+        "heading_tag": "h2",
+        "subheading": "",
+        "description": "",
+        "highlighted_text": "none",
+        "highlighted_scribble": "circle",
+        "color_text": "",
+        "color_background": "",
+        "gradient_background": "",
+        "color_highlight": "",
+        "gradient_highlight": "",
+        "color_button_text": "",
+        "color_button_background": "",
+        "color_button_gradient": "",
+        "padding_top": 72,
+        "padding_bottom": 72,
+        "divider": false,
+        "full_width": false,
+        "rounded": false
+      }
+    }
+  },
+  "order": [
+    "main",
+    "recently_viewed_HbtQkg"
+  ]
+}

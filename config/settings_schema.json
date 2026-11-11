@@ -1148,13 +1148,12 @@
         "default": true,
         "label": "t:settings_schema.social-media.settings.share_telegram.label"
       },
-
-  {
-    "type": "checkbox",
-    "id": "share_whatsapp",
-    "default": true,
-    "label": "t:settings_schema.social-media.settings.share_whatsapp.label"
-  },
+      {
+        "type": "checkbox",
+        "id": "share_whatsapp",
+        "default": true,
+        "label": "t:settings_schema.social-media.settings.share_whatsapp.label"
+      },
       {
         "type": "checkbox",
         "id": "share_email",

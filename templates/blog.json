@@ -1,1 +1,35 @@
-{"sections":{"main-blog":{"type":"main-blog","custom_css":["h2 {font-family: VideoBold, \"Video Bold\", video-bold, -apple-system, sans-serif; font-size: 5vw; line-height: 5vw; letter-spacing: -0.3vw; text-transform: uppercase;}","@media (max-width: 768px) {h2 {font-size: 9vw; line-height: 7vw; letter-spacing: -0.7vw; }}"],"settings":{"heading_size":"title-xl tracking-heading","heading_alignment":"text-left justify-start","heading_tag":"h2","subheading":"Insights, innovation, and more—explore our blog.","description":"","show_tag_filter":true,"per_page":9,"layout":"collage","image_ratio":"landscape","show_tags":true,"show_date":false,"show_comments":false,"show_author":false,"show_excerpt":true,"padding_top":120,"padding_bottom":120,"divider":false,"full_width":true,"rounded":true}}},"order":["main-blog"]}
+{
+  "sections": {
+    "main-blog": {
+      "type": "main-blog",
+      "custom_css": [
+        "h2 {font-family: VideoBold, \"Video Bold\", video-bold, -apple-system, sans-serif; font-size: 5vw; line-height: 5vw; letter-spacing: -0.3vw; text-transform: uppercase;}",
+        "@media (max-width: 768px) {h2 {font-size: 9vw; line-height: 7vw; letter-spacing: -0.7vw; }}"
+      ],
+      "settings": {
+        "heading_size": "title-xl tracking-heading",
+        "heading_alignment": "text-left justify-start",
+        "heading_tag": "h2",
+        "subheading": "Insights, innovation, and more—explore our blog.",
+        "description": "",
+        "show_tag_filter": true,
+        "per_page": 9,
+        "layout": "collage",
+        "image_ratio": "landscape",
+        "show_tags": true,
+        "show_date": false,
+        "show_comments": false,
+        "show_author": false,
+        "show_excerpt": true,
+        "padding_top": 120,
+        "padding_bottom": 120,
+        "divider": false,
+        "full_width": true,
+        "rounded": true
+      }
+    }
+  },
+  "order": [
+    "main-blog"
+  ]
+}

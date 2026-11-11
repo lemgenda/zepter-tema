@@ -30,7 +30,7 @@
 
     </style>
     {%- assign share_link = product.selected_variant.url | default: product.url | prepend: request.origin -%}
-    {%- assign share_image = product.featured_image | image_url: width: 1024, height: 1024 -%}
+    
     {%- assign share_title = product.title | url_param_escape -%}
     <button class="sp-share-button body-font sp-text-{{ setting.text_style }}" data-type="{{ setting.button_type }}">
         {% if setting.icon != null %}

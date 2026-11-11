@@ -1,1 +1,1103 @@
-{"sections":{"empty_space_6e6Trk":{"type":"empty-space","name":"t:sections.empty-space.presets.name","settings":{"desktop_height":40,"mobile_height":28,"color_background":"","gradient_background":""}},"main-product":{"type":"main-product","blocks":{"breadcrumb_wmRfrE":{"type":"breadcrumb","settings":{"show_collections_link":true}},"title":{"type":"title","settings":{"title_size":"product-title-md","title_size_mobile":"product-title-md","show_price":true,"show_rating":true}},"sku_iyUJqV":{"type":"sku","settings":{}},"description":{"type":"description","settings":{"text_size":"text-base lg:text-lg"}},"vendor":{"type":"text","settings":{"text":"Type: <strong>{{ product.metafields.custom.type2.value.type_1.value }}<\/strong>","text_size":"text-base"}},"text_hYiUQx":{"type":"text","settings":{"text":"Environment:<strong> <\/strong><strong>{{ product.metafields.custom.enviroment1 | metafield_text: field: 'enviroment' }}<\/strong>","text_size":"text-base"}},"text_qrN8hH":{"type":"text","settings":{"text":"Color:<strong> <\/strong><strong>{{ product.metafields.custom.color.value.label.value }}<\/strong>","text_size":"text-base"}},"countdown":{"type":"countdown","settings":{"heading":"Hurry up!","subheading":"Sale end in:","color_text":"#e11d48","color_background":"#fff1f2","gradient_background":""}},"variant_picker":{"type":"variant_picker","settings":{"show_variant_labels":true,"picker_type":"button","enable_color_swatches":true,"color_swatch_type":"color","size_chart":""}},"inventory":{"type":"inventory","settings":{"inventory_threshold":2,"show_inventory_transfer":true,"show_inventory_quantity":"low","color_scheme":"accent-1"}},"text_4bJyPE":{"type":"text","settings":{"text":"<strong>Pair & Spare — Add 2 or more optics, get 10% off.<\/strong>","text_size":"text-base lg:text-lg"}},"buy_buttons":{"type":"buy_buttons","settings":{"show_quantity_selector":true,"show_dynamic_checkout":false,"show_gift_card_recipient":true,"enable_back_in_stock":false,"show_back_in_stock_name":false,"show_back_in_stock_phone":false}},"pickup_availability":{"type":"pickup_availability","settings":{}},"share":{"type":"share","settings":{"share_label":"Share","show_help_desk":true,"help_label":"Need help?","help_type":"page","help_page":"faq"}},"complementary":{"type":"complementary","settings":{"heading":"Pairs well with","product_limit":4,"show_vendor":false,"show_price":true}},"sticky_buy_button":{"type":"sticky_buy_button","settings":{}}},"block_order":["breadcrumb_wmRfrE","title","sku_iyUJqV","description","vendor","text_hYiUQx","text_qrN8hH","countdown","variant_picker","inventory","text_4bJyPE","buy_buttons","pickup_availability","share","complementary","sticky_buy_button"],"custom_css":[".product__text.rte.text-base + .product__text.rte.text-base,.product__text.rte.text-base,.product__sku {margin: 0 !important;}",".product__sku {font-size: 0.8rem; background: #f3f4f6; border-radius: 0.3rem; padding: 0.25rem 0.5rem; display: inline-block; color: #6b7280;}",".product__text.rte.text-base {color: #6b7280;}",".product__text.rte.text-base strong {font-weight: 400; color: #000;}",".Typography_root__eF_Ml {color: #000;}"],"settings":{"enable_sticky_info":true,"media_size":66,"gallery_layout":"thumbnail","thumbnail_position":"below","image_ratio":"adapt","image_zoom":"lightbox","hide_variants":false,"enable_video_autoplay":true,"enable_video_looping":true,"mobile_layout":"full_width","image_ratio_mobile":"adapt_first","mobile_thumbnail":false,"padding_top":0,"padding_bottom":16,"divider":false,"full_width":true,"rounded":false}},"help-drawer":{"type":"help-drawer","blocks":{"content-1":{"type":"content","settings":{"icon":"rocket","heading":"Shipping Information","text":"<p>Use this text to answer questions in as much detail as possible for your customers.<\/p>","highlighted_text":"none","highlighted_scribble":"circle","color_text":"#b45309","color_background":"#fffbeb","gradient_background":"","color_highlight":"#ffddbf","gradient_highlight":""}},"content-2":{"type":"content","settings":{"icon":"headphone","heading":"Customer Support","text":"<p>Use this text to answer questions in as much detail as possible for your customers.<\/p>","highlighted_text":"none","highlighted_scribble":"circle","color_text":"#0369a1","color_background":"#f0f9ff","gradient_background":"","color_highlight":"#ffddbf","gradient_highlight":""}},"content-3":{"type":"content","settings":{"icon":"chat_bubble","heading":"FAQ’s","text":"<p>Use this text to answer questions in as much detail as possible for your customers.<\/p>","highlighted_text":"none","highlighted_scribble":"circle","color_text":"#be123c","color_background":"#fff1f2","gradient_background":"","color_highlight":"#ffddbf","gradient_highlight":""}},"content-4":{"type":"content","settings":{"icon":"phone","heading":"Contact Us","text":"<p>Use this text to answer questions in as much detail as possible for your customers.<\/p>","highlighted_text":"none","highlighted_scribble":"circle","color_text":"#4d7c0f","color_background":"#f7fee7","gradient_background":"","color_highlight":"#ffddbf","gradient_highlight":""}}},"block_order":["content-1","content-2","content-3","content-4"],"settings":{"heading":"Need help?","description":"<p>If you have any questions, you are always welcome to contact us. We'll get back to you as soon as possible, within 24 hours on weekdays.<\/p>"}},"product_details_zLqMHy":{"type":"product-details","blocks":{"collapsible_tab_RUr9bM":{"type":"collapsible_tab","settings":{"icon":"none","icon_width":20,"heading":"Details","content":"<h6><strong>WHY IT IS DIFFERENT<\/strong><\/h6><p>Ordinary glasses are designed to block, filter, or darken light. Hyperlight Optics®️ goes beyond traditional eyewear by using proprietary ZC60-X™ nanophotonic technology engineered to intelligently restructure incoming light into a more balanced and biologically compatible form. The result is a visual experience designed to feel calmer, clearer, less aggressive to the eyes and brain, and more supportive of modern high-performance lifestyles.<\/p><p>More than vision correction. More than blue-light protection. A new way of experiencing light.<\/p><h6><strong>BENEFITS<\/strong><\/h6><p>• Reduced eye strain and visual fatigue<br\/>• Protection from LED, neon, and aggressive blue light exposure<br\/>• Filters harmful UV radiation while preserving and transforming beneficial natural light<br\/>• Enhanced visual comfort, contrast, and clarity<br\/>• Support for focus and cognitive performance<br\/>• Reduced glare and light overstimulation<br\/>• More balanced and relaxed visual experience<\/p><h6><strong>DESIGNED FOR DIFFERENT ENVIRONMENTS<\/strong><\/h6><p>Depending on the model and lens, Hyperlight Optics®️ glasses can be used for:<br\/>• Computer and screen exposure<br\/>• Office and indoor environments<br\/>• Driving (day & night) and travel<br\/>• Sports and outdoor activities<br\/>• Bright sunlight and high-glare conditions<br\/>• Everyday indoor\/outdoor transitions<\/p><p><\/p>","metafields":""}},"collapsible_tab_CynxAR":{"type":"collapsible_tab","settings":{"icon":"none","icon_width":24,"heading":"Technology","content":"<p>Hyperlight Optics are unique because of the special nanophotonic materials used in their production, which transform ordinary, diffused light into a new light that is considerably more compatible with our biomolecules. The unique carbon-based ZC60-X nanostructure acts as an ultra-fast photonic resonator. As light passes through the optical layer, Fullerene C60 twists more than 18 billion times per second, helping reorganize and transform incoming light into a more ordered and coherent form. This creates what we define as HyperQuantum™️ Light — structured light with improved biological compatibility.<\/p><p>Hyperlight Optics®️ does not simply darken vision. It intelligently transforms light into a more comfortable and biologically supportive visual environment for everyday indoor and outdoor use. <\/p>","metafields":""}},"collapsible_tab_tnX7hE":{"type":"collapsible_tab","settings":{"icon":"none","icon_width":24,"heading":"Specifications","content":"<p>1. The protective layer is on both sides of the lens.<\/p><p>2. Hydro and oleophobic coating: protects against scratching and facilitates cleaning and has an antistatic component that repels dust particles from both sides of the lens.<\/p><p>3. Patented 8 layers of ion coatings: following the Ioncoat K+ process, eight layers of material with different index levels are vacuum applied to the lenses. Ioncoat K+ reduces light reflection to less than 1%, resulting in better vision.<\/p><p>4. Optimizing the Hard layer (HC): specially matched with the anti-reflection process and the superhydrophobic layer, it extends the life of the anti-reflection layer and provides additional protection against scratches.;<\/p><p>5. Fullerene layer on both sides of the lens.<\/p><p>6. CR 39 lenses.<\/p>","metafields":""}},"collapsible_tab_i9RTLJ":{"type":"collapsible_tab","settings":{"icon":"none","icon_width":24,"heading":"Technical data","content":"<p>Model: {{ product.metafields.custom.model_name.value }}<\/p><p>Item code: {{ product.metafields.custom.item_code.value }}<\/p><p>Enviroment: {{ product.metafields.custom.enviroment1 | metafield_text: field: 'enviroment' }}<\/p><p>Gross weight (Kg): {{ product.metafields.custom.gross_weight_kg_.value }}<\/p><p>Net weight (Kg): {{ product.metafields.custom.net_weight_kg_.value }}<\/p><p>Dimensions (mm): {{ product.metafields.custom.dimensions.value }}<\/p>","metafields":""}}},"block_order":["collapsible_tab_RUr9bM","collapsible_tab_CynxAR","collapsible_tab_tnX7hE","collapsible_tab_i9RTLJ"],"custom_css":[".heading {font-family: VideoBold, \"Video Bold\", video-bold, -apple-system, sans-serif; font-size: 2.5vw; line-height: 5vw; letter-spacing: -0.1vw; text-transform: uppercase;}","@media (max-width: 768px) {.heading {font-size: 5vw; line-height: 7vw; letter-spacing: -0.2vw; }}"],"settings":{"style":"with-background","open_first_row":false,"specifications_heading":"Included in the Box","heading":"","heading_size":"title-md","heading_alignment":"text-left md:items-end md:flex-row","heading_tag":"h2","subheading":"","description":"","button_label":"","button_link":"","button_external":false,"button_icon":true,"highlighted_text":"none","highlighted_scribble":"circle","color_text":"","color_background":"","gradient_background":"","color_highlight":"","gradient_highlight":"","color_button_text":"","color_button_background":"","color_button_gradient":"","padding_top":48,"padding_bottom":72,"divider":false,"full_width":true,"rounded":false}},"video-hero":{"type":"video-hero","blocks":{"slide-1":{"type":"slide","settings":{"heading":"Fullerene C60","heading_size":"title-lg tracking-heading","heading_tag":"h2","highlighted_text":"none","highlighted_scribble":"circle"}},"slide_YjAj4t":{"type":"slide","settings":{"heading":"Blocking and converting ALL types of harmful light (UV, UV B)","heading_size":"title-lg tracking-heading","heading_tag":"h2","highlighted_text":"none","highlighted_scribble":"circle"}},"slide_MX3g8H":{"type":"slide","settings":{"heading":"Quantum Hyperlight","heading_size":"title-lg tracking-heading","heading_tag":"h2","highlighted_text":"none","highlighted_scribble":"circle"}},"slide_RBUGY6":{"type":"slide","settings":{"heading":"Scratch resistant","heading_size":"title-lg tracking-heading","heading_tag":"h2","highlighted_text":"none","highlighted_scribble":"circle"}},"slide_TzQ3f9":{"type":"slide","settings":{"heading":"Reduces near-infrared (NIR) light","heading_size":"title-lg tracking-heading","heading_tag":"h2","highlighted_text":"none","highlighted_scribble":"circle"}},"slide_XE7ARY":{"type":"slide","settings":{"heading":"Anti-reflex","heading_size":"title-lg tracking-heading","heading_tag":"h2","highlighted_text":"none","highlighted_scribble":"circle"}}},"block_order":["slide-1","slide_YjAj4t","slide_MX3g8H","slide_RBUGY6","slide_TzQ3f9","slide_XE7ARY"],"settings":{"transparent_header":false,"video":"shopify:\/\/files\/videos\/A 2.mp4","video_url":"https:\/\/www.youtube.com\/watch?v=_9VUPq3SxOc","description":"","enable_video_autoplay":true,"enable_video_looping":true,"content_width":"medium","video_url_mobile":"","color_text":"#ffffff","color_highlight":"","gradient_highlight":"","color_overlay":"#000000","overlay_opacity":40,"padding_top":0,"padding_bottom":0,"divider":false,"full_width":true,"rounded":false}},"173425043223c88064":{"type":"apps","blocks":{"pretty_comparison_tables_table_xEaHJ6":{"type":"shopify:\/\/apps\/pretty-comparison-tables\/blocks\/table\/4ce14980-e26b-4398-92cd-f582d95d4f05","settings":{"product":"{{product}}","title_text":"","title_font_tag":"h2","section_background_color":"","desktop_width":"","mobile_width":""}}},"block_order":["pretty_comparison_tables_table_xEaHJ6"],"settings":{"enable_reviews_integration":true,"color_text":"","color_background":"","gradient_background":"","color_highlight":"","gradient_highlight":"","color_button_text":"","color_button_background":"","color_button_gradient":"","padding_top":72,"padding_bottom":72,"divider":false,"full_width":false,"rounded":false}},"rich_text_HV8Ha9":{"type":"rich-text","blocks":{"heading_yfCR9Q":{"type":"heading","settings":{"heading":"Comparison","heading_size":"title-lg tracking-heading","heading_tag":"h2","highlighted_text":"none","highlighted_scribble":"circle"}}},"block_order":["heading_yfCR9Q"],"custom_css":["h2 {font-family: VideoBold, \"Video Bold\", video-bold, -apple-system, sans-serif; font-size: 5vw; line-height: 5vw; letter-spacing: -0.3vw; text-transform: uppercase;}","@media (max-width: 768px) {h2 {font-size: 9vw; line-height: 7vw; letter-spacing: -0.7vw; }}"],"settings":{"text_alignment":"center","text_alignment_mobile":"center","heading":"","heading_size":"title-md","heading_alignment":"text-left md:items-end md:flex-row","heading_width":"small","heading_tag":"h2","subheading":"","description":"","button_label":"","button_link":"","button_external":false,"button_icon":true,"highlighted_text":"none","highlighted_scribble":"circle","color_text":"","color_background":"","gradient_background":"","color_highlight":"","gradient_highlight":"","color_button_text":"","color_button_background":"","color_button_gradient":"","padding_top":72,"padding_bottom":20,"divider":false,"narrow":true,"rounded":false}},"image_comparison_ckhpeB":{"type":"image-comparison","blocks":{"image_c6Yp6A":{"type":"image","settings":{"image":"shopify:\/\/shop_images\/outdoor-without-hyperlight_6fedecd9-93b3-416d-9571-9e3340a85f26.webp","image_mobile":"shopify:\/\/shop_images\/outdoor-without-hyperlight_6a6ec9c0-3640-4c1c-b2bd-156a9f877121.webp","subheading":"","heading":"Without Hyperlight Optics","content_position":"end","color_text":"#ffffff"}},"image_aB7hkf":{"type":"image","settings":{"image":"shopify:\/\/shop_images\/outdoor-with-hyperlight.webp","image_mobile":"shopify:\/\/shop_images\/outdoor-with-hyperlight_2502ab1e-9d40-4529-b0f5-a9f4bd8c999a.webp","subheading":"","heading":"With Hyperlight Optics","content_position":"end","color_text":"#ffffff"}}},"block_order":["image_c6Yp6A","image_aB7hkf"],"custom_css":["@media screen and (min-width: 768px) {.comparison__box .heading {font-size: 1.6rem; }}","@media screen and (max-width: 767px) {.comparison__box .heading {font-size: 0.75rem; }}"],"settings":{"layout":"horizontal","image_height":"700px","image_height_mobile":"250px","heading":"Outdoor","heading_size":"title-md","heading_alignment":"text-center md:items-center","heading_tag":"h2","subheading":"","description":"","button_label":"","button_link":"","button_external":false,"button_icon":true,"highlighted_text":"none","highlighted_scribble":"circle","color_text":"","color_background":"","gradient_background":"","color_highlight":"","gradient_highlight":"","color_button_text":"","color_button_background":"","color_button_gradient":"","padding_top":20,"padding_bottom":72,"divider":true,"full_width":false,"rounded":false}},"image_comparison_nPDaLY":{"type":"image-comparison","blocks":{"image_BU9Jen":{"type":"image","settings":{"image":"shopify:\/\/shop_images\/indoor-without-hyperlight.webp","image_mobile":"shopify:\/\/shop_images\/indoor-without-hyperlight_9c70a824-3655-4899-8b14-1aafe7354d0e.webp","subheading":"","heading":"Without Hyperlight Optics","content_position":"end","color_text":"#ffffff"}},"image_Cwz9xr":{"type":"image","settings":{"image":"shopify:\/\/shop_images\/indoor-with-hyperlight_2f87ab44-bb03-4ee3-8d29-22c8e64ba84b.webp","image_mobile":"shopify:\/\/shop_images\/indoor-with-hyperlight_4781eae8-cd80-41f4-b48a-d2a9c0102ac9.webp","subheading":"","heading":"With Hyperlight Optics","content_position":"end","color_text":"#ffffff"}}},"block_order":["image_BU9Jen","image_Cwz9xr"],"custom_css":["@media screen and (min-width: 768px) {.comparison__box .heading {font-size: 1.6rem; }}","@media screen and (max-width: 767px) {.comparison__box .heading {font-size: 0.75rem; }}"],"settings":{"layout":"horizontal","image_height":"700px","image_height_mobile":"250px","heading":"Indoor","heading_size":"title-md","heading_alignment":"text-center md:items-center","heading_tag":"h2","subheading":"","description":"","button_label":"","button_link":"","button_external":false,"button_icon":true,"highlighted_text":"none","highlighted_scribble":"circle","color_text":"","color_background":"","gradient_background":"","color_highlight":"","gradient_highlight":"","color_button_text":"","color_button_background":"","color_button_gradient":"","padding_top":12,"padding_bottom":72,"divider":true,"full_width":false,"rounded":false}},"lookbook_bjph7w":{"type":"lookbook","blocks":{"content_gALaUR":{"type":"content","settings":{"icon":"none","icon_width":24,"heading":"Dual-Layer Lens Protection System","text":"<p>Following the Fullerene C60 Patented coating, the base ultra-clear lens features two protective layers on both sides: the first layer contains Anti-scratch, STC, and Hydro and oleophobic coating, while the second layer consists of Anti-reflex with 8 layers of ion coating.<\/p>","link":"","color_text":"#ffffff","vertical":50,"horizontal":5,"vertical_mobile":78,"horizontal_mobile":5}},"content_NMTmLA":{"type":"content","settings":{"icon":"none","icon_width":24,"heading":"Base ultra-clear lens","text":"<p>The premium base ultra-clear lens delivers exceptional optical clarity and maximizes light transmission for crystal-clear vision.<\/p>","link":"","color_text":"#ffffff","vertical":40,"horizontal":10,"vertical_mobile":57,"horizontal_mobile":18}},"content_aJJx4a":{"type":"content","settings":{"icon":"none","icon_width":24,"heading":"Fullerene C60 Patented coating","text":"<p>The revolutionary Fullerene C60 coating, applied to both sides of the base ultra-clear lens, integrates space-derived carbon molecules into Hyperlight Optics. Acting as a nanophotonic generator, it creates Hyperlight – a unique light structure that matches healthy biostructures' symmetry, helping restore natural homeostasis through resonance principles.<\/p>","link":"","color_text":"#ffffff","vertical":52,"horizontal":17,"vertical_mobile":82,"horizontal_mobile":32}},"content_zHcRap":{"type":"content","settings":{"icon":"none","icon_width":24,"heading":"Anti-reflex, 8 layers of ion coating","text":"<p>The sophisticated anti-reflective system consists of 8 precision-applied layers of ion coating, effectively eliminating unwanted light reflections and glare while maximizing light transmission for superior visual clarity.<\/p>","link":"","color_text":"#ffffff","vertical":33,"horizontal":20,"vertical_mobile":37,"horizontal_mobile":36}},"content_76Km9T":{"type":"content","settings":{"icon":"none","icon_width":24,"heading":"Blue mirror coloring coating*","text":"<p>For outdoor models, a specialized coating creates a blue mirror effect on the lens surface, providing an attractive reflective blue finish while effectively reflecting sunlight for enhanced outdoor performance.<\/p><p>*only for outdoor models<\/p>","link":"","color_text":"#ffffff","vertical":39,"horizontal":32,"vertical_mobile":59,"horizontal_mobile":57}},"content_4q9gaA":{"type":"content","settings":{"icon":"none","icon_width":24,"heading":"Anti-scratch, STC, Hydro and oleophobic coating","text":"<p>A comprehensive protective layer combines anti-scratch resistance, STC (Superior Top Coat), and hydro\/oleophobic properties to defend against scratches while repelling water, oil, and fingerprints for easier cleaning and clearer vision.<\/p>","link":"","color_text":"#ffffff","vertical":25,"horizontal":46,"vertical_mobile":13,"horizontal_mobile":77}}},"block_order":["content_gALaUR","content_NMTmLA","content_aJJx4a","content_zHcRap","content_76Km9T","content_4q9gaA"],"custom_css":["h2 {font-family: VideoBold, \"Video Bold\", video-bold, -apple-system, sans-serif; font-size: 5vw; line-height: 5vw; letter-spacing: -0.3vw; text-transform: uppercase;}","@media (max-width: 768px) {h2 {font-size: 9vw; line-height: 7vw; letter-spacing: -0.7vw; }}"],"settings":{"image":"shopify:\/\/shop_images\/coatings.jpg","image_mobile":"shopify:\/\/shop_images\/HyperlightCoatings_d6c36be4-5ff2-4a60-812b-10921551b03a.webp","heading":"Numerous lens coatings","heading_size":"title-md","heading_alignment":"text-center md:items-center","heading_tag":"h2","heading_position":"none","subheading":"","description":"","button_label":"","button_link":"","button_external":false,"button_icon":true,"highlighted_text":"none","highlighted_scribble":"circle","color_text":"","color_background":"","gradient_background":"","color_highlight":"","gradient_highlight":"","color_button_text":"","color_button_background":"","color_button_gradient":"","color_overlay":"#171717","overlay_opacity":10,"padding_top":72,"padding_bottom":72,"divider":false,"full_width":true,"rounded":false}},"scrolling-text":{"type":"scrolling-text","blocks":{"text":{"type":"text","settings":{"text":"Free shipping within the EU","text_size":160,"text_font":"body","highlighted_text":"stencil","highlighted_scribble":"circle"}}},"block_order":["text"],"settings":{"direction":"left","speed":20,"grid_horizontal":70,"enable_twin":false,"enable_parallax":true,"color_text":"","color_background":"","gradient_background":"","color_highlight":"","gradient_highlight":"","padding_top":28,"padding_bottom":28,"divider":false,"rounded":false}},"image_with_text_7rJAzm":{"type":"image-with-text","blocks":{"heading_P7ctUT":{"type":"heading","settings":{"heading":"Your Gateway to Exclusive Benefits","heading_size":"title-lg tracking-heading","heading_tag":"h2","highlighted_text":"none","highlighted_scribble":"circle"}},"text_y6mKmH":{"type":"text","settings":{"text":"<p>ZepterClub members enjoy special privileges across a wide range of Zepter products, including Hyperlight Optics.<\/p>","text_size":"subtext-xl","text_max_size":32,"text_font":"body","secondary_color":false,"highlighted_text":"none","highlighted_scribble":"circle"}},"text_PMpd3E":{"type":"text","settings":{"text":"<p><strong>Privileged Shopping<\/strong> – From 2% up to 40% off<br\/><strong>Refer a Member <\/strong>– Earn up to 10% premium on their purchases<br\/><strong>Promote & Sell<\/strong> – Earn commission from 5% up to 40%<\/p>","text_size":"subtext-md","text_max_size":32,"text_font":"body","secondary_color":false,"highlighted_text":"none","highlighted_scribble":"circle"}},"button_e4FJQB":{"type":"button","settings":{"button_label":"Find out more","button_link":"https:\/\/shop.zepter.com\/zepterclub","button_size":"md","button_external":true,"button_icon":true,"button_secondary_style":false}}},"block_order":["heading_P7ctUT","text_y6mKmH","text_PMpd3E","button_e4FJQB"],"name":"t:sections.image-with-text.presets.name","settings":{"image":"shopify:\/\/shop_images\/ZepterClubLogo.jpg","image_height":"400px","image_width":"medium","layout":"image_first","text_alignment":"left","content_position":"align-self-center","image_height_mobile":"auto","text_alignment_mobile":"left","color_text":"#ffffff","color_background":"#000000","gradient_background":"","color_background_2":"","gradient_background_2":"","color_highlight":"","gradient_highlight":"","color_button_text":"#171717","color_button_background":"#ffffff","color_button_gradient":"","padding_top":72,"padding_bottom":72,"divider":false,"full_width":false,"rounded":false,"enable_parallax":true,"parallax_direction":"zoom"}},"faq":{"type":"faq","blocks":{"question-1":{"type":"question","settings":{"title":"How do I choose the right model for me?","text":"<p>If you are unsure which model to choose, feel free to contact our support team for recommendations. Our collection includes glasses for indoor and outdoor use, as well as unisex models.<\/p>","highlighted_text":"none","highlighted_scribble":"circle"}},"question-2":{"type":"question","settings":{"title":"How does Fullerene C60 technology work?","text":"<p>Fullerene C60 is a nanomaterial that acts as a quantum light generator, restructuring light wavelengths to be compatible with human biostructures, thereby optimizing eye and brain function.<\/p>","highlighted_text":"none","highlighted_scribble":"circle"}},"question-3":{"type":"question","settings":{"title":"Are Hyperlight Optics® glasses suitable for indoor and outdoor use?","text":"<p>Yes, we offer models specifically designed for indoor, outdoor, or combined use.<\/p>","highlighted_text":"none","highlighted_scribble":"circle"}},"question-4":{"type":"question","settings":{"title":"Do these glasses block blue light?","text":"<p>Yes, Hyperlight Optics® glasses effectively block harmful blue light (&lt;450 nm) and reduce eye fatigue caused by prolonged screen exposure.<\/p>","highlighted_text":"none","highlighted_scribble":"circle"}},"question-5":{"type":"question","settings":{"title":"Who can use Hyperlight Optics® glasses?","text":"<p>The glasses are suitable for everyone—students, professionals, athletes, parents, and children. They are especially beneficial for individuals who spend a lot of time in front of screens or are exposed to artificial light and UV radiation.<\/p>","highlighted_text":"none","highlighted_scribble":"circle"}},"contact":{"type":"contact","settings":{"heading":"Didn’t find your answer?","text":"<p>Don't hestitate to contact us<\/p>","show_phone":false,"avatar_height":60,"highlighted_text":"none","highlighted_scribble":"circle"}}},"block_order":["question-1","question-2","question-3","question-4","question-5","contact"],"custom_css":["h2 {font-family: VideoBold, \"Video Bold\", video-bold, -apple-system, sans-serif; font-size: 5vw; line-height: 5vw; letter-spacing: -0.3vw; text-transform: uppercase;}","@media (max-width: 768px) {h2 {font-size: 9vw; line-height: 7vw; letter-spacing: -0.7vw; }}"],"settings":{"style":"with-background","heading":"FAQs","heading_size":"title-lg tracking-heading","heading_alignment":"text-left md:items-end md:flex-row","heading_tag":"h2","subheading":"","description":"<p>Please read our <a href=\"\/pages\/faq\" title=\"FAQ\">FAQs<\/a> page to find out more.<\/p>","button_label":"","button_link":"","button_external":false,"button_icon":true,"highlighted_text":"none","highlighted_scribble":"circle","color_text":"#ffffff","color_background":"#101010","gradient_background":"","color_highlight":"","gradient_highlight":"","color_button_text":"#171717","color_button_background":"#ffffff","color_button_gradient":"","color_overlay":"#ffffff","overlay_opacity":4,"padding_top":84,"padding_bottom":84,"divider":false,"narrow":false,"rounded":true}},"product-recommendations":{"type":"product-recommendations","custom_css":["h2 {font-family: VideoBold, \"Video Bold\", video-bold, -apple-system, sans-serif; font-size: 5vw; line-height: 5vw; letter-spacing: -0.3vw; text-transform: uppercase;}","@media (max-width: 768px) {h2 {font-size: 9vw; line-height: 7vw; letter-spacing: -0.7vw; }}"],"settings":{"product_limit":6,"columns":4,"carousel_on_desktop":true,"columns_mobile":"1","swipe_on_mobile":true,"heading":"You may also like","heading_size":"title-md","heading_alignment":"text-left md:items-end md:flex-row","heading_tag":"h2","subheading":"","description":"","highlighted_text":"none","highlighted_scribble":"circle","color_text":"","color_background":"","gradient_background":"","color_highlight":"","gradient_highlight":"","color_button_text":"","color_button_background":"","color_button_gradient":"","padding_top":72,"padding_bottom":72,"divider":false,"full_width":true,"rounded":true}},"recently-viewed":{"type":"recently-viewed","custom_css":["h2 {font-family: VideoBold, \"Video Bold\", video-bold, -apple-system, sans-serif; font-size: 5vw; line-height: 5vw; letter-spacing: -0.3vw; text-transform: uppercase;}","@media (max-width: 768px) {h2 {font-size: 9vw; line-height: 7vw; letter-spacing: -0.7vw; }}"],"settings":{"product_limit":6,"columns":4,"carousel_on_desktop":true,"columns_mobile":"1","swipe_on_mobile":true,"heading":"Recently Viewed","heading_size":"title-md","heading_alignment":"text-left md:items-end md:flex-row","heading_tag":"h2","subheading":"","description":"","highlighted_text":"none","highlighted_scribble":"circle","color_text":"","color_background":"","gradient_background":"","color_highlight":"","gradient_highlight":"","color_button_text":"","color_button_background":"","color_button_gradient":"","padding_top":72,"padding_bottom":72,"divider":false,"full_width":true,"rounded":false}}},"order":["empty_space_6e6Trk","main-product","help-drawer","product_details_zLqMHy","video-hero","173425043223c88064","rich_text_HV8Ha9","image_comparison_ckhpeB","image_comparison_nPDaLY","lookbook_bjph7w","scrolling-text","image_with_text_7rJAzm","faq","product-recommendations","recently-viewed"]}
+{
+  "sections": {
+    "empty_space_6e6Trk": {
+      "type": "empty-space",
+      "name": "t:sections.empty-space.presets.name",
+      "settings": {
+        "desktop_height": 40,
+        "mobile_height": 28,
+        "color_background": "",
+        "gradient_background": ""
+      }
+    },
+    "main-product": {
+      "type": "main-product",
+      "blocks": {
+        "breadcrumb_wmRfrE": {
+          "type": "breadcrumb",
+          "settings": {
+            "show_collections_link": true
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {
+            "title_size": "product-title-md",
+            "title_size_mobile": "product-title-md",
+            "show_price": true,
+            "show_rating": true
+          }
+        },
+        "sku_iyUJqV": {
+          "type": "sku",
+          "settings": {
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {
+            "text_size": "text-base lg:text-lg"
+          }
+        },
+        "vendor": {
+          "type": "text",
+          "settings": {
+            "text": "Type: <strong>{{ product.metafields.custom.type2.value.type_1.value }}</strong>",
+            "text_size": "text-base"
+          }
+        },
+        "text_hYiUQx": {
+          "type": "text",
+          "settings": {
+            "text": "Environment:<strong> </strong><strong>{{ product.metafields.custom.enviroment1 | metafield_text: field: 'enviroment' }}</strong>",
+            "text_size": "text-base"
+          }
+        },
+        "text_qrN8hH": {
+          "type": "text",
+          "settings": {
+            "text": "Color:<strong> </strong><strong>{{ product.metafields.custom.color.value.label.value }}</strong>",
+            "text_size": "text-base"
+          }
+        },
+        "countdown": {
+          "type": "countdown",
+          "settings": {
+            "heading": "Hurry up!",
+            "subheading": "Sale end in:",
+            "color_text": "#e11d48",
+            "color_background": "#fff1f2",
+            "gradient_background": ""
+          }
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "show_variant_labels": true,
+            "picker_type": "button",
+            "enable_color_swatches": true,
+            "color_swatch_type": "color",
+            "size_chart": ""
+          }
+        },
+        "inventory": {
+          "type": "inventory",
+          "settings": {
+            "inventory_threshold": 2,
+            "show_inventory_transfer": true,
+            "show_inventory_quantity": "low",
+            "color_scheme": "accent-1"
+          }
+        },
+        "text_4bJyPE": {
+          "type": "text",
+          "settings": {
+            "text": "<strong>Pair & Spare — Add 2 or more optics, get 10% off.</strong>",
+            "text_size": "text-base lg:text-lg"
+          }
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_quantity_selector": true,
+            "show_dynamic_checkout": false,
+            "show_gift_card_recipient": true,
+            "enable_back_in_stock": false,
+            "show_back_in_stock_name": false,
+            "show_back_in_stock_phone": false
+          }
+        },
+        "pickup_availability": {
+          "type": "pickup_availability",
+          "settings": {
+          }
+        },
+        "share": {
+          "type": "share",
+          "settings": {
+            "share_label": "Share",
+            "show_help_desk": true,
+            "help_label": "Need help?",
+            "help_type": "page",
+            "help_page": "faq"
+          }
+        },
+        "complementary": {
+          "type": "complementary",
+          "settings": {
+            "heading": "Pairs well with",
+            "product_limit": 4,
+            "show_vendor": false,
+            "show_price": true
+          }
+        },
+        "sticky_buy_button": {
+          "type": "sticky_buy_button",
+          "settings": {
+          }
+        }
+      },
+      "block_order": [
+        "breadcrumb_wmRfrE",
+        "title",
+        "sku_iyUJqV",
+        "description",
+        "vendor",
+        "text_hYiUQx",
+        "text_qrN8hH",
+        "countdown",
+        "variant_picker",
+        "inventory",
+        "text_4bJyPE",
+        "buy_buttons",
+        "pickup_availability",
+        "share",
+        "complementary",
+        "sticky_buy_button"
+      ],
+      "custom_css": [
+        ".product__text.rte.text-base + .product__text.rte.text-base,.product__text.rte.text-base,.product__sku {margin: 0 !important;}",
+        ".product__sku {font-size: 0.8rem; background: #f3f4f6; border-radius: 0.3rem; padding: 0.25rem 0.5rem; display: inline-block; color: #6b7280;}",
+        ".product__text.rte.text-base {color: #6b7280;}",
+        ".product__text.rte.text-base strong {font-weight: 400; color: #000;}",
+        ".Typography_root__eF_Ml {color: #000;}"
+      ],
+      "settings": {
+        "enable_sticky_info": true,
+        "media_size": 66,
+        "gallery_layout": "thumbnail",
+        "thumbnail_position": "below",
+        "image_ratio": "adapt",
+        "image_zoom": "lightbox",
+        "hide_variants": false,
+        "enable_video_autoplay": true,
+        "enable_video_looping": true,
+        "mobile_layout": "full_width",
+        "image_ratio_mobile": "adapt_first",
+        "mobile_thumbnail": false,
+        "padding_top": 0,
+        "padding_bottom": 16,
+        "divider": false,
+        "full_width": true,
+        "rounded": false
+      }
+    },
+    "help-drawer": {
+      "type": "help-drawer",
+      "blocks": {
+        "content-1": {
+          "type": "content",
+          "settings": {
+            "icon": "rocket",
+            "heading": "Shipping Information",
+            "text": "<p>Use this text to answer questions in as much detail as possible for your customers.</p>",
+            "highlighted_text": "none",
+            "highlighted_scribble": "circle",
+            "color_text": "#b45309",
+            "color_background": "#fffbeb",
+            "gradient_background": "",
+            "color_highlight": "#ffddbf",
+            "gradient_highlight": ""
+          }
+        },
+        "content-2": {
+          "type": "content",
+          "settings": {
+            "icon": "headphone",
+            "heading": "Customer Support",
+            "text": "<p>Use this text to answer questions in as much detail as possible for your customers.</p>",
+            "highlighted_text": "none",
+            "highlighted_scribble": "circle",
+            "color_text": "#0369a1",
+            "color_background": "#f0f9ff",
+            "gradient_background": "",
+            "color_highlight": "#ffddbf",
+            "gradient_highlight": ""
+          }
+        },
+        "content-3": {
+          "type": "content",
+          "settings": {
+            "icon": "chat_bubble",
+            "heading": "FAQ’s",
+            "text": "<p>Use this text to answer questions in as much detail as possible for your customers.</p>",
+            "highlighted_text": "none",
+            "highlighted_scribble": "circle",
+            "color_text": "#be123c",
+            "color_background": "#fff1f2",
+            "gradient_background": "",
+            "color_highlight": "#ffddbf",
+            "gradient_highlight": ""
+          }
+        },
+        "content-4": {
+          "type": "content",
+          "settings": {
+            "icon": "phone",
+            "heading": "Contact Us",
+            "text": "<p>Use this text to answer questions in as much detail as possible for your customers.</p>",
+            "highlighted_text": "none",
+            "highlighted_scribble": "circle",
+            "color_text": "#4d7c0f",
+            "color_background": "#f7fee7",
+            "gradient_background": "",
+            "color_highlight": "#ffddbf",
+            "gradient_highlight": ""
+          }
+        }
+      },
+      "block_order": [
+        "content-1",
+        "content-2",
+        "content-3",
+        "content-4"
+      ],
+      "settings": {
+        "heading": "Need help?",
+        "description": "<p>If you have any questions, you are always welcome to contact us. We'll get back to you as soon as possible, within 24 hours on weekdays.</p>"
+      }
+    },
+    "product_details_zLqMHy": {
+      "type": "product-details",
+      "blocks": {
+        "collapsible_tab_RUr9bM": {
+          "type": "collapsible_tab",
+          "settings": {
+            "icon": "none",
+            "icon_width": 20,
+            "heading": "Details",
+            "content": "<h6><strong>WHY IT IS DIFFERENT</strong></h6><p>Ordinary glasses are designed to block, filter, or darken light. Hyperlight Optics®️ goes beyond traditional eyewear by using proprietary ZC60-X™ nanophotonic technology engineered to intelligently restructure incoming light into a more balanced and biologically compatible form. The result is a visual experience designed to feel calmer, clearer, less aggressive to the eyes and brain, and more supportive of modern high-performance lifestyles.</p><p>More than vision correction. More than blue-light protection. A new way of experiencing light.</p><h6><strong>BENEFITS</strong></h6><p>• Reduced eye strain and visual fatigue<br/>• Protection from LED, neon, and aggressive blue light exposure<br/>• Filters harmful UV radiation while preserving and transforming beneficial natural light<br/>• Enhanced visual comfort, contrast, and clarity<br/>• Support for focus and cognitive performance<br/>• Reduced glare and light overstimulation<br/>• More balanced and relaxed visual experience</p><h6><strong>DESIGNED FOR DIFFERENT ENVIRONMENTS</strong></h6><p>Depending on the model and lens, Hyperlight Optics®️ glasses can be used for:<br/>• Computer and screen exposure<br/>• Office and indoor environments<br/>• Driving (day & night) and travel<br/>• Sports and outdoor activities<br/>• Bright sunlight and high-glare conditions<br/>• Everyday indoor/outdoor transitions</p><p></p>",
+            "metafields": ""
+          }
+        },
+        "collapsible_tab_CynxAR": {
+          "type": "collapsible_tab",
+          "settings": {
+            "icon": "none",
+            "icon_width": 24,
+            "heading": "Technology",
+            "content": "<p>Hyperlight Optics are unique because of the special nanophotonic materials used in their production, which transform ordinary, diffused light into a new light that is considerably more compatible with our biomolecules. The unique carbon-based ZC60-X nanostructure acts as an ultra-fast photonic resonator. As light passes through the optical layer, Fullerene C60 twists more than 18 billion times per second, helping reorganize and transform incoming light into a more ordered and coherent form. This creates what we define as HyperQuantum™️ Light — structured light with improved biological compatibility.</p><p>Hyperlight Optics®️ does not simply darken vision. It intelligently transforms light into a more comfortable and biologically supportive visual environment for everyday indoor and outdoor use. </p>",
+            "metafields": ""
+          }
+        },
+        "collapsible_tab_tnX7hE": {
+          "type": "collapsible_tab",
+          "settings": {
+            "icon": "none",
+            "icon_width": 24,
+            "heading": "Specifications",
+            "content": "<p>1. The protective layer is on both sides of the lens.</p><p>2. Hydro and oleophobic coating: protects against scratching and facilitates cleaning and has an antistatic component that repels dust particles from both sides of the lens.</p><p>3. Patented 8 layers of ion coatings: following the Ioncoat K+ process, eight layers of material with different index levels are vacuum applied to the lenses. Ioncoat K+ reduces light reflection to less than 1%, resulting in better vision.</p><p>4. Optimizing the Hard layer (HC): specially matched with the anti-reflection process and the superhydrophobic layer, it extends the life of the anti-reflection layer and provides additional protection against scratches.;</p><p>5. Fullerene layer on both sides of the lens.</p><p>6. CR 39 lenses.</p>",
+            "metafields": ""
+          }
+        },
+        "collapsible_tab_i9RTLJ": {
+          "type": "collapsible_tab",
+          "settings": {
+            "icon": "none",
+            "icon_width": 24,
+            "heading": "Technical data",
+            "content": "<p>Model: {{ product.metafields.custom.model_name.value }}</p><p>Item code: {{ product.metafields.custom.item_code.value }}</p><p>Enviroment: {{ product.metafields.custom.enviroment1 | metafield_text: field: 'enviroment' }}</p><p>Gross weight (Kg): {{ product.metafields.custom.gross_weight_kg_.value }}</p><p>Net weight (Kg): {{ product.metafields.custom.net_weight_kg_.value }}</p><p>Dimensions (mm): {{ product.metafields.custom.dimensions.value }}</p>",
+            "metafields": ""
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_tab_RUr9bM",
+        "collapsible_tab_CynxAR",
+        "collapsible_tab_tnX7hE",
+        "collapsible_tab_i9RTLJ"
+      ],
+      "custom_css": [
+        ".heading {font-family: VideoBold, \"Video Bold\", video-bold, -apple-system, sans-serif; font-size: 2.5vw; line-height: 5vw; letter-spacing: -0.1vw; text-transform: uppercase;}",
+        "@media (max-width: 768px) {.heading {font-size: 5vw; line-height: 7vw; letter-spacing: -0.2vw; }}"
+      ],
+      "settings": {
+        "style": "with-background",
+        "open_first_row": false,
+        "specifications_heading": "Included in the Box",
+        "heading": "",
+        "heading_size": "title-md",
+        "heading_alignment": "text-left md:items-end md:flex-row",
+        "heading_tag": "h2",
+        "subheading": "",
+        "description": "",
+        "button_label": "",
+        "button_link": "",
+        "button_external": false,
+        "button_icon": true,
+        "highlighted_text": "none",
+        "highlighted_scribble": "circle",
+        "color_text": "",
+        "color_background": "",
+        "gradient_background": "",
+        "color_highlight": "",
+        "gradient_highlight": "",
+        "color_button_text": "",
+        "color_button_background": "",
+        "color_button_gradient": "",
+        "padding_top": 48,
+        "padding_bottom": 72,
+        "divider": false,
+        "full_width": true,
+        "rounded": false
+      }
+    },
+    "video-hero": {
+      "type": "video-hero",
+      "blocks": {
+        "slide-1": {
+          "type": "slide",
+          "settings": {
+            "heading": "Fullerene C60",
+            "heading_size": "title-lg tracking-heading",
+            "heading_tag": "h2",
+            "highlighted_text": "none",
+            "highlighted_scribble": "circle"
+          }
+        },
+        "slide_YjAj4t": {
+          "type": "slide",
+          "settings": {
+            "heading": "Blocking and converting ALL types of harmful light (UV, UV B)",
+            "heading_size": "title-lg tracking-heading",
+            "heading_tag": "h2",
+            "highlighted_text": "none",
+            "highlighted_scribble": "circle"
+          }
+        },
+        "slide_MX3g8H": {
+          "type": "slide",
+          "settings": {
+            "heading": "Quantum Hyperlight",
+            "heading_size": "title-lg tracking-heading",
+            "heading_tag": "h2",
+            "highlighted_text": "none",
+            "highlighted_scribble": "circle"
+          }
+        },
+        "slide_RBUGY6": {
+          "type": "slide",
+          "settings": {
+            "heading": "Scratch resistant",
+            "heading_size": "title-lg tracking-heading",
+            "heading_tag": "h2",
+            "highlighted_text": "none",
+            "highlighted_scribble": "circle"
+          }
+        },
+        "slide_TzQ3f9": {
+          "type": "slide",
+          "settings": {
+            "heading": "Reduces near-infrared (NIR) light",
+            "heading_size": "title-lg tracking-heading",
+            "heading_tag": "h2",
+            "highlighted_text": "none",
+            "highlighted_scribble": "circle"
+          }
+        },
+        "slide_XE7ARY": {
+          "type": "slide",
+          "settings": {
+            "heading": "Anti-reflex",
+            "heading_size": "title-lg tracking-heading",
+            "heading_tag": "h2",
+            "highlighted_text": "none",
+            "highlighted_scribble": "circle"
+          }
+        }
+      },
+      "block_order": [
+        "slide-1",
+        "slide_YjAj4t",
+        "slide_MX3g8H",
+        "slide_RBUGY6",
+        "slide_TzQ3f9",
+        "slide_XE7ARY"
+      ],
+      "settings": {
+        "transparent_header": false,
+        "video": "shopify://files/videos/A 2.mp4",
+        "video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
+        "description": "",
+        "enable_video_autoplay": true,
+        "enable_video_looping": true,
+        "content_width": "medium",
+        "video_url_mobile": "",
+        "color_text": "#ffffff",
+        "color_highlight": "",
+        "gradient_highlight": "",
+        "color_overlay": "#000000",
+        "overlay_opacity": 40,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "divider": false,
+        "full_width": true,
+        "rounded": false
+      }
+    },
+    "173425043223c88064": {
+      "type": "apps",
+      "blocks": {
+        "pretty_comparison_tables_table_xEaHJ6": {
+          "type": "shopify://apps/pretty-comparison-tables/blocks/table/4ce14980-e26b-4398-92cd-f582d95d4f05",
+          "settings": {
+            "product": "{{product}}",
+            "title_text": "",
+            "title_font_tag": "h2",
+            "section_background_color": "",
+            "desktop_width": "",
+            "mobile_width": ""
+          }
+        }
+      },
+      "block_order": [
+        "pretty_comparison_tables_table_xEaHJ6"
+      ],
+      "settings": {
+        "enable_reviews_integration": true,
+        "color_text": "",
+        "color_background": "",
+        "gradient_background": "",
+        "color_highlight": "",
+        "gradient_highlight": "",
+        "color_button_text": "",
+        "color_button_background": "",
+        "color_button_gradient": "",
+        "padding_top": 72,
+        "padding_bottom": 72,
+        "divider": false,
+        "full_width": false,
+        "rounded": false
+      }
+    },
+    "rich_text_HV8Ha9": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_yfCR9Q": {
+          "type": "heading",
+          "settings": {
+            "heading": "Comparison",
+            "heading_size": "title-lg tracking-heading",
+            "heading_tag": "h2",
+            "highlighted_text": "none",
+            "highlighted_scribble": "circle"
+          }
+        }
+      },
+      "block_order": [
+        "heading_yfCR9Q"
+      ],
+      "custom_css": [
+        "h2 {font-family: VideoBold, \"Video Bold\", video-bold, -apple-system, sans-serif; font-size: 5vw; line-height: 5vw; letter-spacing: -0.3vw; text-transform: uppercase;}",
+        "@media (max-width: 768px) {h2 {font-size: 9vw; line-height: 7vw; letter-spacing: -0.7vw; }}"
+      ],
+      "settings": {
+        "text_alignment": "center",
+        "text_alignment_mobile": "center",
+        "heading": "",
+        "heading_size": "title-md",
+        "heading_alignment": "text-left md:items-end md:flex-row",
+        "heading_width": "small",
+        "heading_tag": "h2",
+        "subheading": "",
+        "description": "",
+        "button_label": "",
+        "button_link": "",
+        "button_external": false,
+        "button_icon": true,
+        "highlighted_text": "none",
+        "highlighted_scribble": "circle",
+        "color_text": "",
+        "color_background": "",
+        "gradient_background": "",
+        "color_highlight": "",
+        "gradient_highlight": "",
+        "color_button_text": "",
+        "color_button_background": "",
+        "color_button_gradient": "",
+        "padding_top": 72,
+        "padding_bottom": 20,
+        "divider": false,
+        "narrow": true,
+        "rounded": false
+      }
+    },
+    "image_comparison_ckhpeB": {
+      "type": "image-comparison",
+      "blocks": {
+        "image_c6Yp6A": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/outdoor-without-hyperlight_6fedecd9-93b3-416d-9571-9e3340a85f26.webp",
+            "image_mobile": "shopify://shop_images/outdoor-without-hyperlight_6a6ec9c0-3640-4c1c-b2bd-156a9f877121.webp",
+            "subheading": "",
+            "heading": "Without Hyperlight Optics",
+            "content_position": "end",
+            "color_text": "#ffffff"
+          }
+        },
+        "image_aB7hkf": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/outdoor-with-hyperlight.webp",
+            "image_mobile": "shopify://shop_images/outdoor-with-hyperlight_2502ab1e-9d40-4529-b0f5-a9f4bd8c999a.webp",
+            "subheading": "",
+            "heading": "With Hyperlight Optics",
+            "content_position": "end",
+            "color_text": "#ffffff"
+          }
+        }
+      },
+      "block_order": [
+        "image_c6Yp6A",
+        "image_aB7hkf"
+      ],
+      "custom_css": [
+        "@media screen and (min-width: 768px) {.comparison__box .heading {font-size: 1.6rem; }}",
+        "@media screen and (max-width: 767px) {.comparison__box .heading {font-size: 0.75rem; }}"
+      ],
+      "settings": {
+        "layout": "horizontal",
+        "image_height": "700px",
+        "image_height_mobile": "250px",
+        "heading": "Outdoor",
+        "heading_size": "title-md",
+        "heading_alignment": "text-center md:items-center",
+        "heading_tag": "h2",
+        "subheading": "",
+        "description": "",
+        "button_label": "",
+        "button_link": "",
+        "button_external": false,
+        "button_icon": true,
+        "highlighted_text": "none",
+        "highlighted_scribble": "circle",
+        "color_text": "",
+        "color_background": "",
+        "gradient_background": "",
+        "color_highlight": "",
+        "gradient_highlight": "",
+        "color_button_text": "",
+        "color_button_background": "",
+        "color_button_gradient": "",
+        "padding_top": 20,
+        "padding_bottom": 72,
+        "divider": true,
+        "full_width": false,
+        "rounded": false
+      }
+    },
+    "image_comparison_nPDaLY": {
+      "type": "image-comparison",
+      "blocks": {
+        "image_BU9Jen": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/indoor-without-hyperlight.webp",
+            "image_mobile": "shopify://shop_images/indoor-without-hyperlight_9c70a824-3655-4899-8b14-1aafe7354d0e.webp",
+            "subheading": "",
+            "heading": "Without Hyperlight Optics",
+            "content_position": "end",
+            "color_text": "#ffffff"
+          }
+        },
+        "image_Cwz9xr": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/indoor-with-hyperlight_2f87ab44-bb03-4ee3-8d29-22c8e64ba84b.webp",
+            "image_mobile": "shopify://shop_images/indoor-with-hyperlight_4781eae8-cd80-41f4-b48a-d2a9c0102ac9.webp",
+            "subheading": "",
+            "heading": "With Hyperlight Optics",
+            "content_position": "end",
+            "color_text": "#ffffff"
+          }
+        }
+      },
+      "block_order": [
+        "image_BU9Jen",
+        "image_Cwz9xr"
+      ],
+      "custom_css": [
+        "@media screen and (min-width: 768px) {.comparison__box .heading {font-size: 1.6rem; }}",
+        "@media screen and (max-width: 767px) {.comparison__box .heading {font-size: 0.75rem; }}"
+      ],
+      "settings": {
+        "layout": "horizontal",
+        "image_height": "700px",
+        "image_height_mobile": "250px",
+        "heading": "Indoor",
+        "heading_size": "title-md",
+        "heading_alignment": "text-center md:items-center",
+        "heading_tag": "h2",
+        "subheading": "",
+        "description": "",
+        "button_label": "",
+        "button_link": "",
+        "button_external": false,
+        "button_icon": true,
+        "highlighted_text": "none",
+        "highlighted_scribble": "circle",
+        "color_text": "",
+        "color_background": "",
+        "gradient_background": "",
+        "color_highlight": "",
+        "gradient_highlight": "",
+        "color_button_text": "",
+        "color_button_background": "",
+        "color_button_gradient": "",
+        "padding_top": 12,
+        "padding_bottom": 72,
+        "divider": true,
+        "full_width": false,
+        "rounded": false
+      }
+    },
+    "lookbook_bjph7w": {
+      "type": "lookbook",
+      "blocks": {
+        "content_gALaUR": {
+          "type": "content",
+          "settings": {
+            "icon": "none",
+            "icon_width": 24,
+            "heading": "Dual-Layer Lens Protection System",
+            "text": "<p>Following the Fullerene C60 Patented coating, the base ultra-clear lens features two protective layers on both sides: the first layer contains Anti-scratch, STC, and Hydro and oleophobic coating, while the second layer consists of Anti-reflex with 8 layers of ion coating.</p>",
+            "link": "",
+            "color_text": "#ffffff",
+            "vertical": 50,
+            "horizontal": 5,
+            "vertical_mobile": 78,
+            "horizontal_mobile": 5
+          }
+        },
+        "content_NMTmLA": {
+          "type": "content",
+          "settings": {
+            "icon": "none",
+            "icon_width": 24,
+            "heading": "Base ultra-clear lens",
+            "text": "<p>The premium base ultra-clear lens delivers exceptional optical clarity and maximizes light transmission for crystal-clear vision.</p>",
+            "link": "",
+            "color_text": "#ffffff",
+            "vertical": 40,
+            "horizontal": 10,
+            "vertical_mobile": 57,
+            "horizontal_mobile": 18
+          }
+        },
+        "content_aJJx4a": {
+          "type": "content",
+          "settings": {
+            "icon": "none",
+            "icon_width": 24,
+            "heading": "Fullerene C60 Patented coating",
+            "text": "<p>The revolutionary Fullerene C60 coating, applied to both sides of the base ultra-clear lens, integrates space-derived carbon molecules into Hyperlight Optics. Acting as a nanophotonic generator, it creates Hyperlight – a unique light structure that matches healthy biostructures' symmetry, helping restore natural homeostasis through resonance principles.</p>",
+            "link": "",
+            "color_text": "#ffffff",
+            "vertical": 52,
+            "horizontal": 17,
+            "vertical_mobile": 82,
+            "horizontal_mobile": 32
+          }
+        },
+        "content_zHcRap": {
+          "type": "content",
+          "settings": {
+            "icon": "none",
+            "icon_width": 24,
+            "heading": "Anti-reflex, 8 layers of ion coating",
+            "text": "<p>The sophisticated anti-reflective system consists of 8 precision-applied layers of ion coating, effectively eliminating unwanted light reflections and glare while maximizing light transmission for superior visual clarity.</p>",
+            "link": "",
+            "color_text": "#ffffff",
+            "vertical": 33,
+            "horizontal": 20,
+            "vertical_mobile": 37,
+            "horizontal_mobile": 36
+          }
+        },
+        "content_76Km9T": {
+          "type": "content",
+          "settings": {
+            "icon": "none",
+            "icon_width": 24,
+            "heading": "Blue mirror coloring coating*",
+            "text": "<p>For outdoor models, a specialized coating creates a blue mirror effect on the lens surface, providing an attractive reflective blue finish while effectively reflecting sunlight for enhanced outdoor performance.</p><p>*only for outdoor models</p>",
+            "link": "",
+            "color_text": "#ffffff",
+            "vertical": 39,
+            "horizontal": 32,
+            "vertical_mobile": 59,
+            "horizontal_mobile": 57
+          }
+        },
+        "content_4q9gaA": {
+          "type": "content",
+          "settings": {
+            "icon": "none",
+            "icon_width": 24,
+            "heading": "Anti-scratch, STC, Hydro and oleophobic coating",
+            "text": "<p>A comprehensive protective layer combines anti-scratch resistance, STC (Superior Top Coat), and hydro/oleophobic properties to defend against scratches while repelling water, oil, and fingerprints for easier cleaning and clearer vision.</p>",
+            "link": "",
+            "color_text": "#ffffff",
+            "vertical": 25,
+            "horizontal": 46,
+            "vertical_mobile": 13,
+            "horizontal_mobile": 77
+          }
+        }
+      },
+      "block_order": [
+        "content_gALaUR",
+        "content_NMTmLA",
+        "content_aJJx4a",
+        "content_zHcRap",
+        "content_76Km9T",
+        "content_4q9gaA"
+      ],
+      "custom_css": [
+        "h2 {font-family: VideoBold, \"Video Bold\", video-bold, -apple-system, sans-serif; font-size: 5vw; line-height: 5vw; letter-spacing: -0.3vw; text-transform: uppercase;}",
+        "@media (max-width: 768px) {h2 {font-size: 9vw; line-height: 7vw; letter-spacing: -0.7vw; }}"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/coatings.jpg",
+        "image_mobile": "shopify://shop_images/HyperlightCoatings_d6c36be4-5ff2-4a60-812b-10921551b03a.webp",
+        "heading": "Numerous lens coatings",
+        "heading_size": "title-md",
+        "heading_alignment": "text-center md:items-center",
+        "heading_tag": "h2",
+        "heading_position": "none",
+        "subheading": "",
+        "description": "",
+        "button_label": "",
+        "button_link": "",
+        "button_external": false,
+        "button_icon": true,
+        "highlighted_text": "none",
+        "highlighted_scribble": "circle",
+        "color_text": "",
+        "color_background": "",
+        "gradient_background": "",
+        "color_highlight": "",
+        "gradient_highlight": "",
+        "color_button_text": "",
+        "color_button_background": "",
+        "color_button_gradient": "",
+        "color_overlay": "#171717",
+        "overlay_opacity": 10,
+        "padding_top": 72,
+        "padding_bottom": 72,
+        "divider": false,
+        "full_width": true,
+        "rounded": false
+      }
+    },
+    "scrolling-text": {
+      "type": "scrolling-text",
+      "blocks": {
+        "text": {
+          "type": "text",
+          "settings": {
+            "text": "Free shipping within the EU",
+            "text_size": 160,
+            "text_font": "body",
+            "highlighted_text": "stencil",
+            "highlighted_scribble": "circle"
+          }
+        }
+      },
+      "block_order": [
+        "text"
+      ],
+      "settings": {
+        "direction": "left",
+        "speed": 20,
+        "grid_horizontal": 70,
+        "enable_twin": false,
+        "enable_parallax": true,
+        "color_text": "",
+        "color_background": "",
+        "gradient_background": "",
+        "color_highlight": "",
+        "gradient_highlight": "",
+        "padding_top": 28,
+        "padding_bottom": 28,
+        "divider": false,
+        "rounded": false
+      }
+    },
+    "image_with_text_7rJAzm": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_P7ctUT": {
+          "type": "heading",
+          "settings": {
+            "heading": "Your Gateway to Exclusive Benefits",
+            "heading_size": "title-lg tracking-heading",
+            "heading_tag": "h2",
+            "highlighted_text": "none",
+            "highlighted_scribble": "circle"
+          }
+        },
+        "text_y6mKmH": {
+          "type": "text",
+          "settings": {
+            "text": "<p>ZepterClub members enjoy special privileges across a wide range of Zepter products, including Hyperlight Optics.</p>",
+            "text_size": "subtext-xl",
+            "text_max_size": 32,
+            "text_font": "body",
+            "secondary_color": false,
+            "highlighted_text": "none",
+            "highlighted_scribble": "circle"
+          }
+        },
+        "text_PMpd3E": {
+          "type": "text",
+          "settings": {
+            "text": "<p><strong>Privileged Shopping</strong> – From 2% up to 40% off<br/><strong>Refer a Member </strong>– Earn up to 10% premium on their purchases<br/><strong>Promote & Sell</strong> – Earn commission from 5% up to 40%</p>",
+            "text_size": "subtext-md",
+            "text_max_size": 32,
+            "text_font": "body",
+            "secondary_color": false,
+            "highlighted_text": "none",
+            "highlighted_scribble": "circle"
+          }
+        },
+        "button_e4FJQB": {
+          "type": "button",
+          "settings": {
+            "button_label": "Find out more",
+            "button_link": "https://shop.zepter.com/zepterclub",
+            "button_size": "md",
+            "button_external": true,
+            "button_icon": true,
+            "button_secondary_style": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_P7ctUT",
+        "text_y6mKmH",
+        "text_PMpd3E",
+        "button_e4FJQB"
+      ],
+      "name": "t:sections.image-with-text.presets.name",
+      "settings": {
+        "image": "shopify://shop_images/ZepterClubLogo.jpg",
+        "image_height": "400px",
+        "image_width": "medium",
+        "layout": "image_first",
+        "text_alignment": "left",
+        "content_position": "align-self-center",
+        "image_height_mobile": "auto",
+        "text_alignment_mobile": "left",
+        "color_text": "#ffffff",
+        "color_background": "#000000",
+        "gradient_background": "",
+        "color_background_2": "",
+        "gradient_background_2": "",
+        "color_highlight": "",
+        "gradient_highlight": "",
+        "color_button_text": "#171717",
+        "color_button_background": "#ffffff",
+        "color_button_gradient": "",
+        "padding_top": 72,
+        "padding_bottom": 72,
+        "divider": false,
+        "full_width": false,
+        "rounded": false,
+        "enable_parallax": true,
+        "parallax_direction": "zoom"
+      }
+    },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "question-1": {
+          "type": "question",
+          "settings": {
+            "title": "How do I choose the right model for me?",
+            "text": "<p>If you are unsure which model to choose, feel free to contact our support team for recommendations. Our collection includes glasses for indoor and outdoor use, as well as unisex models.</p>",
+            "highlighted_text": "none",
+            "highlighted_scribble": "circle"
+          }
+        },
+        "question-2": {
+          "type": "question",
+          "settings": {
+            "title": "How does Fullerene C60 technology work?",
+            "text": "<p>Fullerene C60 is a nanomaterial that acts as a quantum light generator, restructuring light wavelengths to be compatible with human biostructures, thereby optimizing eye and brain function.</p>",
+            "highlighted_text": "none",
+            "highlighted_scribble": "circle"
+          }
+        },
+        "question-3": {
+          "type": "question",
+          "settings": {
+            "title": "Are Hyperlight Optics® glasses suitable for indoor and outdoor use?",
+            "text": "<p>Yes, we offer models specifically designed for indoor, outdoor, or combined use.</p>",
+            "highlighted_text": "none",
+            "highlighted_scribble": "circle"
+          }
+        },
+        "question-4": {
+          "type": "question",
+          "settings": {
+            "title": "Do these glasses block blue light?",
+            "text": "<p>Yes, Hyperlight Optics® glasses effectively block harmful blue light (&lt;450 nm) and reduce eye fatigue caused by prolonged screen exposure.</p>",
+            "highlighted_text": "none",
+            "highlighted_scribble": "circle"
+          }
+        },
+        "question-5": {
+          "type": "question",
+          "settings": {
+            "title": "Who can use Hyperlight Optics® glasses?",
+            "text": "<p>The glasses are suitable for everyone—students, professionals, athletes, parents, and children. They are especially beneficial for individuals who spend a lot of time in front of screens or are exposed to artificial light and UV radiation.</p>",
+            "highlighted_text": "none",
+            "highlighted_scribble": "circle"
+          }
+        },
+        "contact": {
+          "type": "contact",
+          "settings": {
+            "heading": "Didn’t find your answer?",
+            "text": "<p>Don't hestitate to contact us</p>",
+            "show_phone": false,
+            "avatar_height": 60,
+            "highlighted_text": "none",
+            "highlighted_scribble": "circle"
+          }
+        }
+      },
+      "block_order": [
+        "question-1",
+        "question-2",
+        "question-3",
+        "question-4",
+        "question-5",
+        "contact"
+      ],
+      "custom_css": [
+        "h2 {font-family: VideoBold, \"Video Bold\", video-bold, -apple-system, sans-serif; font-size: 5vw; line-height: 5vw; letter-spacing: -0.3vw; text-transform: uppercase;}",
+        "@media (max-width: 768px) {h2 {font-size: 9vw; line-height: 7vw; letter-spacing: -0.7vw; }}"
+      ],
+      "settings": {
+        "style": "with-background",
+        "heading": "FAQs",
+        "heading_size": "title-lg tracking-heading",
+        "heading_alignment": "text-left md:items-end md:flex-row",
+        "heading_tag": "h2",
+        "subheading": "",
+        "description": "<p>Please read our <a href=\"/pages/faq\" title=\"FAQ\">FAQs</a> page to find out more.</p>",
+        "button_label": "",
+        "button_link": "",
+        "button_external": false,
+        "button_icon": true,
+        "highlighted_text": "none",
+        "highlighted_scribble": "circle",
+        "color_text": "#ffffff",
+        "color_background": "#101010",
+        "gradient_background": "",
+        "color_highlight": "",
+        "gradient_highlight": "",
+        "color_button_text": "#171717",
+        "color_button_background": "#ffffff",
+        "color_button_gradient": "",
+        "color_overlay": "#ffffff",
+        "overlay_opacity": 4,
+        "padding_top": 84,
+        "padding_bottom": 84,
+        "divider": false,
+        "narrow": false,
+        "rounded": true
+      }
+    },
+    "product-recommendations": {
+      "type": "product-recommendations",
+      "custom_css": [
+        "h2 {font-family: VideoBold, \"Video Bold\", video-bold, -apple-system, sans-serif; font-size: 5vw; line-height: 5vw; letter-spacing: -0.3vw; text-transform: uppercase;}",
+        "@media (max-width: 768px) {h2 {font-size: 9vw; line-height: 7vw; letter-spacing: -0.7vw; }}"
+      ],
+      "settings": {
+        "product_limit": 6,
+        "columns": 4,
+        "carousel_on_desktop": true,
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "heading": "You may also like",
+        "heading_size": "title-md",
+        "heading_alignment": "text-left md:items-end md:flex-row",
+        "heading_tag": "h2",
+        "subheading": "",
+        "description": "",
+        "highlighted_text": "none",
+        "highlighted_scribble": "circle",
+        "color_text": "",
+        "color_background": "",
+        "gradient_background": "",
+        "color_highlight": "",
+        "gradient_highlight": "",
+        "color_button_text": "",
+        "color_button_background": "",
+        "color_button_gradient": "",
+        "padding_top": 72,
+        "padding_bottom": 72,
+        "divider": false,
+        "full_width": true,
+        "rounded": true
+      }
+    },
+    "recently-viewed": {
+      "type": "recently-viewed",
+      "custom_css": [
+        "h2 {font-family: VideoBold, \"Video Bold\", video-bold, -apple-system, sans-serif; font-size: 5vw; line-height: 5vw; letter-spacing: -0.3vw; text-transform: uppercase;}",
+        "@media (max-width: 768px) {h2 {font-size: 9vw; line-height: 7vw; letter-spacing: -0.7vw; }}"
+      ],
+      "settings": {
+        "product_limit": 6,
+        "columns": 4,
+        "carousel_on_desktop": true,
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "heading": "Recently Viewed",
+        "heading_size": "title-md",
+        "heading_alignment": "text-left md:items-end md:flex-row",
+        "heading_tag": "h2",
+        "subheading": "",
+        "description": "",
+        "highlighted_text": "none",
+        "highlighted_scribble": "circle",
+        "color_text": "",
+        "color_background": "",
+        "gradient_background": "",
+        "color_highlight": "",
+        "gradient_highlight": "",
+        "color_button_text": "",
+        "color_button_background": "",
+        "color_button_gradient": "",
+        "padding_top": 72,
+        "padding_bottom": 72,
+        "divider": false,
+        "full_width": true,
+        "rounded": false
+      }
+    }
+  },
+  "order": [
+    "empty_space_6e6Trk",
+    "main-product",
+    "help-drawer",
+    "product_details_zLqMHy",
+    "video-hero",
+    "173425043223c88064",
+    "rich_text_HV8Ha9",
+    "image_comparison_ckhpeB",
+    "image_comparison_nPDaLY",
+    "lookbook_bjph7w",
+    "scrolling-text",
+    "image_with_text_7rJAzm",
+    "faq",
+    "product-recommendations",
+    "recently-viewed"
+  ]
+}

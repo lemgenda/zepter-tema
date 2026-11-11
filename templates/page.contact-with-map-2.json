@@ -201,14 +201,14 @@
           "type": "contact",
           "settings": {
             "heading": "Email",
-            "text": "<p><a href=\"#\" title=\"mailto:contact@yourstore.com\">contact@yourstore.com</a><br\/><a href=\"#\" title=\"mailto:sales@yourstore.com\">sales@yourstore.com</a></p>"
+            "text": "<p><a href=\"#\" title=\"mailto:contact@yourstore.com\">contact@yourstore.com</a><br/><a href=\"#\" title=\"mailto:sales@yourstore.com\">sales@yourstore.com</a></p>"
           }
         },
         "contact-3": {
           "type": "contact",
           "settings": {
             "heading": "Phone",
-            "text": "<p><a href=\"#\" title=\"tel:+33 (0) 31-305-210\">+33 (0) 31-305-210<br\/></a>mo – fri: 09:00 – 17:00</p>"
+            "text": "<p><a href=\"#\" title=\"tel:+33 (0) 31-305-210\">+33 (0) 31-305-210<br/></a>mo – fri: 09:00 – 17:00</p>"
           }
         },
         "media": {

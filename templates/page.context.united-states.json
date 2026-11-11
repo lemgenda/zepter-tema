@@ -1,1 +1,30 @@
-{"context":{"market":"united-states"},"parent":"page.json","sections":{"portfolio_Rn9aaN":{"settings":{},"blocks":{"profile_tnyNDW":{"settings":{"heading":"Improve Focus & Clarity","text":"<p>The way we experience light can influence visual comfort, concentration and how demanding our environment feels throughout the day. Hyperlight Optics® is designed to create a more comfortable visual experience, helping you stay focused and engaged during work, screen time and other visually demanding activities.<\/p><ul><li><strong>Support for Focus & Attention:<\/strong>&nbsp;A more comfortable visual environment may help reduce distraction and make it easier to stay focused for longer periods.<\/li><li><strong>Greater Visual Clarity:<\/strong>&nbsp;By enhancing the way light is experienced through the lenses, Hyperlight Optics® is designed to support a clearer, more balanced visual experience.<\/li><li><strong>Comfort During Mentally Demanding Tasks:<\/strong>&nbsp;Whether working, studying or spending long hours in front of screens, the lenses are designed to help make visually intensive situations feel more comfortable.<\/li><li><strong>Support for Everyday Performance:<\/strong>&nbsp;Improved visual comfort can help create better conditions for staying productive, attentive and engaged throughout the day.<\/li><\/ul>"}},"profile_4gLWcy":{"settings":{"image":"shopify:\/\/shop_images\/IMG_5204_copy_fa853a07-f38b-4f9e-8b5d-34cb6f9666c1.jpg"}},"profile_cm63pV":{"settings":{"image":"shopify:\/\/shop_images\/IMG_6410_copy.jpg"}}}}}}
+{
+  "context": {
+    "market": "united-states"
+  },
+  "parent": "page.json",
+  "sections": {
+    "portfolio_Rn9aaN": {
+      "settings": {
+      },
+      "blocks": {
+        "profile_tnyNDW": {
+          "settings": {
+            "heading": "Improve Focus & Clarity",
+            "text": "<p>The way we experience light can influence visual comfort, concentration and how demanding our environment feels throughout the day. Hyperlight Optics® is designed to create a more comfortable visual experience, helping you stay focused and engaged during work, screen time and other visually demanding activities.</p><ul><li><strong>Support for Focus & Attention:</strong>&nbsp;A more comfortable visual environment may help reduce distraction and make it easier to stay focused for longer periods.</li><li><strong>Greater Visual Clarity:</strong>&nbsp;By enhancing the way light is experienced through the lenses, Hyperlight Optics® is designed to support a clearer, more balanced visual experience.</li><li><strong>Comfort During Mentally Demanding Tasks:</strong>&nbsp;Whether working, studying or spending long hours in front of screens, the lenses are designed to help make visually intensive situations feel more comfortable.</li><li><strong>Support for Everyday Performance:</strong>&nbsp;Improved visual comfort can help create better conditions for staying productive, attentive and engaged throughout the day.</li></ul>"
+          }
+        },
+        "profile_4gLWcy": {
+          "settings": {
+            "image": "shopify://shop_images/IMG_5204_copy_fa853a07-f38b-4f9e-8b5d-34cb6f9666c1.jpg"
+          }
+        },
+        "profile_cm63pV": {
+          "settings": {
+            "image": "shopify://shop_images/IMG_6410_copy.jpg"
+          }
+        }
+      }
+    }
+  }
+}

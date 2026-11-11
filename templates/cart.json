@@ -1,1 +1,103 @@
-{"sections":{"main":{"type":"main-cart","blocks":{"free_shipping":{"type":"free_shipping","disabled":true,"settings":{"minimum_amount":""}},"custom_field_xiUJJc":{"type":"custom_field","settings":{"type":"text","title":"Have a gift card or discount code? Enter the code in the discount code field at checkout.","required":false,"checked_value":"Yes","unchecked_value":"No","radio_options":"","select_options":""}},"subtotal":{"type":"subtotal","settings":{}},"cart_note":{"type":"cart_note","settings":{"heading":"Add a note to your order"}},"buttons":{"type":"buttons","settings":{}}},"block_order":["free_shipping","custom_field_xiUJJc","subtotal","cart_note","buttons"],"custom_css":[".heading {font-family: VideoBold, \"Video Bold\", video-bold, -apple-system, sans-serif; font-size: 5vw; line-height: 5vw; letter-spacing: -0.3vw; text-transform: uppercase;}","@media (max-width: 768px) {.heading {font-size: 9vw; line-height: 7vw; letter-spacing: -0.7vw; }}"],"settings":{"heading_size":"title-xl tracking-heading","heading_alignment":"md:items-end","heading_tag":"h1","show_vendor":false,"show_payment_icons":true,"show_shipping_calculator":true,"padding_top":72,"padding_bottom":60,"divider":false,"full_width":true,"rounded":false}},"recently-viewed":{"type":"recently-viewed","settings":{"product_limit":6,"columns":4,"carousel_on_desktop":true,"columns_mobile":"1","swipe_on_mobile":true,"heading":"You may also like","heading_size":"title-md","heading_alignment":"text-left md:items-end md:flex-row","heading_tag":"h2","subheading":"","description":"","highlighted_text":"none","highlighted_scribble":"circle","color_text":"","color_background":"","gradient_background":"","color_highlight":"","gradient_highlight":"","color_button_text":"","color_button_background":"","color_button_gradient":"","padding_top":60,"padding_bottom":100,"divider":false,"full_width":false,"rounded":false}}},"order":["main","recently-viewed"]}
+{
+  "sections": {
+    "main": {
+      "type": "main-cart",
+      "blocks": {
+        "free_shipping": {
+          "type": "free_shipping",
+          "disabled": true,
+          "settings": {
+            "minimum_amount": ""
+          }
+        },
+        "custom_field_xiUJJc": {
+          "type": "custom_field",
+          "settings": {
+            "type": "text",
+            "title": "Have a gift card or discount code? Enter the code in the discount code field at checkout.",
+            "required": false,
+            "checked_value": "Yes",
+            "unchecked_value": "No",
+            "radio_options": "",
+            "select_options": ""
+          }
+        },
+        "subtotal": {
+          "type": "subtotal",
+          "settings": {
+          }
+        },
+        "cart_note": {
+          "type": "cart_note",
+          "settings": {
+            "heading": "Add a note to your order"
+          }
+        },
+        "buttons": {
+          "type": "buttons",
+          "settings": {
+          }
+        }
+      },
+      "block_order": [
+        "free_shipping",
+        "custom_field_xiUJJc",
+        "subtotal",
+        "cart_note",
+        "buttons"
+      ],
+      "custom_css": [
+        ".heading {font-family: VideoBold, \"Video Bold\", video-bold, -apple-system, sans-serif; font-size: 5vw; line-height: 5vw; letter-spacing: -0.3vw; text-transform: uppercase;}",
+        "@media (max-width: 768px) {.heading {font-size: 9vw; line-height: 7vw; letter-spacing: -0.7vw; }}"
+      ],
+      "settings": {
+        "heading_size": "title-xl tracking-heading",
+        "heading_alignment": "md:items-end",
+        "heading_tag": "h1",
+        "show_vendor": false,
+        "show_payment_icons": true,
+        "show_shipping_calculator": true,
+        "padding_top": 72,
+        "padding_bottom": 60,
+        "divider": false,
+        "full_width": true,
+        "rounded": false
+      }
+    },
+    "recently-viewed": {
+      "type": "recently-viewed",
+      "settings": {
+        "product_limit": 6,
+        "columns": 4,
+        "carousel_on_desktop": true,
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "heading": "You may also like",
+        "heading_size": "title-md",
+        "heading_alignment": "text-left md:items-end md:flex-row",
+        "heading_tag": "h2",
+        "subheading": "",
+        "description": "",
+        "highlighted_text": "none",
+        "highlighted_scribble": "circle",
+        "color_text": "",
+        "color_background": "",
+        "gradient_background": "",
+        "color_highlight": "",
+        "gradient_highlight": "",
+        "color_button_text": "",
+        "color_button_background": "",
+        "color_button_gradient": "",
+        "padding_top": 60,
+        "padding_bottom": 100,
+        "divider": false,
+        "full_width": false,
+        "rounded": false
+      }
+    }
+  },
+  "order": [
+    "main",
+    "recently-viewed"
+  ]
+}

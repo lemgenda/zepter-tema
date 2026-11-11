@@ -11,16 +11,16 @@
             --sp-font-size-scale: {{ setting.add_to_cart_button_scale | divided_by: 100.0 }};
             --sp-button-background-color: {{ setting.add_to_cart_button_background_color | default: "transparent" }};
             --sp-button-background-gradient-color: {{ setting.add_to_cart_button_background_gradient_color | default: null }};
-            --sp-section-text-color: {{ setting.add_to_cart_button_text_color | default:"transparent" }};
-            --sp-button-border-color: {{ setting.add_to_cart_button_border_color | default :"transparent" }};
+            --sp-section-text-color: {{ setting.add_to_cart_button_text_color | default: "transparent" }};
+            --sp-button-border-color: {{ setting.add_to_cart_button_border_color | default : "transparent" }};
         }
 
         #sp-{{ section.id }}-buy-button .shopify-payment-button__button {
             --sp-font-size-scale: {{ setting.buy_now_button_scale | divided_by: 100.0 }};
             --sp-button-background-color: {{ setting.buy_now_button_background_color | default: "transparent" }};
             --sp-button-background-gradient-color: {{ setting.buy_now_button_background_gradient_color | default: null }};
-            --sp-section-text-color: {{ setting.buy_now_button_text_color | default:"transparent" }};
-            --sp-button-border-color: {{ setting.buy_now_button_border_color | default :"transparent" }};
+            --sp-section-text-color: {{ setting.buy_now_button_text_color | default: "transparent" }};
+            --sp-button-border-color: {{ setting.buy_now_button_border_color | default : "transparent" }};
         }
 
         #sp-{{ section.id }}-buy-button .sp-form .sp-field .sp-form-label {

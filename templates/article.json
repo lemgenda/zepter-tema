@@ -1,1 +1,216 @@
-{"sections":{"main-article-banner":{"type":"main-article-banner","blocks":{"title":{"type":"title","settings":{"title_size":"title-lg tracking-heading","show_tags":true,"show_date":false,"show_comments":false,"show_author":false}}},"block_order":["title"],"custom_css":[".heading {font-family: VideoBold, \"Video Bold\", video-bold, -apple-system, sans-serif; font-size: 5vw; line-height: 5vw; letter-spacing: -0.3vw; text-transform: uppercase;}","@media (max-width: 768px) {.heading {font-size: 9vw; line-height: 7vw; letter-spacing: -0.7vw; }}"],"settings":{"transparent_header":false,"show_image":true,"image_height":"550px","content_position":"md:items-center md:justify-center","text_alignment":"center","image_height_mobile":"250px","content_position_mobile":"items-center justify-center","text_alignment_mobile":"center","color_text":"#ffffff","color_overlay":"#000000","overlay_opacity":40,"padding_top":0,"padding_bottom":0,"divider":false,"full_width":false,"rounded":true,"enable_parallax":true,"parallax_direction":"vertical"}},"main-article":{"type":"main-article-overlay","blocks":{"share":{"type":"share","settings":{"share_label":"Share","show_comments":false}},"next_previous_posts":{"type":"next_previous_posts","disabled":true,"settings":{"show_date":false,"show_comments":false,"show_author":false}},"comments":{"type":"comments","disabled":true,"settings":{"show_gravatar":true}}},"block_order":["share","next_previous_posts","comments"],"settings":{"padding_top":72,"padding_bottom":72,"divider":false,"narrow":true,"rounded":true}},"blog-posts":{"type":"blog-posts","custom_css":["h2 {font-family: VideoBold, \"Video Bold\", video-bold, -apple-system, sans-serif; font-size: 5vw; line-height: 5vw; letter-spacing: -0.3vw; text-transform: uppercase;}","@media (max-width: 768px) {h2 {font-size: 9vw; line-height: 7vw; letter-spacing: -0.7vw; }}"],"settings":{"blog":"news","post_limit":4,"columns":4,"carousel_on_desktop":true,"show_view_all":true,"columns_mobile":"1","swipe_on_mobile":true,"image_ratio":"square","show_tags":false,"show_date":false,"show_comments":false,"show_author":false,"show_excerpt":true,"heading":"Latest Stories","heading_size":"title-md","heading_alignment":"text-left md:items-end md:flex-row","heading_tag":"h2","subheading":"","description":"","highlighted_text":"none","highlighted_scribble":"circle","color_text":"","color_background":"","gradient_background":"","color_highlight":"","gradient_highlight":"","color_button_text":"","color_button_background":"","color_button_gradient":"","padding_top":72,"padding_bottom":88,"divider":false,"full_width":false,"rounded":true}},"featured_collection_aLQW6H":{"type":"featured-collection","custom_css":["h2 {font-family: VideoBold, \"Video Bold\", video-bold, -apple-system, sans-serif; font-size: 5vw; line-height: 5vw; letter-spacing: -0.3vw; text-transform: uppercase;}","@media (max-width: 768px) {h2 {font-size: 9vw; line-height: 7vw; letter-spacing: -0.7vw; }}"],"settings":{"collection":"all","products":["001-blue","butterfly-blue","aviator-red","103-beige","lima-havana","london-gold"],"product_limit":6,"columns":3,"carousel_on_desktop":true,"show_view_all":false,"columns_mobile":"1","swipe_on_mobile":true,"heading":"Our Bestselllers","heading_size":"title-md","heading_alignment":"text-left md:items-end md:flex-row","heading_tag":"h2","subheading":"","description":"","highlighted_text":"none","highlighted_scribble":"circle","color_text":"","color_background":"","gradient_background":"","color_highlight":"","gradient_highlight":"","color_button_text":"","color_button_background":"","color_button_gradient":"","padding_top":72,"padding_bottom":72,"divider":false,"full_width":false,"rounded":false}},"recently_viewed_Q7pH8B":{"type":"recently-viewed","custom_css":["h2 {font-family: VideoBold, \"Video Bold\", video-bold, -apple-system, sans-serif; font-size: 5vw; line-height: 5vw; letter-spacing: -0.3vw; text-transform: uppercase;}","@media (max-width: 768px) {h2 {font-size: 9vw; line-height: 7vw; letter-spacing: -0.7vw; }}"],"settings":{"product_limit":6,"columns":4,"carousel_on_desktop":true,"columns_mobile":"1","swipe_on_mobile":true,"heading":"Recently viewed","heading_size":"title-md","heading_alignment":"text-left md:items-end md:flex-row","heading_tag":"h2","subheading":"","description":"","highlighted_text":"none","highlighted_scribble":"circle","color_text":"","color_background":"","gradient_background":"","color_highlight":"","gradient_highlight":"","color_button_text":"","color_button_background":"","color_button_gradient":"","padding_top":72,"padding_bottom":72,"divider":false,"full_width":false,"rounded":false}}},"order":["main-article-banner","main-article","blog-posts","featured_collection_aLQW6H","recently_viewed_Q7pH8B"]}
+{
+  "sections": {
+    "main-article-banner": {
+      "type": "main-article-banner",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {
+            "title_size": "title-lg tracking-heading",
+            "show_tags": true,
+            "show_date": false,
+            "show_comments": false,
+            "show_author": false
+          }
+        }
+      },
+      "block_order": [
+        "title"
+      ],
+      "custom_css": [
+        ".heading {font-family: VideoBold, \"Video Bold\", video-bold, -apple-system, sans-serif; font-size: 5vw; line-height: 5vw; letter-spacing: -0.3vw; text-transform: uppercase;}",
+        "@media (max-width: 768px) {.heading {font-size: 9vw; line-height: 7vw; letter-spacing: -0.7vw; }}"
+      ],
+      "settings": {
+        "transparent_header": false,
+        "show_image": true,
+        "image_height": "550px",
+        "content_position": "md:items-center md:justify-center",
+        "text_alignment": "center",
+        "image_height_mobile": "250px",
+        "content_position_mobile": "items-center justify-center",
+        "text_alignment_mobile": "center",
+        "color_text": "#ffffff",
+        "color_overlay": "#000000",
+        "overlay_opacity": 40,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "divider": false,
+        "full_width": false,
+        "rounded": true,
+        "enable_parallax": true,
+        "parallax_direction": "vertical"
+      }
+    },
+    "main-article": {
+      "type": "main-article-overlay",
+      "blocks": {
+        "share": {
+          "type": "share",
+          "settings": {
+            "share_label": "Share",
+            "show_comments": false
+          }
+        },
+        "next_previous_posts": {
+          "type": "next_previous_posts",
+          "disabled": true,
+          "settings": {
+            "show_date": false,
+            "show_comments": false,
+            "show_author": false
+          }
+        },
+        "comments": {
+          "type": "comments",
+          "disabled": true,
+          "settings": {
+            "show_gravatar": true
+          }
+        }
+      },
+      "block_order": [
+        "share",
+        "next_previous_posts",
+        "comments"
+      ],
+      "settings": {
+        "padding_top": 72,
+        "padding_bottom": 72,
+        "divider": false,
+        "narrow": true,
+        "rounded": true
+      }
+    },
+    "blog-posts": {
+      "type": "blog-posts",
+      "custom_css": [
+        "h2 {font-family: VideoBold, \"Video Bold\", video-bold, -apple-system, sans-serif; font-size: 5vw; line-height: 5vw; letter-spacing: -0.3vw; text-transform: uppercase;}",
+        "@media (max-width: 768px) {h2 {font-size: 9vw; line-height: 7vw; letter-spacing: -0.7vw; }}"
+      ],
+      "settings": {
+        "blog": "news",
+        "post_limit": 4,
+        "columns": 4,
+        "carousel_on_desktop": true,
+        "show_view_all": true,
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "image_ratio": "square",
+        "show_tags": false,
+        "show_date": false,
+        "show_comments": false,
+        "show_author": false,
+        "show_excerpt": true,
+        "heading": "Latest Stories",
+        "heading_size": "title-md",
+        "heading_alignment": "text-left md:items-end md:flex-row",
+        "heading_tag": "h2",
+        "subheading": "",
+        "description": "",
+        "highlighted_text": "none",
+        "highlighted_scribble": "circle",
+        "color_text": "",
+        "color_background": "",
+        "gradient_background": "",
+        "color_highlight": "",
+        "gradient_highlight": "",
+        "color_button_text": "",
+        "color_button_background": "",
+        "color_button_gradient": "",
+        "padding_top": 72,
+        "padding_bottom": 88,
+        "divider": false,
+        "full_width": false,
+        "rounded": true
+      }
+    },
+    "featured_collection_aLQW6H": {
+      "type": "featured-collection",
+      "custom_css": [
+        "h2 {font-family: VideoBold, \"Video Bold\", video-bold, -apple-system, sans-serif; font-size: 5vw; line-height: 5vw; letter-spacing: -0.3vw; text-transform: uppercase;}",
+        "@media (max-width: 768px) {h2 {font-size: 9vw; line-height: 7vw; letter-spacing: -0.7vw; }}"
+      ],
+      "settings": {
+        "collection": "all",
+        "products": [
+          "001-blue",
+          "butterfly-blue",
+          "aviator-red",
+          "103-beige",
+          "lima-havana",
+          "london-gold"
+        ],
+        "product_limit": 6,
+        "columns": 3,
+        "carousel_on_desktop": true,
+        "show_view_all": false,
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "heading": "Our Bestselllers",
+        "heading_size": "title-md",
+        "heading_alignment": "text-left md:items-end md:flex-row",
+        "heading_tag": "h2",
+        "subheading": "",
+        "description": "",
+        "highlighted_text": "none",
+        "highlighted_scribble": "circle",
+        "color_text": "",
+        "color_background": "",
+        "gradient_background": "",
+        "color_highlight": "",
+        "gradient_highlight": "",
+        "color_button_text": "",
+        "color_button_background": "",
+        "color_button_gradient": "",
+        "padding_top": 72,
+        "padding_bottom": 72,
+        "divider": false,
+        "full_width": false,
+        "rounded": false
+      }
+    },
+    "recently_viewed_Q7pH8B": {
+      "type": "recently-viewed",
+      "custom_css": [
+        "h2 {font-family: VideoBold, \"Video Bold\", video-bold, -apple-system, sans-serif; font-size: 5vw; line-height: 5vw; letter-spacing: -0.3vw; text-transform: uppercase;}",
+        "@media (max-width: 768px) {h2 {font-size: 9vw; line-height: 7vw; letter-spacing: -0.7vw; }}"
+      ],
+      "settings": {
+        "product_limit": 6,
+        "columns": 4,
+        "carousel_on_desktop": true,
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "heading": "Recently viewed",
+        "heading_size": "title-md",
+        "heading_alignment": "text-left md:items-end md:flex-row",
+        "heading_tag": "h2",
+        "subheading": "",
+        "description": "",
+        "highlighted_text": "none",
+        "highlighted_scribble": "circle",
+        "color_text": "",
+        "color_background": "",
+        "gradient_background": "",
+        "color_highlight": "",
+        "gradient_highlight": "",
+        "color_button_text": "",
+        "color_button_background": "",
+        "color_button_gradient": "",
+        "padding_top": 72,
+        "padding_bottom": 72,
+        "divider": false,
+        "full_width": false,
+        "rounded": false
+      }
+    }
+  },
+  "order": [
+    "main-article-banner",
+    "main-article",
+    "blog-posts",
+    "featured_collection_aLQW6H",
+    "recently_viewed_Q7pH8B"
+  ]
+}

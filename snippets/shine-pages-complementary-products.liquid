@@ -32,7 +32,7 @@
         {% if recommendations.performed and recommendations.products_count > 0 %}
             {% assign number_of_slides = recommendations.products_count | plus: 0.0 | divided_by: setting.item_per_page | ceil %}
 
-            {%  if styleSection == "style-2"  %} 
+            {% if styleSection == "style-2" %} 
                 
                 <div class="sp-carousel sp-carousel-column sp-column-wrapperr" 
                     data-number-slides="{{ number_of_slides }}"  
