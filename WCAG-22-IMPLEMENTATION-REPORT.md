@@ -172,3 +172,16 @@ Dodani su:
 - Nije moguće programski potvrditi izgovor NVDA/ScreenVox samo iz DOM-a. Potrebna je nova ručna provjera na preview temi nakon što se promjena deploya.
 - Kontrast u svim merchant schemes, stvarni 200%/400% browser zoom, dinamički AJAX tokovi, cross-browser i third-party integracije i dalje zahtijevaju stvarne runtime testove. Automatizirani axe test pokriva samo stanje stranice koje je učitano.
 
+
+
+## 11. Rezultati workflowa #42938093837 i dorada dijagnostike
+
+- Workflow [#42938093837](https://github.com/lemgenda/zepter-tema/actions/runs/42938093837) izvršen je na commitu `fa1dcc89c11a551c4004a38fd08b6d0d926506fa` i završio je uspješno. Oba joba — Browser accessibility smoke tests i Liquid/JSON/Theme Check — imaju status `success`.
+- axe-core nije prijavio povrede na rutama koje su se uspješno učitale. Heuristički kontrastni pregled nije našao low-contrast kandidate u uzorkovanim tekstualnim čvorovima; to ne pokriva pouzdano pozadine s fotografijama/gradijentima, transparentnost, overlaye ni sva interaktivna stanja.
+- U testiranim viewportima 1365, 375 i 320 px nije pronađen horizontalni overflow pri WCAG text-spacing overrideu. Reduced-motion i forced-colors focus smoke provjere prošle su.
+- Pregled slika pronašao je jednu sliku bez alt teksta unutar skrivenog `.nodisplay` watermarka third-party aplikacije Pretty Comparison Tables; dvije prazne alt slike u rezultatima bloga bile su u linkovima koji su već `aria-hidden` i izvan tab-redoslijeda. Nije potvrđen problem s vidljivim slikama teme iz tih nalaza.
+- Product variant interakcija nije izvršena jer testirana stranica `/products/rio-havana` nije izložila drugu omogućenu varijantu. To nije dokaz da je promjena varijante provjerena.
+- AJAX facets interakcija nije izvršena jer su filteri u zatvorenom draweru; prethodni selektor tražio je vidljiv checkbox prije otvaranja drawera. Carousel pregled na jednoj stranici zabilježio je regiju `You may also like` s jednom karticom; to nije dovoljno za zaključak o višekartičnoj keyboard/AT operabilnosti.
+- Target-size izvještaj sadrži male inline tekstualne linkove i skip-link koji je namjerno vizualno skriven do fokusa. Njihove dimenzije same po sebi ne znače automatski WCAG neusklađenost; potrebna je procjena iznimki i konteksta. Ne treba povećavati tekstualne linkove naslijepo.
+- Nakon pregleda rezultata poboljšan je testni harness: sada otvara filter drawer prije traženja checkboxa, provjerava vidljivost alt nedostataka i zanemaruje skip-link dok nije fokusiran. Izmjena je commitana kao `ad6b45c355544419315cc66e4743b38ce7263424` (`Improve WCAG filter and image diagnostics`). Novi CI run treba potvrditi tu doradu.
+- **Status:** automatizirani run #42938093837 je uspješan, ali kontrast u svim stanjima, 2.5.8 target size, stvarna promjena varijante/pickup najave, AJAX filter tok i višekartični carousel još nisu u potpunosti verificirani. NVDA/Firefox, VoiceOver/Safari, TalkBack/Chrome i 200%/400% zoom ostaju ručni testovi.
