@@ -357,6 +357,156 @@ try {
             });
         });
 
+
+        // Contrast is a review queue, not an automatic failure: background images,
+        // gradients, overlays and merchant-managed schemes need visual confirmation.
+        result.contrastReview = await page.evaluate(() => {
+          const parse = (value) => {
+            const match = value.match(/rgba?\\(([^)]+)\\)/);
+            if (!match) return null;
+            const parts = match[1].split(',').map((part) => Number.parseFloat(part.trim()));
+            return { r: parts[0], g: parts[1], b: parts[2], a: parts.length > 3 ? parts[3] : 1 };
+          };
+          const luminance = ({ r, g, b }) => {
+            const channel = (value) => {
+              const normalized = value / 255;
+              return normalized <= 0.04045 ? normalized / 12.92 : ((normalized + 0.055) / 1.055) ** 2.4;
+            };
+            return 0.2126 * channel(r) + 0.7152 * channel(g) + 0.0722 * channel(b);
+          };
+          const contrast = (a, b) => {
+            const values = [luminance(a), luminance(b)].sort((x, y) => y - x);
+            return (values[0] + 0.05) / (values[1] + 0.05);
+          };
+          const visible = (element) => {
+            const rect = element.getBoundingClientRect();
+            const style = getComputedStyle(element);
+            return rect.width > 0 && rect.height > 0 && style.display !== 'none' &&
+              style.visibility !== 'hidden' && Number(style.opacity) > 0 &&
+              (element.innerText || '').trim().length > 0;
+          };
+          const candidates = [];
+          for (const element of document.querySelectorAll('body *')) {
+            if (!visible(element) || element.children.length > 0 && !Array.from(element.childNodes).some((node) => node.nodeType === Node.TEXT_NODE && node.textContent.trim())) continue;
+            const style = getComputedStyle(element);
+            const foreground = parse(style.color);
+            if (!foreground || foreground.a < 0.99) continue;
+            let background = null;
+            let node = element;
+            let hasImageBackground = false;
+            while (node && node !== document.documentElement) {
+              const nodeStyle = getComputedStyle(node);
+              if (nodeStyle.backgroundImage !== 'none') hasImageBackground = true;
+              const color = parse(nodeStyle.backgroundColor);
+              if (color && color.a >= 0.99) { background = color; break; }
+              node = node.parentElement;
+            }
+            if (!background || hasImageBackground) continue;
+            const ratio = contrast(foreground, background);
+            const fontSize = Number.parseFloat(style.fontSize);
+            const large = fontSize >= 24 || (fontSize >= 18.66 && Number.parseInt(style.fontWeight, 10) >= 700);
+            const required = large ? 3 : 4.5;
+            if (ratio < required) {
+              candidates.push({
+                ratio: Number(ratio.toFixed(2)), required,
+                text: (element.innerText || '').trim().replace(/\\s+/g, ' ').slice(0, 100),
+                selector: element.tagName.toLowerCase() + (element.id ? '#' + element.id : '') + (typeof element.className === 'string' && element.className.trim() ? '.' + element.className.trim().split(/\\s+/).slice(0, 2).join('.') : ''),
+                foreground: style.color,
+                background: 'rgb(' + background.r + ', ' + background.g + ', ' + background.b + ')',
+                fontSize: style.fontSize,
+                fontWeight: style.fontWeight
+              });
+            }
+          }
+          return { sampledTextNodes: document.querySelectorAll('body *').length, lowContrastCandidates: candidates.sort((a, b) => a.ratio - b.ratio).slice(0, 40), note: 'Computed-color heuristic; manually verify gradients, images, opacity, overlays, hover/focus/disabled and every merchant color scheme.' };
+        });
+
+        result.imageAltReview = await page.evaluate(() => ({
+          images: document.images.length,
+          missingAlt: Array.from(document.images).filter((img) => !img.hasAttribute('alt')).slice(0, 40).map((img) => ({ src: img.currentSrc || img.src, parent: img.parentElement?.outerHTML.slice(0, 400) })),
+          emptyAltInsideNamedLink: Array.from(document.images).filter((img) => img.hasAttribute('alt') && img.alt === '' && img.closest('a[href]') && !(img.closest('a[href]')?.innerText || '').trim() && !img.closest('a[href]')?.getAttribute('aria-label')).slice(0, 30).map((img) => ({ src: img.currentSrc || img.src, link: img.closest('a[href]')?.outerHTML.slice(0, 500) }))
+        }));
+
+        if (path.startsWith('/products/')) {
+          result.productVariantFlow = { tested: false, reason: 'No alternate enabled option found.' };
+          const radioOptions = page.locator('variant-selects input[type="radio"]:not(:checked):not(:disabled)');
+          const selectOptions = page.locator('variant-selects select');
+          const initialVariant = await page.locator('product-info [data-selected-variant]').first().textContent().catch(() => null);
+          let initialId = null;
+          try { initialId = initialVariant ? JSON.parse(initialVariant).id : null; } catch {}
+          if (await radioOptions.count()) {
+            const option = radioOptions.first();
+            const id = await option.getAttribute('id');
+            const label = id ? page.locator(`label[for="${id}"]`) : null;
+            if (label && await label.count() && await label.first().isVisible()) {
+              await label.first().click();
+              result.productVariantFlow.tested = true;
+              result.productVariantFlow.control = 'radio';
+            }
+          } else if (await selectOptions.count()) {
+            const select = selectOptions.first();
+            const current = await select.inputValue();
+            const alternative = await select.locator('option:not([disabled])').evaluateAll((items) => items.find((item) => item.value && item.value !== items.find((option) => option.selected)?.value)?.value);
+            if (alternative) {
+              await select.selectOption(alternative);
+              result.productVariantFlow.tested = true;
+              result.productVariantFlow.control = 'select';
+            }
+          }
+          if (result.productVariantFlow.tested) {
+            await page.waitForTimeout(2500);
+            result.productVariantFlow = await page.evaluate(({ initialId }) => {
+              const raw = document.querySelector('product-info [data-selected-variant]')?.textContent;
+              let current = null;
+              try { current = raw ? JSON.parse(raw) : null; } catch {}
+              const picker = document.querySelector('variant-selects');
+              const selected = picker?.querySelector('input[type="radio"]:checked, select option:checked');
+              const pickup = document.querySelector('product-info pickup-availability');
+              return {
+                tested: true,
+                initialVariantId: initialId,
+                selectedVariantId: current?.id || null,
+                selectedControlValue: selected?.value || null,
+                variantChanged: Boolean(current?.id && current.id !== initialId),
+                pickupVariantId: pickup?.getAttribute('data-variant-id') || null,
+                pickupMatchesVariant: !pickup || !current?.id || pickup.getAttribute('data-variant-id') === String(current.id),
+                priceStatusPresent: Boolean(document.querySelector('[id^="Price-"][aria-live], [id^="Price-"][role="status"]')),
+                skuStatusPresent: Boolean(document.querySelector('[id^="Sku-"][aria-live], [id^="Sku-"][role="status"]'))
+              };
+            }, { initialId });
+            if (!result.productVariantFlow.variantChanged) failures.push(`${viewport.name} ${url}: variant selection did not produce a changed selected variant`);
+            if (!result.productVariantFlow.pickupMatchesVariant) failures.push(`${viewport.name} ${url}: pickup availability is not synchronized with selected variant`);
+          }
+        }
+
+        if (path.startsWith('/collections/') || path.startsWith('/search')) {
+          result.facetsInteraction = { tested: false, reason: 'No visible enabled facet checkbox found.' };
+          const facet = page.locator('.facet-form input[type="checkbox"]:visible:not([disabled])').first();
+          if (await facet.count()) {
+            const beforeUrl = page.url();
+            const beforeCount = await page.locator('#ProductCount').innerText().catch(() => '');
+            await facet.check({ force: true });
+            await page.waitForTimeout(1800);
+            const afterCount = await page.locator('#ProductCount').innerText().catch(() => '');
+            result.facetsInteraction = {
+              tested: true,
+              checked: await facet.isChecked().catch(() => false),
+              urlChanged: page.url() !== beforeUrl,
+              productCountBefore: beforeCount,
+              productCountAfter: afterCount,
+              productCountChanged: beforeCount !== afterCount,
+              formPresent: await page.locator('.facet-form[is="facet-form"][data-history]').count() > 0
+            };
+          }
+        }
+
+        result.carouselReview = await page.evaluate(() => Array.from(document.querySelectorAll('slider-element[role="region"][aria-roledescription="carousel"]')).map((slider) => ({
+          label: slider.getAttribute('aria-label') || slider.getAttribute('aria-labelledby') || '',
+          cardCount: slider.querySelectorAll('.card').length,
+          focusableControls: Array.from(slider.querySelectorAll('button')).map((button) => ({ name: button.getAttribute('aria-label') || button.innerText.trim(), disabled: button.disabled, tabIndex: button.tabIndex })),
+          slides: Array.from(slider.querySelectorAll('.card')).slice(0, 12).map((card) => ({ ariaHidden: card.getAttribute('aria-hidden'), inert: card.hasAttribute('inert'), focusables: card.querySelectorAll('a[href],button,input,select,textarea,[tabindex]:not([tabindex="-1"])').length }))
+        })));
+
         if (result.axeViolations.length) failures.push(`${viewport.name} ${url}: axe reported ${result.axeViolations.length} violation(s)`);
         if (viewport.name === 'desktop' && result.diagnostics?.primaryNavigation?.some((nav) =>
           !nav.nativeListSemantics || nav.items.some((item) => !item.nativeListItemSemantics || item.hasRedundantAriaLabel || !item.textWrapperExposed || !item.decorativeCloneIsolated)
