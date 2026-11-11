@@ -65,7 +65,8 @@
                                                             src="{{ product.featured_media | image_url: width: 150 }}"
                                                             alt="{{ product.featured_media.alt }}"
                                                             width="50"
-                                                            height="{{ 50 | divided_by: product.featured_media.preview_image.aspect_ratio }}"\n                                                            loading="lazy"
+                                                            height="{{ 50 | divided_by: product.featured_media.preview_image.aspect_ratio }}"
+                                                            loading="lazy"
                                                     >
                                                 </div>
                                             {%- endif -%}
@@ -100,7 +101,8 @@
                                                     <img src="{{ collection.featured_image | image_url: width: 1024 }}"
                                                          alt="{{ collection.featured_image.alt }}"
                                                          width="1024"
-                                                         height="{{ 1024 | divided_by: collection.featured_image.aspect_ratio | round }}"\n                                                         loading="lazy">
+                                                         height="{{ 1024 | divided_by: collection.featured_image.aspect_ratio | round }}"
+                                                         loading="lazy">
                                                 </div>
                                             {%- endif -%}
                                             <div class="sp-predictive-search-object-item-content">
