@@ -1,6 +1,7 @@
 {% layout none %}<?xml version="1.0" encoding="UTF-8"?>
 <SHOP>
-    {% paginate collections.all.products by 2000 %}
+    {%- comment -%} Shopify Liquid supports a maximum of 50 products per page; consumers can request subsequent pages with ?page=N. {%- endcomment -%}
+{% paginate collections.all.products by 50 %}
 	    {% for product in collections.all.products %}
             {% for variant in product.variants %}	
                 <SHOPITEM>
