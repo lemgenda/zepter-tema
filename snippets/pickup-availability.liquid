@@ -47,7 +47,7 @@
       </div>
     </template>
     
-    <div class="pickup-availability-preview grid items-start justify-between gap-5">
+    <div class="pickup-availability-preview grid items-start justify-between gap-5" role="status" aria-live="polite" aria-atomic="true">
       {%- assign closest_location = pick_up_availabilities.first -%}
       {%- if closest_location.available -%}
         <div class="pickup-availability-info flex items-start gap-2d5">
