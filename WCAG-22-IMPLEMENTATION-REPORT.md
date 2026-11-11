@@ -185,3 +185,11 @@ Dodani su:
 - Target-size izvještaj sadrži male inline tekstualne linkove i skip-link koji je namjerno vizualno skriven do fokusa. Njihove dimenzije same po sebi ne znače automatski WCAG neusklađenost; potrebna je procjena iznimki i konteksta. Ne treba povećavati tekstualne linkove naslijepo.
 - Nakon pregleda rezultata poboljšan je testni harness: sada otvara filter drawer prije traženja checkboxa, provjerava vidljivost alt nedostataka i zanemaruje skip-link dok nije fokusiran. Izmjena je commitana kao `ad6b45c355544419315cc66e4743b38ce7263424` (`Improve WCAG filter and image diagnostics`). Novi CI run treba potvrditi tu doradu.
 - **Status:** automatizirani run #42938093837 je uspješan, ali kontrast u svim stanjima, 2.5.8 target size, stvarna promjena varijante/pickup najave, AJAX filter tok i višekartični carousel još nisu u potpunosti verificirani. NVDA/Firefox, VoiceOver/Safari, TalkBack/Chrome i 200%/400% zoom ostaju ručni testovi.
+
+
+## 12. Specific live storefront routes supplied for variant and filter testing
+
+- The browser smoke test now uses `/products/001-yellow` instead of `/products/rio-havana` for the product variant interaction, based on the user-supplied product route.
+- The collection route now includes the supplied active `type2` metafield filter and ascending price sort, so the filter drawer test starts from the filtered collection state.
+- These are test fixtures only; their presence in the route list does not establish that the interactions passed. The next push-triggered workflow run must show `productVariantFlow.tested: true` and `facetsInteraction.tested: true` on the browser job. If either remains skipped, inspect the actual rendered controls and correct the test selectors/interaction rather than treating the check as complete.
+- No Shopify theme publishing or activation was performed.
