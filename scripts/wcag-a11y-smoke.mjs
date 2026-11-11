@@ -339,7 +339,8 @@ try {
           const targets = Array.from(document.querySelectorAll(selector)).filter((element) => {
             const style = getComputedStyle(element);
             const rect = element.getBoundingClientRect();
-            return !element.disabled && rect.width > 0 && rect.height > 0 &&
+            const focusOnlySkipLink = element.matches('.sr-only.skip-link') && !element.matches(':focus');
+            return !focusOnlySkipLink && !element.disabled && rect.width > 0 && rect.height > 0 &&
               style.display !== 'none' && style.visibility !== 'hidden';
           });
           return targets.filter((element) => {
@@ -437,11 +438,26 @@ try {
           return { sampledTextNodes: document.querySelectorAll('body *').length, lowContrastCandidates: candidates.sort((a, b) => a.ratio - b.ratio).slice(0, 40), note: 'Computed-color heuristic; manually verify gradients, images, opacity, overlays, hover/focus/disabled and every merchant color scheme.' };
         });
 
-        result.imageAltReview = await page.evaluate(() => ({
-          images: document.images.length,
-          missingAlt: Array.from(document.images).filter((img) => !img.hasAttribute('alt')).slice(0, 40).map((img) => ({ src: img.currentSrc || img.src, parent: img.parentElement?.outerHTML.slice(0, 400) })),
-          emptyAltInsideNamedLink: Array.from(document.images).filter((img) => img.hasAttribute('alt') && img.alt === '' && img.closest('a[href]') && !(img.closest('a[href]')?.innerText || '').trim() && !img.closest('a[href]')?.getAttribute('aria-label')).slice(0, 30).map((img) => ({ src: img.currentSrc || img.src, link: img.closest('a[href]')?.outerHTML.slice(0, 500) }))
-        }));
+        result.imageAltReview = await page.evaluate(() => {
+          const isRendered = (element) => {
+            let node = element;
+            while (node && node !== document.documentElement) {
+              const style = getComputedStyle(node);
+              if (node.hidden || node.getAttribute('aria-hidden') === 'true' || style.display === 'none' || style.visibility === 'hidden') return false;
+              node = node.parentElement;
+            }
+            return true;
+          };
+          return {
+            images: document.images.length,
+            missingAlt: Array.from(document.images).filter((img) => isRendered(img) && !img.hasAttribute('alt')).slice(0, 40).map((img) => ({ src: img.currentSrc || img.src, parent: img.parentElement?.outerHTML.slice(0, 400) })),
+            emptyAltInsideNamedLink: Array.from(document.images).filter((img) => {
+              const link = img.closest('a[href]');
+              return isRendered(img) && img.hasAttribute('alt') && img.alt === '' && link && isRendered(link) &&
+                link.getAttribute('tabindex') !== '-1' && !(link.innerText || '').trim() && !link.getAttribute('aria-label');
+            }).slice(0, 30).map((img) => ({ src: img.currentSrc || img.src, link: img.closest('a[href]')?.outerHTML.slice(0, 500) }))
+          };
+        });
 
         if (path.startsWith('/products/')) {
           result.productVariantFlow = { tested: false, reason: 'No alternate enabled option found.' };
@@ -504,12 +520,30 @@ try {
         }
 
         if (path.startsWith('/collections/') || path.startsWith('/search')) {
-          result.facetsInteraction = { tested: false, reason: 'No visible enabled facet checkbox found.' };
-          const facet = page.locator('.facet-form input[type="checkbox"]:visible:not([disabled])').first();
-          if (await facet.count()) {
+          result.facetsInteraction = { tested: false, reason: 'No enabled facet with a visible label was found after opening the filter drawer.' };
+          const drawerTrigger = page.locator('.facet-wrapper > button[aria-controls="FacetDrawer"]').first();
+          if (await drawerTrigger.count() && await drawerTrigger.isVisible()) {
+            await drawerTrigger.click();
+            await page.locator('#FacetDrawer').waitFor({ state: 'visible', timeout: 5000 }).catch(() => {});
+          }
+          const facetId = await page.locator('.facet-form input[type="checkbox"]:not([disabled])').evaluateAll((inputs) => {
+            const visible = (element) => {
+              if (!element) return false;
+              const rect = element.getBoundingClientRect();
+              const style = getComputedStyle(element);
+              return rect.width > 0 && rect.height > 0 && style.display !== 'none' && style.visibility !== 'hidden';
+            };
+            const input = inputs.find((candidate) => {
+              const label = candidate.id ? document.querySelector('label[for="' + CSS.escape(candidate.id) + '"]') : candidate.closest('label');
+              return visible(label);
+            });
+            return input?.id || null;
+          }).catch(() => null);
+          if (facetId) {
+            const facet = page.locator('#' + CSS.escape(facetId));
             const beforeUrl = page.url();
             const beforeCount = await page.locator('#ProductCount').innerText().catch(() => '');
-            await facet.check({ force: true });
+            await page.locator('label[for="' + facetId.replace(/"/g, '\\"') + '"]').click();
             await page.waitForTimeout(1800);
             const afterCount = await page.locator('#ProductCount').innerText().catch(() => '');
             result.facetsInteraction = {
@@ -519,7 +553,8 @@ try {
               productCountBefore: beforeCount,
               productCountAfter: afterCount,
               productCountChanged: beforeCount !== afterCount,
-              formPresent: await page.locator('.facet-form[is="facet-form"][data-history]').count() > 0
+              formPresent: await page.locator('.facet-form[is="facet-form"][data-history]').count() > 0,
+              drawerOpened: await page.locator('#FacetDrawer').count() > 0
             };
           }
         }
