@@ -111,7 +111,69 @@ assign beae_variant_size_guide_page = ''
 </div><div class="beae-slider-controls"><div class="beae-slider-controls-wrp"><!----><div class="beae-slider-nav-left"><button aria-label="button" type="button"><svg xmlns="http: //www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg></button></div><div class="beae-slider-pagination-wrp"></div><div class="beae-slider-nav-right"><button aria-label="button" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg></button></div></div></div></div><script type="text/javascript">window.BEAEARGS['beae-kq8qnlmasection-slide-show'] = {
 "id": "beae-kq8qnlma",
 "mode": {"value": "live"},
-"layout":"slider","layoutMobile":"slider","effect":"slide","isLoop":false,"autoPlay":false,"autoPlayDelay":5,"itemsPerSlide":1,"itemsPerSlideMobile":1,"itemsGap":0,"itemsGapMobile":14,"paginationImage":true,"showNavigation":true,"showPagination":true,"showProgress":false,"hookSliderInit":"window.addEventListener('load', () => {\n              setTimeout(() => {\n                \n      setTimeout(() => {\n        const layout = data.slider.getAttribute('data-desktop-layout');\n        const isGrid = layout === 'grid' && window.innerWidth >= 768;\n        const resetPlay = (el) => {\n            let video = el.querySelector('video'),\n                iframe = el.querySelector('iframe');\n            if (iframe) {\n              let src = iframe.getAttribute('src'),\n                  url = new URL(src),\n                  params = url.searchParams;\n              params.set('autoplay', 0);\n              url.search = new URLSearchParams(params).toString();\n              iframe.setAttribute('src', url.href);\n            } else if(video) {\n              video.autoplay = false;\n              video.pause();\n              video.currentTime = 0;\n            }\n        };\n        \n        \n        data.slides.forEach((slide) => {\n          \n          \n        \n        \n        });\n      }, 1000)\n    \n              }, 1000)\n            })","hookBeforeSlideChange":"","hookAfterSlideChange":"\n      setTimeout(() => {\n        const layout = data.slider.getAttribute('data-desktop-layout');\n        const isGrid = layout === 'grid' && window.innerWidth >= 768;\n        const resetPlay = (el) => {\n            let video = el.querySelector('video'),\n                iframe = el.querySelector('iframe');\n            if (iframe) {\n              let src = iframe.getAttribute('src'),\n                  url = new URL(src),\n                  params = url.searchParams;\n              params.set('autoplay', 0);\n              url.search = new URLSearchParams(params).toString();\n              iframe.setAttribute('src', url.href);\n            } else if(video) {\n              video.autoplay = false;\n              video.pause();\n              video.currentTime = 0;\n            }\n        };\n        \n        \n        data.slides.forEach((slide) => {\n          \n          \n        \n        \n        });\n      }, 1000)\n    ","noRunJs":false,"itemGap":0,"itemGapMobile":0
+"layout":"slider","layoutMobile":"slider","effect":"slide","isLoop":false,"autoPlay":false,"autoPlayDelay":5,"itemsPerSlide":1,"itemsPerSlideMobile":1,"itemsGap":0,"itemsGapMobile":14,"paginationImage":true,"showNavigation":true,"showPagination":true,"showProgress":false,"hookSliderInit":"window.addEventListener('load', () => {
+              setTimeout(() => {
+                
+      setTimeout(() => {
+        const layout = data.slider.getAttribute('data-desktop-layout');
+        const isGrid = layout === 'grid' && window.innerWidth >= 768;
+        const resetPlay = (el) => {
+            let video = el.querySelector('video'),
+                iframe = el.querySelector('iframe');
+            if (iframe) {
+              let src = iframe.getAttribute('src'),
+                  url = new URL(src),
+                  params = url.searchParams;
+              params.set('autoplay', 0);
+              url.search = new URLSearchParams(params).toString();
+              iframe.setAttribute('src', url.href);
+            } else if(video) {
+              video.autoplay = false;
+              video.pause();
+              video.currentTime = 0;
+            }
+        };
+        
+        
+        data.slides.forEach((slide) => {
+          
+          
+        
+        
+        });
+      }, 1000)
+    
+              }, 1000)
+            })","hookBeforeSlideChange":"","hookAfterSlideChange":"
+      setTimeout(() => {
+        const layout = data.slider.getAttribute('data-desktop-layout');
+        const isGrid = layout === 'grid' && window.innerWidth >= 768;
+        const resetPlay = (el) => {
+            let video = el.querySelector('video'),
+                iframe = el.querySelector('iframe');
+            if (iframe) {
+              let src = iframe.getAttribute('src'),
+                  url = new URL(src),
+                  params = url.searchParams;
+              params.set('autoplay', 0);
+              url.search = new URLSearchParams(params).toString();
+              iframe.setAttribute('src', url.href);
+            } else if(video) {
+              video.autoplay = false;
+              video.pause();
+              video.currentTime = 0;
+            }
+        };
+        
+        
+        data.slides.forEach((slide) => {
+          
+          
+        
+        
+        });
+      }, 1000)
+    ","noRunJs":false,"itemGap":0,"itemGapMobile":0
 };</script></div><script type="text/javascript">window.BEAEARGS['beae-kq8qnlmablock-gallery'] = {
 "id": "beae-kq8qnlma",
 "mode": {"value": "live"},
@@ -526,7 +588,9 @@ id="beae-variant-selector-{{ section.id }}-beae-wzeubsdv"
 ],
 "shopColors": {{ shop.metafields.beae.colors }}
 }
-</script>{% # theme-check-disable RemoteAsset %} <!-- Required Beae quick-view option-selection vendor asset. -->\n<script src="https://cdn.beae.com/vendors/js-v2/shopify_option_selection.min.js" defer></script>\n{% # theme-check-enable RemoteAsset %}<!----><script type="text/javascript">window.BEAEARGS['beae-wzeubsdvsection-featured-product'] = {
+</script>{% # theme-check-disable RemoteAsset %} <!-- Required Beae quick-view option-selection vendor asset. -->
+<script src="https://cdn.beae.com/vendors/js-v2/shopify_option_selection.min.js" defer></script>
+{% # theme-check-enable RemoteAsset %}<!----><script type="text/javascript">window.BEAEARGS['beae-wzeubsdvsection-featured-product'] = {
 "id": "beae-wzeubsdv",
 "mode": {"value": "live"},
 "reactiveJs":{"id":"8646285132066","name":"Boonie hat classic khaki","thumbnail":"https://cdn.shopify.com/s/files/1/0798/2271/7218/products/WindbreakerBoonieHatClassicKhaki1.jpg?v=1695718882","handle":"copy-of-jackson-backpack-botanical-1","value":"copy-of-jackson-backpack-botanical-1","image":"https://cdn.shopify.com/s/files/1/0798/2271/7218/products/WindbreakerBoonieHatClassicKhaki1.jpg?v=1695718882"}
@@ -598,7 +662,11 @@ id="beae-variant-selector-{{ section.id }}-beae-wzeubsdv"
     {
       "type": "header",
       "content": "The section was generated by BEAE BUILDER",
-      "info": "\n                        Beae is a flexible page builder app on Shopify AppStore.\n                        It provides 100+ Shopify Elements and pre-built templates library, \n                        so you can build unlimited pages that you can imagine with it.\n                    "
+      "info": "
+                        Beae is a flexible page builder app on Shopify AppStore.
+                        It provides 100+ Shopify Elements and pre-built templates library, 
+                        so you can build unlimited pages that you can imagine with it.
+                    "
     },
     {
       "type": "header",
