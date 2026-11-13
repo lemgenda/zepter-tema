@@ -1,0 +1,22 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "friendly-captcha-backend",
+  "main": "src/index.js",
+  "compatibility_date": "2026-11-13",
+  "workers_dev": true,
+  "keep_vars": true,
+  "kv_namespaces": [
+    {
+      "binding": "FRIENDLY_CAPTCHA_KV",
+      "id": "a1785f53c0384c2cb2051a799ddc908b"
+    }
+  ],
+  "vars": {
+    "SHOPIFY_APP_URL": "https://friendly-captcha-backend.lemgenda-obrt.workers.dev",
+    "SHOPIFY_SHOP_DOMAIN": "9tn18h-qb.myshopify.com",
+    "SHOPIFY_SCOPES": "write_app_proxy,write_customers",
+    "SHOPIFY_API_VERSION": "2026-01",
+    "FRC_SITEKEY": "FCMH83VR83BA71PE",
+    "RESEND_FROM_EMAIL": "Hyperlight Optics <no-reply@mail.hyperlightoptics.com>"
+  }
+}
