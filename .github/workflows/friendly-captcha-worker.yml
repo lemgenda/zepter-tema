@@ -1,0 +1,42 @@
+name: Friendly Captcha Worker
+
+on:
+  push:
+    branches:
+      - wcag-22
+    paths:
+      - "workers/friendly-captcha-backend/**"
+      - ".github/workflows/friendly-captcha-worker.yml"
+  pull_request:
+    branches:
+      - wcag-22
+    paths:
+      - "workers/friendly-captcha-backend/**"
+      - ".github/workflows/friendly-captcha-worker.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: friendly-captcha-worker-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Worker unit and security tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: workers/friendly-captcha-backend
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Run tests
+        run: npm test
