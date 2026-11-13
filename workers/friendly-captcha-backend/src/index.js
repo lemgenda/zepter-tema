@@ -136,7 +136,7 @@ async function verifyCaptcha(token, env) {
       return { ok: false, status: 502, error: "Invalid CAPTCHA verification response." };
     }
     if (!result.success) {
-      return { ok: false, status: 403, error: "CAPTCHA verification failed. Please try again." };
+      return { ok: false, status: 403, error: "CAPTCHA verification failed. Please try again.", reason: result.error?.error_code || "invalid_response" };
     }
     return { ok: true };
   } catch {
@@ -475,9 +475,21 @@ export default {
         return jsonResponse({ error: "Invalid JSON" }, 400, { "Access-Control-Allow-Origin": origin });
       }
       const result = await verifyCaptcha(body?.response, env);
-      if (!result.ok) return jsonResponse({ valid: false, error: result.error }, result.status, {
-        "Access-Control-Allow-Origin": origin,
-      });
+      if (!result.ok) {
+        if (result.status === 403) {
+          return jsonResponse({ valid: false, reason: result.reason || "invalid_response" }, 403, {
+            "Access-Control-Allow-Origin": origin,
+          });
+        }
+        const legacyError = result.status === 500
+          ? "Server configuration error"
+          : result.status === 400
+            ? "Invalid CAPTCHA response"
+            : "CAPTCHA verification service unavailable";
+        return jsonResponse({ error: legacyError }, result.status, {
+          "Access-Control-Allow-Origin": origin,
+        });
+      }
       return jsonResponse({ valid: true }, 200, { "Access-Control-Allow-Origin": origin });
     }
 
