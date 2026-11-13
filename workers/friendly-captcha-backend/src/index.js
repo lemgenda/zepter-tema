@@ -336,7 +336,7 @@ async function handleContact(request, env) {
       const values = Array.isArray(value) ? value : [value];
       return `${cleanText(label, 120)}:\n${values.map((item) => cleanText(item, 5000)).join(", ")}`;
     });
-  if (!fields.some((field) => field.split("\\n").slice(1).join("").trim())) {
+  if (!fields.some((field) => field.split("\n").slice(1).join("").trim())) {
     return jsonResponse({ ok: false, message: "Enter a message before submitting the form." }, 400);
   }
   const body = [
