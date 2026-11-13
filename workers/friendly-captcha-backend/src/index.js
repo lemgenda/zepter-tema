@@ -258,7 +258,7 @@ async function finishOAuth(request, env) {
   const shop = url.searchParams.get("shop");
   const state = url.searchParams.get("state");
   const code = url.searchParams.get("code");
-  if (!allowedShop(shop, env) || !code || !state || !(await verifyOAuthHmac(url, env.SHOPIFY_API_SECRET))) {
+  if (!allowedShop(shop, env) || !code || !state || !isRecentTimestamp(url.searchParams.get("timestamp"), 600) || !(await verifyOAuthHmac(url, env.SHOPIFY_API_SECRET))) {
     return textResponse("Invalid Shopify OAuth callback.", 400);
   }
 
@@ -284,6 +284,11 @@ async function finishOAuth(request, env) {
     const tokenData = await tokenResponse.json();
     if (typeof tokenData.access_token !== "string" || !tokenData.access_token) {
       return textResponse("Shopify did not return an access token.", 502);
+    }
+    const grantedScopes = new Set(String(tokenData.scope || "").split(",").map((scope) => scope.trim()));
+    const requiredScopes = (env.SHOPIFY_SCOPES || "write_app_proxy,write_customers").split(",").map((scope) => scope.trim());
+    if (requiredScopes.some((scope) => !grantedScopes.has(scope))) {
+      return textResponse("Shopify did not grant all required app permissions. Re-authorize the app.", 403);
     }
     await env.FRIENDLY_CAPTCHA_KV.put(
       `shopify-token:${shop}`,
@@ -331,6 +336,9 @@ async function handleContact(request, env) {
       const values = Array.isArray(value) ? value : [value];
       return `${cleanText(label, 120)}:\n${values.map((item) => cleanText(item, 5000)).join(", ")}`;
     });
+  if (!fields.some((field) => field.split("\\n").slice(1).join("").trim())) {
+    return jsonResponse({ ok: false, message: "Enter a message before submitting the form." }, 400);
+  }
   const body = [
     "New contact form submission from hyperlightoptics.com",
     `Reply-to: ${email}`,
