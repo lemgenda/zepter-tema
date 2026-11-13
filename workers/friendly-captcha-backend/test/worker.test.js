@@ -11,6 +11,9 @@ const env = {
   SHOPIFY_SCOPES: "write_app_proxy,write_customers",
   FRC_SITEKEY: "test-sitekey",
   FRC_API_KEY: "test-frc-key",
+  RESEND_API_KEY: "test-resend-key",
+  RESEND_FROM_EMAIL: "test@example.com",
+  CONTACT_TO_EMAIL: "recipient@example.com",
   FRIENDLY_CAPTCHA_KV: {
     async get() { return null; },
     async put() {},
